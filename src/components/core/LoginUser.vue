@@ -131,8 +131,8 @@ input {
   border-radius: 5px;
 }
 .container {
-  padding-top: 165px;
-  margin-bottom: -69.5vh;
+    margin-top: 150px;
+    margin-bottom: -443px;
 }
 .text-center {
   font-style: italic;
@@ -140,6 +140,5 @@ input {
 button {
   border: 2px solid grey;
   background-color: #42a948;
-  margin-top: 50px;
 }
 </style>

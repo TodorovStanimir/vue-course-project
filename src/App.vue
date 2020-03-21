@@ -1,21 +1,24 @@
 <template>
   <div id="app">
-    <!-- <login-user></login-user> -->
-    <register-user></register-user>
+    <Navigation />
+    <login-user></login-user>
+    <!-- <register-user></register-user> -->
     <Footer></Footer>
   </div>
 </template>
 
 <script>
-// import LoginUser from "./components/core/LoginUser.vue";
-import RegisterUser from "./components/core/RegisterUser.vue";
+import LoginUser from "./components/core/LoginUser.vue";
+// import RegisterUser from "./components/core/RegisterUser.vue";
 import Footer from "./components/core/Footer.vue";
+import Navigation from "./components/core/Navigation.vue";
 
 export default {
   name: "App",
   components: {
-    // LoginUser,
-    RegisterUser,
+    Navigation,
+    LoginUser,
+    // RegisterUser,
     Footer
   }
 };
