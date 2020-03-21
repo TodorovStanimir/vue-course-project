@@ -2,8 +2,8 @@
   <div class="container">
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css" />
     <div class="row">
-      <div class="col-lg-3"></div>
-      <div class="col-lg-6">
+      <div class="col-lg-4"></div>
+      <div class="col-lg-4">
         <form>
           <div class="form-group input-group">
             <div class="input-group-prepend">
@@ -14,18 +14,18 @@
             <input
               type="text"
               class="form-control"
-              placeholder="Full Name"
+              placeholder="Name and Surname"
               v-model="username"
               @blur="$v.username.$touch()"
               :class="{ 'invalid-touched': $v.username.$anyError, valid: !$v.username.invalid && $v.username.$dirty}"
             />
           </div>
           <div v-if="$v.username.$error">
-            <div class="req-field" v-if="!$v.username.required">This field is required!</div>
+            <div class="req-field" v-if="!$v.username.required">This field is required</div>
             <div
               class="info-field"
               v-else-if="!$v.username.$params.usernameValidator.alpha"
-            >Name shoud consists only letters!</div>
+            >Shoud be in format Xxxxx Xxxxx</div>
           </div>
           <div class="form-group input-group">
             <div class="input-group-prepend">
@@ -36,18 +36,18 @@
             <input
               type="password"
               class="form-control"
-              placeholder="Type your password"
+              placeholder="Password"
               v-model="password"
               @blur="$v.password.$touch()"
               :class="{ 'invalid-touched': $v.password.$anyError, valid: !$v.password.invalid && $v.password.$dirty}"
             />
           </div>
           <div v-if="$v.password.$error">
-            <div class="req-field" v-if="!$v.password.required">This field is required!</div>
+            <div class="req-field" v-if="!$v.password.required">This field is required</div>
             <div
               class="info-field"
               v-else-if="!$v.password.minLength"
-            >Password must have at least {{$v.password.$params.minLength.min}} signs!</div>
+            >Password must have at least {{$v.password.$params.minLength.min}} signs</div>
           </div>
           <div class="form-group">
             <button class="btn btn-success btn-block" :disabled="$v.$invalid">Login in Your account</button>
@@ -58,7 +58,7 @@
           </p>
         </form>
       </div>
-      <div class="col-lg-3"></div>
+      <div class="col-lg-4"></div>
     </div>
   </div>
 </template>
@@ -131,8 +131,8 @@ input {
   border-radius: 5px;
 }
 .container {
-  padding: 165px;
-  margin-bottom: -96vh;
+  padding-top: 165px;
+  margin-bottom: -69.5vh;
 }
 .text-center {
   font-style: italic;
