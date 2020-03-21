@@ -1,24 +1,19 @@
 <template>
   <div id="app">
-    <Navigation />
-    <login-user></login-user>
-    <!-- <register-user></register-user> -->
+    <navigation></navigation>
+    <router-view :key="$route.path" />
     <Footer></Footer>
   </div>
 </template>
 
 <script>
-import LoginUser from "./components/core/LoginUser.vue";
-// import RegisterUser from "./components/core/RegisterUser.vue";
-import Footer from "./components/core/Footer.vue";
 import Navigation from "./components/core/Navigation.vue";
+import Footer from "./components/core/Footer.vue";
 
 export default {
   name: "App",
   components: {
     Navigation,
-    LoginUser,
-    // RegisterUser,
     Footer
   }
 };

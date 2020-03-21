@@ -54,7 +54,7 @@
           </div>
           <p class="text-center">
             <b>Have not an account?</b>
-            <a> &nbsp; Register here</a>
+            <router-link :to="{ path: '/profile/register' }"><b>&nbsp; Register here</b></router-link>
           </p>
         </form>
       </div>
@@ -66,10 +66,10 @@
 <script>
 import { validationMixin } from "vuelidate";
 import { required, minLength } from "vuelidate/lib/validators";
-import { helpers } from 'vuelidate/lib/validators';
-const usernameValidator = helpers.regex('alpha', /^[A-Z][a-z]+\s[A-Z][a-z]+$/);
+import { helpers } from "vuelidate/lib/validators";
+const usernameValidator = helpers.regex("alpha", /^[A-Z][a-z]+\s[A-Z][a-z]+$/);
 export default {
-  name: "LoginUser",
+  name: "UserLogin",
   mixins: [validationMixin],
   data: function() {
     return {
@@ -131,8 +131,8 @@ input {
   border-radius: 5px;
 }
 .container {
-    margin-top: 150px;
-    margin-bottom: -443px;
+  margin-top: 150px;
+  margin-bottom: -443px;
 }
 .text-center {
   font-style: italic;

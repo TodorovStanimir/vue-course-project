@@ -165,9 +165,9 @@
           </div>
           <p class="text-center">
             <b>Have an account?&nbsp;&nbsp;</b>
-            <a routerLink="/profile/login">
+            <router-link :to="{ path: '/profile/login' }">
               <b>Log In</b>
-            </a>
+            </router-link>
           </p>
         </form>
       </div>
@@ -188,7 +188,7 @@ const passwordValidator = helpers.regex(
   /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{3,16}$/
 );
 export default {
-  name: "RegisterUser",
+  name: "UserRegister",
   mixins: [validationMixin],
   data: function() {
     return {

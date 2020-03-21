@@ -2,9 +2,9 @@
   <div>
     <nav class="navbar navbar-expand-lg navbar-light bg-light mynav">
       <nav class="navbar navbar-light bg-light">
-        <a class="navbar-brand" :href="isLoggedIn ? '/books/all' : '' ">
+        <router-link class="navbar-brand" :to="{ path: isLoggedIn ? '/books/all' : '/'  }">
           <img src="../../assets/logo.png" width="110" height="45" alt="BookStore" />
-        </a>
+        </router-link>
       </nav>
       <button
         appCollapse
@@ -22,19 +22,19 @@
       <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav mr-auto">
           <li v-if="isLoggedIn">
-            <a class="nav-link" href="/profile/profile">Hello, {{username}}</a>
+            <router-link class="nav-link" to="/profile/profile">Hello, {{username}}</router-link>
           </li>
           <li v-if="!isLoggedIn" class="nav-item">
-            <a class="nav-link" href="/profile/register">Register</a>
+            <router-link class="nav-link" to="/profile/register">Register</router-link>
           </li>
           <li v-if="!isLoggedIn" class="nav-item">
-            <a class="nav-link" href="/profile/login">Login</a>
+            <router-link class="nav-link" to="profile/login">Login</router-link>
           </li>
           <li v-if="isLoggedIn" class="nav-item">
             <a class="nav-link" @click="logout">Logout</a>
           </li>
           <li class="nav-item">
-            <a v-if="isLoggedIn" class="nav-link" href="/profile/profile">Profile</a>
+            <router-link v-if="isLoggedIn" class="nav-link" to="/profile/profile">Profile</router-link>
           </li>
           <li v-if="isLoggedIn" appDropdown class="nav-item dropdown">
             <a
@@ -45,9 +45,9 @@
               aria-expanded="false"
             >My store</a>
             <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-              <a class="dropdown-item" href="/books/all">All books</a>
-              <a class="dropdown-item" href="/books/user">My books</a>
-              <a class="dropdown-item" href="/books/create">Create new book</a>
+              <router-link class="dropdown-item" to="/books/all">All books</router-link>
+              <router-link class="dropdown-item" to="books/user">My books</router-link>
+              <router-link class="dropdown-item" to="/books/create">Create new book</router-link>
             </div>
           </li>
         </ul>
@@ -62,12 +62,12 @@ export default {
   data: function() {
     return {
       username: "Stanimir Todorov",
-      isLoggedIn: true,
+      isLoggedIn: true
     };
   },
   methods: {
     logout() {
-        console.log('Yes');
+      console.log("Yes");
     }
   }
 };
