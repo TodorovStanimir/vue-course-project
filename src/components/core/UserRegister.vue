@@ -132,10 +132,7 @@
             </div>
             <div v-if="$v.repeatPassword.$error">
               <div class="req-field" v-if="!$v.repeatPassword.required">This field is required!</div>
-              <div
-                class="info-field"
-                v-else
-              >Passwords do not match!</div>
+              <div class="info-field" v-else>Passwords do not match!</div>
             </div>
           </div>
           <div class="form-group input-group">

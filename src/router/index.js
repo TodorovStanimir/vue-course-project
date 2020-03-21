@@ -25,6 +25,15 @@ const routes = [
       import(
         /* webpackChunkName: "userRegister" */ "../components/core/UserRegister.vue"
       ),
+  },
+  {
+    path: "*",
+    name: "notFound",
+    // props: true,
+    component: () =>
+      import(
+        /* webpackChunkName: "notFound" */ "../components/core/NotFound.vue"
+      ),
   }
 ];
 

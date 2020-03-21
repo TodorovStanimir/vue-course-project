@@ -54,7 +54,9 @@
           </div>
           <p class="text-center">
             <b>Have not an account?</b>
-            <router-link :to="{ path: '/profile/register' }"><b>&nbsp; Register here</b></router-link>
+            <router-link :to="{ path: '/profile/register' }">
+              <b>&nbsp; Register here</b>
+            </router-link>
           </p>
         </form>
       </div>
