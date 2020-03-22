@@ -1,9 +1,8 @@
 <template>
   <div class="container">
-      <router-link to="/profile/login">
-          <img class="not-found-image" src="../../assets/notFound.png" alt="404" />
-      </router-link>
-    
+    <router-link to="/profile/login">
+      <img class="not-found-image" src="../../assets/notFound.png" alt="404" />
+    </router-link>
   </div>
 </template>
 
@@ -16,7 +15,7 @@ export default {};
   display: flex;
   justify-content: space-around;
   align-items: center;
-  margin-bottom: 54px;
+  margin-bottom: -539px;
 }
 .not-found-image {
   margin-top: 100px;

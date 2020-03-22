@@ -2,7 +2,7 @@
   <div>
     <nav class="navbar navbar-expand-lg navbar-light bg-light mynav">
       <nav class="navbar navbar-light bg-light">
-        <router-link class="navbar-brand" :to="{ path: isLoggedIn ? '/books/all' : '/'  }">
+        <router-link class="navbar-brand" :to="{ path: isLoggedIn === true ? '/books/all' : '/'  }">
           <img src="../../assets/logo.png" width="110" height="45" alt="BookStore" />
         </router-link>
       </nav>
@@ -21,22 +21,22 @@
 
       <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav mr-auto">
-          <li v-if="isLoggedIn">
+          <li v-if="isLoggedIn === true">
             <router-link class="nav-link" to="/profile/profile">Hello, {{username}}</router-link>
           </li>
-          <li v-if="!isLoggedIn" class="nav-item">
+          <li v-if="isLoggedIn === false" class="nav-item">
             <router-link class="nav-link" to="/profile/register">Register</router-link>
           </li>
-          <li v-if="!isLoggedIn" class="nav-item">
-            <router-link class="nav-link" to="profile/login">Login</router-link>
+          <li v-if="isLoggedIn === false" class="nav-item">
+            <router-link class="nav-link" to="/profile/login">Login</router-link>
           </li>
-          <li v-if="isLoggedIn" class="nav-item">
+          <li v-if="isLoggedIn === true" class="nav-item">
             <a class="nav-link" @click="logout">Logout</a>
           </li>
           <li class="nav-item">
-            <router-link v-if="isLoggedIn" class="nav-link" to="/profile/profile">Profile</router-link>
+            <router-link v-if="isLoggedIn === true" class="nav-link" to="/profile/profile">Profile</router-link>
           </li>
-          <li v-if="isLoggedIn" appDropdown class="nav-item dropdown">
+          <li v-if="isLoggedIn === true" appDropdown class="nav-item dropdown">
             <a
               class="nav-link dropdown-toggle"
               id="navbarDropdown"
@@ -46,7 +46,7 @@
             >My store</a>
             <div class="dropdown-menu" aria-labelledby="navbarDropdown">
               <router-link class="dropdown-item" to="/books/all">All books</router-link>
-              <router-link class="dropdown-item" to="books/user">My books</router-link>
+              <router-link class="dropdown-item" to="/books/user">My books</router-link>
               <router-link class="dropdown-item" to="/books/create">Create new book</router-link>
             </div>
           </li>
@@ -59,15 +59,31 @@
 <script>
 export default {
   name: "Navigation",
+  created() {
+    this.$bus.$on("logged", () => {
+      this.isLoggedIn = this.checkIfIsLogged();
+    });
+  },
   data: function() {
     return {
       username: "Stanimir Todorov",
-      isLoggedIn: true
+      isLoggedIn: this.checkIfIsLogged()
     };
   },
   methods: {
     logout() {
-      console.log("Yes");
+      localStorage.removeItem("username");
+      localStorage.removeItem("token");
+      this.isLoggedIn = this.checkIfIsLogged();
+      this.$router.push("/profile/login");
+    },
+    checkIfIsLogged() {
+      let token = localStorage.getItem("token");
+      if (token) {
+        return true;
+      } else {
+        return false;
+      }
     }
   }
 };

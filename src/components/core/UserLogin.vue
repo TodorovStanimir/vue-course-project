@@ -50,7 +50,11 @@
             >Password must have at least {{$v.password.$params.minLength.min}} signs</div>
           </div>
           <div class="form-group">
-            <button class="btn btn-success btn-block" :disabled="$v.$invalid">Login in Your account</button>
+            <button
+              class="btn btn-success btn-block"
+              @click.prevent="hadleLogin"
+              :disabled="$v.$invalid"
+            >Login in Your account</button>
           </div>
           <p class="text-center">
             <b>Have not an account?</b>
@@ -87,6 +91,14 @@ export default {
     password: {
       required,
       minLength: minLength(8)
+    }
+  },
+  methods: {
+    hadleLogin() {
+      localStorage.setItem("username", this.username);
+      localStorage.setItem("token", `${this.username}+${this.password}`);
+      this.$bus.$emit("logged");
+      this.$router.push("/books/all");
     }
   }
 };
