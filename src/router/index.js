@@ -31,7 +31,7 @@ const routes = [
       import( /* webpackChunkName: "books" */ "../components/core/Books.vue"),
     children: [
       {
-        path: "all", name: "books/all", component: () =>
+        path: "all", name: "books/all", props: false, component: () =>
           import( /* webpackChunkName: "booksShowAll" */ "../components/core/BooksShowAll.vue")
       },
       {

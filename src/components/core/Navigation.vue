@@ -66,7 +66,7 @@ export default {
   },
   data: function() {
     return {
-      username: "Stanimir Todorov",
+      username: "",
       isLoggedIn: this.checkIfIsLogged()
     };
   },
@@ -80,6 +80,7 @@ export default {
     checkIfIsLogged() {
       let token = localStorage.getItem("token");
       if (token) {
+        this.username = localStorage.getItem('username');
         return true;
       } else {
         return false;

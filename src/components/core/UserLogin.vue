@@ -4,7 +4,7 @@
     <div class="row">
       <div class="col-lg-4"></div>
       <div class="col-lg-4">
-        <form>
+        <form @submit.prevent="hadleLogin">
           <div class="form-group input-group">
             <div class="input-group-prepend">
               <span class="input-group-text">
@@ -52,7 +52,6 @@
           <div class="form-group">
             <button
               class="btn btn-success btn-block"
-              @click.prevent="hadleLogin"
               :disabled="$v.$invalid"
             >Login in Your account</button>
           </div>
@@ -73,7 +72,9 @@
 import { validationMixin } from "vuelidate";
 import { required, minLength } from "vuelidate/lib/validators";
 import { helpers } from "vuelidate/lib/validators";
+
 const usernameValidator = helpers.regex("alpha", /^[A-Z][a-z]+\s[A-Z][a-z]+$/);
+
 export default {
   name: "UserLogin",
   mixins: [validationMixin],
@@ -90,7 +91,7 @@ export default {
     },
     password: {
       required,
-      minLength: minLength(8)
+      minLength: minLength(3)
     }
   },
   methods: {
