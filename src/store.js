@@ -39,7 +39,7 @@ export default {
                 "imageUrl": "https://images-na.ssl-images-amazon.com/images/I/51orM32c0ML._SX320_BO1,204,203,200_.jpg",
                 "likes": 0,
                 "dislikes": 0,
-                "author": "Stanimir Todorov",
+                "author": "Ivan Ivanov",
                 "_acl": {
                     "creator": "5e616d38390c6b0015deef12"
                 },

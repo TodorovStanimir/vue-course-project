@@ -242,10 +242,26 @@ import {
   url
 } from "vuelidate/lib/validators";
 import { helpers } from "vuelidate/lib/validators";
+import books from "../../store.js";
 
 const genresValidator = helpers.regex("alpha", /^[A-Za-z -]+$/);
 export default {
   name: "BookCreate",
+  created() {
+    console.log(this.$route.params);
+    if (this.$route.params.id) {
+      const book = books.books.find(book => book._id === this.$route.params.id);
+
+      Object.keys(book).map(key => {
+        if (Array.isArray( book[key])) {
+          console.log(typeof book[key])
+          this.$data[key] = book[key].join(" ");
+        } else {
+          this.$data[key] = book[key];
+        }
+      });
+    }
+  },
   mixins: [validationMixin],
   data: function() {
     return {

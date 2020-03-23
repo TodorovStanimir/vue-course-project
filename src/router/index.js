@@ -13,12 +13,14 @@ const routes = [
     path: "/profile/login",
     name: "userLogin",
     props: true,
+    meta: { requiresNotLogged: true },
     component: () => import( /* webpackChunkName: "userLogin" */ "../components/core/UserLogin.vue"),
   },
   {
     path: "/profile/register",
     name: "userRegister",
     // props: true,
+    meta: { requiresNotLogged: true },
     component: () =>
       import( /* webpackChunkName: "userRegister" */ "../components/core/UserRegister.vue"),
   },
@@ -31,13 +33,27 @@ const routes = [
       import( /* webpackChunkName: "books" */ "../components/core/Books.vue"),
     children: [
       {
-        path: "all", name: "books/all", props: false, component: () =>
-          import( /* webpackChunkName: "booksShowAll" */ "../components/core/BooksShowAll.vue")
+        path: "all",
+        name: "books/all",
+        props: false,
+        component: () => import( /* webpackChunkName: "booksShowAll" */ "../components/core/BooksShowAll.vue")
       },
       {
-        path: "create", name: "books/create", component: () =>
-          import( /* webpackChunkName: "bookCreate" */ "../components/core/BookCreate.vue")
+        path: "create",
+        name: "books/create",
+        props: true,
+        component: () => import( /* webpackChunkName: "bookCreate" */ "../components/core/BookCreate.vue")
       },
+      {
+        path: "details/:id",
+        name: "bookDetails",
+        props: true,
+        component: () => import( /* webpackChunkName: "bookDetails" */ "../components/core/BookDetails.vue")
+      },
+      {
+        path: 'edit/:id', name: "bookEdit",
+        component: () => import( /* webpackChunkName: "bookCreate" */ "../components/core/BookCreate.vue")
+      }
     ]
   },
   {
@@ -62,8 +78,14 @@ router.beforeEach((to, from, next) => {
     } else {
       next();
     }
+  } else if (to.matched.some(rec => rec.meta.requiresNotLogged)) {
+    if (localStorage.getItem('username')) {
+      next({ name: 'books/all' })
+    } else {
+      next();
+    }
   } else {
-    next();
+    next()
   }
 });
 
