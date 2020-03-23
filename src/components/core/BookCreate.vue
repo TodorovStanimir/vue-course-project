@@ -118,6 +118,7 @@
                   type="number"
                   class="form-control"
                   placeholder="Year issue"
+                  min="1500"
                   v-model.number="year"
                   @blur="$v.year.$touch()"
                   :class="{ 'invalid-touched': $v.year.$anyError, valid: !$v.year.invalid && $v.year.$dirty }"
@@ -129,6 +130,10 @@
                   class="info-field"
                   v-else-if="!$v.year.minLength"
                 >Year should contain exactly 4 digits!</div>
+                <div
+                  class="info-field"
+                  v-else-if="!$v.year.minValue"
+                >Year can not be less then 1500 year!</div>
                 <div
                   class="info-field"
                   v-else-if="!$v.year.maxValue"
@@ -277,7 +282,8 @@ export default {
     year: {
       required,
       maxValue: maxValue(Number(new Date().toISOString().slice(0, 4))),
-      minLength: minLength(4)
+      minLength: minLength(4),
+      minValue: minValue(1500)
     },
     publisher: {
       required,
@@ -296,7 +302,7 @@ export default {
   methods: {
     hadleCreateBook(data) {
       console.log(data);
-      this.$router.push('/books/all')
+      this.$router.push("/books/all");
     }
   }
 };
@@ -316,6 +322,7 @@ export default {
 .req-field {
   background-color: #a94442;
   height: auto;
+  margin-top: -10px;
   margin-bottom: 10px;
   border-radius: 5px;
   text-align: center;
@@ -324,6 +331,7 @@ export default {
 .info-field {
   background-color: #a94442;
   height: auto;
+  margin-top: -10px;
   margin-bottom: 10px;
   border-radius: 5px;
   text-align: center;
