@@ -71,5 +71,91 @@ export default {
                     "ect": "2020-03-05T22:11:50.021Z"
                 }
             }
-        ]
+        ],
+    comments: [
+        {
+            "_id": "5e61794fd37467001685c450",
+            "subject": "I am ready to drop my price",
+            "bookId": "5e6179265963d40016de682b",
+            "author": "Stanimir Todorov",
+            "_acl": {
+                "creator": "5e616d38390c6b0015deef12"
+            },
+            "_kmd": {
+                "lmt": "2020-03-05T22:12:31.666Z",
+                "ect": "2020-03-05T22:12:31.666Z"
+            }
+        },
+        {
+            "_id": "5e617b91412a070016a55122",
+            "subject": "I have got an interest about book. Please check your email.",
+            "bookId": "5e6174406d7ac9001672ef90",
+            "author": "Yana Todorova",
+            "_acl": {
+                "creator": "5e617a884277b400166d2054"
+            },
+            "_kmd": {
+                "lmt": "2020-03-05T22:22:09.919Z",
+                "ect": "2020-03-05T22:22:09.919Z"
+            }
+        },
+        {
+            "_id": "5e7927c388270500189337ac",
+            "subject": "ddgfd",
+            "bookId": "5e6174406d7ac9001672ef90",
+            "author": "Stanimir Todorov",
+            "_acl": {
+                "creator": "5e616d38390c6b0015deef12"
+            },
+            "_kmd": {
+                "lmt": "2020-03-23T21:18:59.914Z",
+                "ect": "2020-03-23T21:18:59.914Z"
+            }
+        },
+        {
+            "_id": "5e792f0635ddd40016ba3b6c",
+            "subject": "Proba",
+            "bookId": "5e6174406d7ac9001672ef90",
+            "author": "Stanimir Todorov",
+            "_acl": {
+                "creator": "5e616d38390c6b0015deef12"
+            },
+            "_kmd": {
+                "lmt": "2020-03-23T21:49:58.086Z",
+                "ect": "2020-03-23T21:49:58.086Z"
+            }
+        }
+    ],
+    users: [
+        {
+            "_id": "5e616d38390c6b0015deef12",
+            "username": "Stanimir Todorov",
+            "email": "todorov.stanimir0803@gmail.com",
+            "phoneNumber": "+359878244488",
+            "occupation": "Student",
+            "imageUrl": "https://scontent.fsof1-1.fna.fbcdn.net/v/t1.0-9/p720x720/32543883_1947120508653392_2522933359550660608_o.jpg?_nc_cat=107&_nc_sid=8024bb&_nc_ohc=u4JCsrK3aKIAX9ddm9j&_nc_ht=scontent.fsof1-1.fna&_nc_tp=6&oh=c031b7878e0803a0acf958f8fa7cd628&oe=5E93E96B",
+            "_kmd": {
+                "lmt": "2020-03-05T21:20:56.972Z",
+                "ect": "2020-03-05T21:20:56.972Z"
+            },
+            "_acl": {
+                "creator": "5e616d38390c6b0015deef12"
+            }
+        },
+        {
+            "_id": "5e616d38390c6b0015deef12",
+            "username": "Ivan Ivanov",
+            "email": "proba@proba.com",
+            "phoneNumber": "+359893424168",
+            "occupation": "Student",
+            "imageUrl": "https://scontent.fsof1-1.fna.fbcdn.net/v/t1.0-9/p720x720/32543883_1947120508653392_2522933359550660608_o.jpg?_nc_cat=107&_nc_sid=8024bb&_nc_ohc=u4JCsrK3aKIAX9ddm9j&_nc_ht=scontent.fsof1-1.fna&_nc_tp=6&oh=c031b7878e0803a0acf958f8fa7cd628&oe=5E93E96B",
+            "_kmd": {
+                "lmt": "2020-03-05T21:20:56.972Z",
+                "ect": "2020-03-05T21:20:56.972Z"
+            },
+            "_acl": {
+                "creator": "5e616d38390c6b0015deef12"
+            }
+        }
+    ]
 }
