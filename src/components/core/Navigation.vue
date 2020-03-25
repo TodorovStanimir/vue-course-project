@@ -64,9 +64,12 @@ export default {
       this.isLoggedIn = this.checkIfIsLogged();
     });
   },
+  destroyed() {
+    this.$bus.$off("logged");
+  },
   data: function() {
     return {
-      username: "",
+      username: localStorage.getItem("username"),
       isLoggedIn: this.checkIfIsLogged()
     };
   },
@@ -74,13 +77,14 @@ export default {
     logout() {
       localStorage.removeItem("username");
       localStorage.removeItem("token");
+      localStorage.removeItem("userId");
       this.isLoggedIn = this.checkIfIsLogged();
       this.$router.push("/profile/login");
     },
     checkIfIsLogged() {
       let token = localStorage.getItem("token");
       if (token) {
-        this.username = localStorage.getItem('username');
+        this.username = localStorage.getItem("username");
         return true;
       } else {
         return false;

@@ -478,11 +478,4 @@ li button {
   font-style: italic;
   /* white-space: pre; */
 }
-.comments button {
-  /* margin-bottom: -3px;
-   margin-top: -4px; */
-  margin-left: -5.9cm;
-  font-style: italic;
-  /* white-space: pre; */
-}
 </style>

@@ -9,12 +9,20 @@
 </template>
 
 <script>
+import moment from 'moment'
 export default {
   name: "Footer",
   data: function() {
     return {
       currentDate: new Date()
     };
+  },
+  filters: {
+    formatDate: function(value) {
+      if (value) {
+        return moment(value).format("dddd DD-MMMM-YYYY");
+      }
+    }
   }
 };
 </script>

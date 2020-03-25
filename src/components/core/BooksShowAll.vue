@@ -10,7 +10,7 @@
         <h6>{{book.description}}</h6>
         <p>
           Genres:
-          <span v-for="(genre, index) in book.genres" :key="index">{{genre}}</span>
+          <span v-for="(genre, index) in book.genres" :key="index">{{genre}}&nbsp;</span>
         </p>
         <div class="buttons-container">
           <div class="buttons">

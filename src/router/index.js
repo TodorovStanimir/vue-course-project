@@ -1,6 +1,6 @@
 import Vue from "vue";
 import VueRouter from "vue-router";
-// import Books from "../components/core/Books.vue"
+import { requiresNotLogged, requiresAuth } from '../shared/services/guards';
 
 Vue.use(VueRouter);
 
@@ -13,14 +13,16 @@ const routes = [
     path: "/profile/login",
     name: "userLogin",
     props: true,
-    meta: { requiresNotLogged: true },
+    beforeEnter: requiresNotLogged,
+    // meta: { requiresNotLogged: true },
     component: () => import( /* webpackChunkName: "userLogin" */ "../components/core/UserLogin.vue"),
   },
   {
     path: "/profile/register",
     name: "userRegister",
     // props: true,
-    meta: { requiresNotLogged: true },
+    beforeEnter: requiresNotLogged,
+    // meta: { requiresNotLogged: true },
     component: () =>
       import( /* webpackChunkName: "userRegister" */ "../components/core/UserRegister.vue"),
   },
@@ -28,7 +30,8 @@ const routes = [
     path: "/books",
     name: "books",
     // props: true,
-    meta: { requiresAuth: true },
+    beforeEnter: requiresAuth,
+    // meta: { requiresAuth: true },
     component: () =>
       import( /* webpackChunkName: "books" */ "../components/core/Books.vue"),
     children: [
@@ -69,24 +72,6 @@ const router = new VueRouter({
   mode: "history",
   // linkExactActiveClass: "vue-course-project",
   routes
-});
-
-router.beforeEach((to, from, next) => {
-  if (to.matched.some(rec => rec.meta.requiresAuth)) {
-    if (!localStorage.getItem('username')) {
-      next({ name: 'userLogin' })
-    } else {
-      next();
-    }
-  } else if (to.matched.some(rec => rec.meta.requiresNotLogged)) {
-    if (localStorage.getItem('username')) {
-      next({ name: 'books/all' })
-    } else {
-      next();
-    }
-  } else {
-    next()
-  }
 });
 
 export default router;

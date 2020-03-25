@@ -4,7 +4,7 @@
     <div class="row">
       <div class="col-lg-4"></div>
       <div class="col-lg-4">
-        <form @submit.prevent="hadleLogin">
+        <form @submit.prevent="hadleLogin" ref="loginForm">
           <div class="form-group input-group">
             <div class="input-group-prepend">
               <span class="input-group-text">
@@ -50,10 +50,7 @@
             >Password must have at least {{$v.password.$params.minLength.min}} signs</div>
           </div>
           <div class="form-group">
-            <button
-              class="btn btn-success btn-block"
-              :disabled="$v.$invalid"
-            >Login in Your account</button>
+            <button class="btn btn-success btn-block" :disabled="$v.$invalid">Login in Your account</button>
           </div>
           <p class="text-center">
             <b>Have not an account?</b>
@@ -72,6 +69,8 @@
 import { validationMixin } from "vuelidate";
 import { required, minLength } from "vuelidate/lib/validators";
 import { helpers } from "vuelidate/lib/validators";
+import { http } from "../../shared/services/httpClient";
+import { toastedSuccess } from "../../shared/services/toasted";
 
 const usernameValidator = helpers.regex("alpha", /^[A-Z][a-z]+\s[A-Z][a-z]+$/);
 
@@ -95,11 +94,24 @@ export default {
     }
   },
   methods: {
-    hadleLogin() {
-      localStorage.setItem("username", this.username);
-      localStorage.setItem("token", `${this.username}+${this.password}`);
-      this.$bus.$emit("logged");
-      this.$router.push("/books/all");
+    saveUserInfo(data) {
+      localStorage.setItem("username", data.username);
+      localStorage.setItem("token", data._kmd.authtoken);
+      localStorage.setItem("userId", data._id);
+    },
+    async hadleLogin() {
+      try {
+        const { data } = await http.post("login", {
+          username: this.username,
+          password: this.password
+        });
+        this.saveUserInfo(data);
+        toastedSuccess("Successfully Logged!");
+        this.$bus.$emit("logged");
+        this.$router.push("/books/all");
+      } catch (error) {
+        this.$refs.loginForm.reset();
+      }
     }
   }
 };

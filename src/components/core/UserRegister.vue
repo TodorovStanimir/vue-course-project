@@ -4,7 +4,7 @@
     <div class="row">
       <div class="col-lg-4"></div>
       <div class="col-lg-4">
-        <form>
+        <form @submit.prevent="handleRegister" ref="registerForm">
           <div class="form-group input-group">
             <div class="input-group-prepend">
               <span class="input-group-text">
@@ -177,6 +177,8 @@
 import { validationMixin } from "vuelidate";
 import { required, email, alpha, url, sameAs } from "vuelidate/lib/validators";
 import { helpers } from "vuelidate/lib/validators";
+import { toastedSuccess } from "../../shared/services/toasted";
+import { http } from "../../shared/services/httpClient";
 
 const usernameValidator = helpers.regex("alpha", /^[A-Z][a-z]+\s[A-Z][a-z]+$/);
 const phoneNumberValidator = helpers.regex("alpha", /^[+]{1}\d{10,}$/);
@@ -226,6 +228,24 @@ export default {
     imageUrl: {
       required,
       url
+    }
+  },
+  methods: {
+    async handleRegister() {
+      try {
+        await http.post("", {
+          username: this.username,
+          email: this.email,
+          phoneNumber: this.phoneNumber,
+          occupation: this.occupation,
+          password: this.password,
+          imageUrl: this.imageUrl
+        });
+        toastedSuccess("Successfully registration!");
+        this.$router.push("/profile/login");
+      } catch (error) {
+        this.$refs.registerForm.reset();
+      }
     }
   }
 };
