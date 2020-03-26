@@ -3,7 +3,7 @@ import Toasted from 'vue-toasted';
 Vue.use(Toasted)
 
 const errors = {
-    Conf: "This username is already taken. Please retry your request with a different username"
+    Conflict: "This username is already taken. Please retry your request with a different username"
 }
 
 export const toastedSuccess = mesg => {
@@ -25,7 +25,7 @@ export const toastedSuccess = mesg => {
 
 
 export const toastedError = mesg => {
-    return Vue.toasted.error(errors[mesg.slice(0, 4)], {
+    return Vue.toasted.error(errors[mesg] || mesg, {
         icon: 'ERR',
         action: {
             text: 'Hide',

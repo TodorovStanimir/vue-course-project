@@ -4,7 +4,7 @@
     <div class="row">
       <div class="col-lg-2"></div>
       <div class="col-lg-10">
-        <form @submit.prevent="hadleCreateBook($data)">
+        <form @submit.prevent="hadleCreateBook($data)" ref="createBookForm">
           <div class="row">
             <div class="col-lg-5">
               <div class="form-group input-group">
@@ -242,19 +242,20 @@ import {
   url
 } from "vuelidate/lib/validators";
 import { helpers } from "vuelidate/lib/validators";
-import books from "../../store.js";
+import books from "../../../store.js";
+import { http } from "../../shared/services/httpClient.js";
+import { toastedSuccess } from "../../shared/services/toasted";
 
 const genresValidator = helpers.regex("alpha", /^[A-Za-z -]+$/);
 export default {
   name: "BookCreate",
   created() {
-    console.log(this.$route.params);
     if (this.$route.params.id) {
       const book = books.books.find(book => book._id === this.$route.params.id);
 
       Object.keys(book).map(key => {
-        if (Array.isArray( book[key])) {
-          console.log(typeof book[key])
+        if (Array.isArray(book[key])) {
+          console.log(typeof book[key]);
           this.$data[key] = book[key].join(" ");
         } else {
           this.$data[key] = book[key];
@@ -275,7 +276,7 @@ export default {
       imageUrl: "",
       likes: 0,
       dislikes: 0,
-      author: localStorage.getItem("username")
+      author: localStorage.getItem("username"),
     };
   },
   validations: {
@@ -316,9 +317,19 @@ export default {
     }
   },
   methods: {
-    hadleCreateBook(data) {
-      console.log(data);
-      this.$router.push("/books/all");
+    async hadleCreateBook(data) {
+      try {
+        const newBook = Object.assign(
+          {},
+          { ...data, author: localStorage.getItem("username") }
+        );
+        newBook.genres = data.genres.split(" ");
+        await http.post("/books", newBook);
+        toastedSuccess("Successfully created book!");
+        this.$router.push("/books/all");
+      } catch (error) {
+        this.$refs.createBookForm.reset();
+      }
     }
   }
 };

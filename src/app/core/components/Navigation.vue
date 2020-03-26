@@ -3,7 +3,7 @@
     <nav class="navbar navbar-expand-lg navbar-light bg-light mynav">
       <nav class="navbar navbar-light bg-light">
         <router-link class="navbar-brand" :to="{ path: isLoggedIn === true ? '/books/all' : '/'  }">
-          <img src="../../assets/logo.png" width="110" height="45" alt="BookStore" />
+          <img src="../../../assets/logo.png" width="110" height="45" alt="BookStore" />
         </router-link>
       </nav>
       <button
@@ -57,6 +57,8 @@
 </template>
 
 <script>
+import { http } from "../../shared/services/httpClient.js";
+import { toastedSuccess } from "../../shared/services/toasted.js";
 export default {
   name: "Navigation",
   created() {
@@ -74,7 +76,9 @@ export default {
     };
   },
   methods: {
-    logout() {
+    async logout() {
+      await http.post('_logout')
+      toastedSuccess("Successful logged out!")
       localStorage.removeItem("username");
       localStorage.removeItem("token");
       localStorage.removeItem("userId");

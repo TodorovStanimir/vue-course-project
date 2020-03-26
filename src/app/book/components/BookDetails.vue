@@ -128,7 +128,7 @@
 </template>
 
 <script>
-import books from "../../store.js";
+import books from "../../../store.js";
 import { validationMixin } from "vuelidate";
 import { required, minLength } from "vuelidate/lib/validators";
 

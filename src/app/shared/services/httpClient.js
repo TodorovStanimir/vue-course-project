@@ -26,7 +26,7 @@ const authInterceptor = function (config) {
         };
     } else {
         const token = localStorage.getItem('token');
-        config.baseURL = `${baseUrl}/appdata/${appKey}`;
+        config.baseURL = config.url === '_logout' ? `${baseUrl}/user/${appKey}` : `${baseUrl}/appdata/${appKey}`;
         config.headers = {
             ...config.headers,
             'Content-Type': 'application/json',

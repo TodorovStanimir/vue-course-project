@@ -38,15 +38,30 @@
 </template>
 
 <script>
-import books from "../../store.js";
+import { http } from "../../shared/services/httpClient.js";
+import { toastedSuccess } from "../../shared/services/toasted.js";
+
 export default {
   name: "BooksShowAll",
+  created() {
+    this.getAllBooks();
+  },
   data: function() {
     return {
-      books: books.books
+      books: []
     };
   },
   methods: {
+    async getAllBooks() {
+      try {
+        const { data } = await http.get("books");
+        this.books = data;
+        console.log(this.books);
+        toastedSuccess("Successfully loaded all book!");
+      } catch (error) {
+        console.log(error);
+      }
+    },
     isAuthor(book) {
       return book.author === localStorage.getItem("username");
     },

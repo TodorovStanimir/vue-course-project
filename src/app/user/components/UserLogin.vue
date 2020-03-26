@@ -69,14 +69,15 @@
 import { validationMixin } from "vuelidate";
 import { required, minLength } from "vuelidate/lib/validators";
 import { helpers } from "vuelidate/lib/validators";
-import { http } from "../../shared/services/httpClient";
-import { toastedSuccess } from "../../shared/services/toasted";
+// import { http } from "../../shared/services/httpClient";
+// import { toastedSuccess } from "../../shared/services/toasted";
+import mixins from '../../../mixins.js'
 
 const usernameValidator = helpers.regex("alpha", /^[A-Z][a-z]+\s[A-Z][a-z]+$/);
 
 export default {
   name: "UserLogin",
-  mixins: [validationMixin],
+  mixins: [validationMixin, mixins],
   data: function() {
     return {
       username: "",
@@ -94,25 +95,25 @@ export default {
     }
   },
   methods: {
-    saveUserInfo(data) {
-      localStorage.setItem("username", data.username);
-      localStorage.setItem("token", data._kmd.authtoken);
-      localStorage.setItem("userId", data._id);
-    },
-    async hadleLogin() {
-      try {
-        const { data } = await http.post("login", {
-          username: this.username,
-          password: this.password
-        });
-        this.saveUserInfo(data);
-        toastedSuccess("Successfully Logged!");
-        this.$bus.$emit("logged");
-        this.$router.push("/books/all");
-      } catch (error) {
-        this.$refs.loginForm.reset();
-      }
-    }
+    // saveUserInfo(data) {
+    //   localStorage.setItem("username", data.username);
+    //   localStorage.setItem("token", data._kmd.authtoken);
+    //   localStorage.setItem("userId", data._id);
+    // },
+    // async hadleLogin() {
+    //   try {
+    //     const { data } = await http.post("login", {
+    //       username: this.username,
+    //       password: this.password
+    //     });
+    //     this.saveUserInfo(data);
+    //     toastedSuccess("Successfully logged in!");
+    //     this.$bus.$emit("logged");
+    //     this.$router.push("/books/all");
+    //   } catch (error) {
+    //     this.$refs.loginForm.reset();
+    //   }
+    // }
   }
 };
 </script>

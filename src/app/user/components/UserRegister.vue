@@ -177,8 +177,8 @@
 import { validationMixin } from "vuelidate";
 import { required, email, alpha, url, sameAs } from "vuelidate/lib/validators";
 import { helpers } from "vuelidate/lib/validators";
-import { toastedSuccess } from "../../shared/services/toasted";
-import { http } from "../../shared/services/httpClient";
+import { toastedSuccess } from "../../shared/services/toasted.js";
+import { http } from "../../shared/services/httpClient.js";
 
 const usernameValidator = helpers.regex("alpha", /^[A-Z][a-z]+\s[A-Z][a-z]+$/);
 const phoneNumberValidator = helpers.regex("alpha", /^[+]{1}\d{10,}$/);
@@ -244,7 +244,8 @@ export default {
         toastedSuccess("Successfully registration!");
         this.$router.push("/profile/login");
       } catch (error) {
-        this.$refs.registerForm.reset();
+        Object.keys(this.$data).map(key=> this.$data[key]="");
+        this.$v.$reset();
       }
     }
   }

@@ -7,8 +7,8 @@
 </template>
 
 <script>
-import Navigation from "./components/core/Navigation.vue";
-import Footer from "./components/core/Footer.vue";
+import Navigation from "./core/components/Navigation.vue";
+import Footer from "./core/components/Footer.vue";
 
 export default {
   name: "App",
@@ -30,7 +30,7 @@ export default {
   display: block;
   width: auto;
   height: auto;
-  background-image: url("./assets/home.png");
+  background-image: url("../assets/home.png");
   background-attachment: fixed;
   background-size: cover;
 }
