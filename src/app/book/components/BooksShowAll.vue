@@ -1,7 +1,7 @@
 <template>
   <div class="grid-container">
     <div class="grid">
-      <div class="grid-item opacity" v-for="(book,index) in books" :key="index">
+      <div class="grid-item opacity" v-for="book in allBooks" :key="book._id">
         <p>
           <img :src="book.imageUrl" />
         </p>
@@ -20,9 +20,9 @@
               </router-link>
               {{ $route.params.id }}
             </li>
-            <template v-if="isAuthor(book)">
+            <template v-if="book.author === username">
               <li>
-                <button @click="deleteBook( book['_id'])" class="card-link">delete</button>
+                <button @click="removeBook( book['_id'])" class="card-link">delete</button>
               </li>
               <li>
                 <router-link :to="{ name: 'bookEdit', params: { id: book._id } }">
@@ -38,37 +38,35 @@
 </template>
 
 <script>
-import { http } from "../../shared/services/httpClient.js";
-import { toastedSuccess } from "../../shared/services/toasted.js";
+import { mapGetters, mapActions } from "vuex";
 
 export default {
   name: "BooksShowAll",
   created() {
-    this.getAllBooks();
+    this.getBooks();
   },
   data: function() {
-    return {
-      books: []
-    };
+    return {};
   },
   methods: {
-    async getAllBooks() {
+    ...mapActions(["getAllBooks", "deleteBook"]),
+    async getBooks() {
       try {
-        const { data } = await http.get("books");
-        this.books = data;
-        console.log(this.books);
-        toastedSuccess("Successfully loaded all book!");
+        await this.getAllBooks();
       } catch (error) {
         console.log(error);
       }
     },
-    isAuthor(book) {
-      return book.author === localStorage.getItem("username");
-    },
-    deleteBook(id) {
-      const index = this.books.findIndex(book => book._id === id);
-      this.books.splice(index, 1);
+    async removeBook(id) {
+      try {
+        await this.deleteBook(id);
+      } catch (error) {
+        console.log(error);
+      }
     }
+  },
+  computed: {
+    ...mapGetters(["username", "allBooks"])
   }
 };
 </script>

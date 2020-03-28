@@ -4,7 +4,7 @@
     <div class="row">
       <div class="col-lg-4"></div>
       <div class="col-lg-4">
-        <form @submit.prevent="hadleLogin" ref="loginForm">
+        <form @submit.prevent="handleLogin" ref="loginForm">
           <div class="form-group input-group">
             <div class="input-group-prepend">
               <span class="input-group-text">
@@ -67,17 +67,14 @@
 
 <script>
 import { validationMixin } from "vuelidate";
-import { required, minLength } from "vuelidate/lib/validators";
-import { helpers } from "vuelidate/lib/validators";
-// import { http } from "../../shared/services/httpClient";
-// import { toastedSuccess } from "../../shared/services/toasted";
-import mixins from '../../../mixins.js'
+import { required, minLength, helpers } from "vuelidate/lib/validators";
+import { mapActions } from "vuex";
 
 const usernameValidator = helpers.regex("alpha", /^[A-Z][a-z]+\s[A-Z][a-z]+$/);
 
 export default {
   name: "UserLogin",
-  mixins: [validationMixin, mixins],
+  mixins: [validationMixin],
   data: function() {
     return {
       username: "",
@@ -95,25 +92,19 @@ export default {
     }
   },
   methods: {
-    // saveUserInfo(data) {
-    //   localStorage.setItem("username", data.username);
-    //   localStorage.setItem("token", data._kmd.authtoken);
-    //   localStorage.setItem("userId", data._id);
-    // },
-    // async hadleLogin() {
-    //   try {
-    //     const { data } = await http.post("login", {
-    //       username: this.username,
-    //       password: this.password
-    //     });
-    //     this.saveUserInfo(data);
-    //     toastedSuccess("Successfully logged in!");
-    //     this.$bus.$emit("logged");
-    //     this.$router.push("/books/all");
-    //   } catch (error) {
-    //     this.$refs.loginForm.reset();
-    //   }
-    // }
+    ...mapActions(["loginUser"]),
+    async handleLogin() {
+      try {
+        await this.loginUser({
+          username: this.username,
+          password: this.password
+        });
+        this.$router.push("/books/all");
+      } catch (err) {
+        Object.keys(this.$data).map(key => (this.$data[key] = ""));
+        this.$v.$reset();
+      }
+    }
   }
 };
 </script>

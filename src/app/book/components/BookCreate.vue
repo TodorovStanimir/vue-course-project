@@ -4,7 +4,7 @@
     <div class="row">
       <div class="col-lg-2"></div>
       <div class="col-lg-10">
-        <form @submit.prevent="hadleCreateBook($data)" ref="createBookForm">
+        <form ref="createBookForm">
           <div class="row">
             <div class="col-lg-5">
               <div class="form-group input-group">
@@ -217,10 +217,18 @@
             <div class="col-lg-3">
               <div class="form-group">
                 <button
+                  v-if="!isEditingBook"
                   type="submit"
                   class="btn btn-success btn-block"
                   :disabled="$v.$invalid"
+                  @click.prevent="hadleCreateBook($data)"
                 >Create your book!</button>
+                <button
+                  v-else
+                  type="submit"
+                  class="btn btn-success btn-block"
+                  :disabled="$v.$invalid"
+                >Edit your book!</button>
               </div>
             </div>
           </div>
@@ -242,23 +250,28 @@ import {
   url
 } from "vuelidate/lib/validators";
 import { helpers } from "vuelidate/lib/validators";
-import books from "../../../store.js";
 import { http } from "../../shared/services/httpClient.js";
 import { toastedSuccess } from "../../shared/services/toasted";
+import { mapActions } from "vuex";
 
 const genresValidator = helpers.regex("alpha", /^[A-Za-z -]+$/);
 export default {
   name: "BookCreate",
   created() {
+    console.log(this.author)
     if (this.$route.params.id) {
-      const book = books.books.find(book => book._id === this.$route.params.id);
+      console.log(this.$route.params.id);
+      this.isEditingBook = true;
 
-      Object.keys(book).map(key => {
-        if (Array.isArray(book[key])) {
-          console.log(typeof book[key]);
-          this.$data[key] = book[key].join(" ");
+      const editingBook = this.$store.state.bookState.allBooks.find(
+        book => (book._id === this.$route.params.id)
+      );
+      console.log(editingBook);
+      Object.keys(editingBook).map(key => {
+        if (Array.isArray(editingBook[key])) {
+          this[key] = editingBook[key].join(" ");
         } else {
-          this.$data[key] = book[key];
+          this[key] = editingBook[key];
         }
       });
     }
@@ -266,6 +279,7 @@ export default {
   mixins: [validationMixin],
   data: function() {
     return {
+      isEditingBook: false,
       title: "",
       bookAuthor: "",
       description: "",
@@ -276,7 +290,7 @@ export default {
       imageUrl: "",
       likes: 0,
       dislikes: 0,
-      author: localStorage.getItem("username"),
+      author: this.$store.state.userState.userInfo.username
     };
   },
   validations: {
@@ -317,11 +331,13 @@ export default {
     }
   },
   methods: {
+    ...mapActions(["createBook"]),
     async hadleCreateBook(data) {
+      console.log(this.$store);
       try {
         const newBook = Object.assign(
           {},
-          { ...data, author: localStorage.getItem("username") }
+          { ...data, author: localStorage.getItem("userInfo") }
         );
         newBook.genres = data.genres.split(" ");
         await http.post("/books", newBook);

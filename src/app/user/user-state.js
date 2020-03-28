@@ -1,57 +1,52 @@
-import { toastSuccess } from '../shared/services/toasted';
-import { http } from '../shared/services/httpClient';
+import { toastedSuccess } from '../shared/services/toasted.js';
+import { http } from '../shared/services/httpClient.js';
 
 const initialState = {
-  isAuth: localStorage.getItem('authtoken') !== null,
-  authtoken: localStorage.getItem('authtoken'),
-  userInfo: null
+  isLoggedIn: localStorage.getItem('token') !== null,
+  token: localStorage.getItem('token'),
+  userInfo: localStorage.getItem('userInfo')
 };
-
-export const actionTypes = {
-  loginSuccess: '[AUTH] LOGIN SUCCESS',
-  registerSuccess: '[AUTH] REGISTER SUCCESS',
-  logoutSuccess: '[AUTH] LOGOUT SUCCESS'
-};
-
-export const { loginSuccess, logoutSuccess, registerSuccess } = actionTypes;
 
 const getters = {
-  authtoken: state => state.authtoken,
-  isAuth: state => state.isAuth
+  token: state => { return state.token },
+  isLoggedIn: state => { return state.isLoggedIn },
+  username: state => { return state.userInfo.username }
 };
 
 const actions = {
-  async [loginSuccess]({ commit }, payload) {
+  async loginUser({ commit }, payload) {
     const { username, password } = payload;
     const { data } = await http.post('login', { username, password });
-    localStorage.setItem('authtoken', data._kmd.authtoken);
-    toastSuccess('Successfully Logged!');
-    commit(loginSuccess, {
+    localStorage.setItem('token', data._kmd.authtoken);
+    localStorage.setItem('userInfo', data.username);
+    toastedSuccess('Successfully logged in!');
+    commit('loginSuccess', {
       userInfo: data,
-      authtoken: data._kmd.authtoken,
-      isAuth: true
+      token: data._kmd.authtoken,
+      isLoggedIn: true
     });
   },
-  async [logoutSuccess]({ commit }) {
+  async logoutUser({ commit }) {
+    await http.post("_logout");
+    toastedSuccess('Successful logged out!');
+    commit('logoutSuccess');
     localStorage.clear();
-    toastSuccess('Successfully Logout!');
-    commit(logoutSuccess);
   },
-  async [registerSuccess]({ commit }, payload) {
+  async registerUser({ commit }, payload) {
     await http.post('', payload);
-    toastSuccess('Successfully Registered!');
-    commit(registerSuccess);
+    toastedSuccess('Successfully Registered!');
+    commit('registerSuccess');
   }
 };
 
 const mutations = {
-  [loginSuccess](state, payload) {
+  loginSuccess(state, payload) {
     Object.assign(state, payload);
   },
-  [logoutSuccess](state) {
-    Object.assign(state, { isAuth: false, authtoken: null, userInfo: null });
+  logoutSuccess(state) {
+    Object.assign(state, { isLoggedIn: false, token: null });
   },
-  [registerSuccess](state) {
+  registerSuccess(state) {
     Object.assign(state);
   }
 };

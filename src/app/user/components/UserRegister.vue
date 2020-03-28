@@ -175,10 +175,8 @@
 
 <script>
 import { validationMixin } from "vuelidate";
-import { required, email, alpha, url, sameAs } from "vuelidate/lib/validators";
-import { helpers } from "vuelidate/lib/validators";
-import { toastedSuccess } from "../../shared/services/toasted.js";
-import { http } from "../../shared/services/httpClient.js";
+import { required, email, alpha, url, sameAs, helpers } from "vuelidate/lib/validators";
+import { mapActions } from "vuex";
 
 const usernameValidator = helpers.regex("alpha", /^[A-Z][a-z]+\s[A-Z][a-z]+$/);
 const phoneNumberValidator = helpers.regex("alpha", /^[+]{1}\d{10,}$/);
@@ -231,9 +229,10 @@ export default {
     }
   },
   methods: {
+    ...mapActions(["registerUser"]),
     async handleRegister() {
       try {
-        await http.post("", {
+        await this.registerUser({
           username: this.username,
           email: this.email,
           phoneNumber: this.phoneNumber,
@@ -241,10 +240,9 @@ export default {
           password: this.password,
           imageUrl: this.imageUrl
         });
-        toastedSuccess("Successfully registration!");
         this.$router.push("/profile/login");
       } catch (error) {
-        Object.keys(this.$data).map(key=> this.$data[key]="");
+        Object.keys(this.$data).map(key => (this.$data[key] = ""));
         this.$v.$reset();
       }
     }
