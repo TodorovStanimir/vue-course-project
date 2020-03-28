@@ -26,6 +26,7 @@ export default [
     {
         path: '/books/edit/:id',
         name: "bookEdit",
+        props: true,
         beforeEnter: requiresAuth,
         component: () => import( /* webpackChunkName: "bookCreate" */ "./components/BookCreate.vue")
     }

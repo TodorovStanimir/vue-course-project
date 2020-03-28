@@ -17,17 +17,17 @@
                   type="text"
                   class="form-control"
                   placeholder="Book title"
-                  v-model="title"
-                  @blur="$v.title.$touch()"
-                  :class="{ 'invalid-touched': $v.title.$anyError, valid: !$v.title.invalid && $v.title.$dirty }"
+                  v-model="book.title"
+                  @blur="$v.book.title.$touch()"
+                  :class="{ 'invalid-touched': $v.book.title.$anyError, valid: !$v.book.title.invalid && $v.book.title.$dirty }"
                 />
               </div>
-              <div v-if="$v.title.$error">
-                <div class="req-field" v-if="!$v.title.required">This field is required!</div>
+              <div v-if="$v.book.title.$error">
+                <div class="req-field" v-if="!$v.book.title.required">This field is required!</div>
                 <div
                   class="info-field"
-                  v-else-if="!$v.title.minLength"
-                >Title shoud contain at least {{$v.title.$params.minLength.min}} signs</div>
+                  v-else-if="!$v.book.title.minLength"
+                >Title shoud contain at least {{$v.book.title.$params.minLength.min}} signs</div>
               </div>
             </div>
             <div class="col-lg-5">
@@ -41,17 +41,17 @@
                   type="text"
                   class="form-control"
                   placeholder="Names of book's author"
-                  v-model="bookAuthor"
-                  @blur="$v.bookAuthor.$touch()"
-                  :class="{ 'invalid-touched': $v.bookAuthor.$anyError, valid: !$v.bookAuthor.invalid && $v.bookAuthor.$dirty }"
+                  v-model="book.bookAuthor"
+                  @blur="$v.book.bookAuthor.$touch()"
+                  :class="{ 'invalid-touched': $v.book.bookAuthor.$anyError, valid: !$v.book.bookAuthor.invalid && $v.book.bookAuthor.$dirty }"
                 />
               </div>
-              <div v-if="$v.bookAuthor.$error">
-                <div class="req-field" v-if="!$v.bookAuthor.required">This field is required!</div>
+              <div v-if="$v.book.bookAuthor.$error">
+                <div class="req-field" v-if="!$v.book.bookAuthor.required">This field is required!</div>
                 <div
                   class="info-field"
-                  v-if="!$v.bookAuthor.minLength"
-                >Name should contain at least {{$v.bookAuthor.$params.minLength.min}} signs</div>
+                  v-if="!$v.book.bookAuthor.minLength"
+                >Name should contain at least {{$v.book.bookAuthor.$params.minLength.min}} signs</div>
               </div>
             </div>
           </div>
@@ -68,17 +68,17 @@
                   rows="3"
                   class="form-control"
                   placeholder="Description"
-                  v-model="description"
-                  @blur="$v.description.$touch()"
-                  :class="{ 'invalid-touched': $v.description.$anyError, valid: !$v.description.invalid && $v.description.$dirty }"
+                  v-model="book.description"
+                  @blur="$v.book.description.$touch()"
+                  :class="{ 'invalid-touched': $v.book.description.$anyError, valid: !$v.book.description.invalid && $v.book.description.$dirty }"
                 />
               </div>
-              <div v-if="$v.description.$error">
-                <div class="req-field" v-if="!$v.description.required">This field is required!</div>
+              <div v-if="$v.book.description.$error">
+                <div class="req-field" v-if="!$v.book.description.required">This field is required!</div>
                 <div
                   class="info-field"
-                  v-if="!$v.description.minLength"
-                >Description should contain at least {{$v.description.$params.minLength.min}} signs</div>
+                  v-if="!$v.book.description.minLength"
+                >Description should contain at least {{$v.book.description.$params.minLength.min}} signs</div>
               </div>
             </div>
           </div>
@@ -94,16 +94,16 @@
                   type="text"
                   class="form-control"
                   placeholder="Genres"
-                  v-model="genres"
-                  @blur="$v.genres.$touch()"
-                  :class="{ 'invalid-touched': $v.genres.$anyError, valid: !$v.genres.invalid && $v.genres.$dirty }"
+                  v-model="book.genres"
+                  @blur="$v.book.genres.$touch()"
+                  :class="{ 'invalid-touched': $v.book.genres.$anyError, valid: !$v.book.genres.invalid && $v.book.genres.$dirty }"
                 />
               </div>
-              <div v-if="$v.genres.$error">
-                <div class="req-field" v-if="!$v.genres.required">This field is required!</div>
+              <div v-if="$v.book.genres.$error">
+                <div class="req-field" v-if="!$v.book.genres.required">This field is required!</div>
                 <div
                   class="info-field"
-                  v-else-if="!$v.genres.$params.genresValidator.alpha"
+                  v-else-if="!$v.book.genres.$params.genresValidator.alpha"
                 >Genres should contain genres of book separeted by space!</div>
               </div>
             </div>
@@ -119,24 +119,24 @@
                   class="form-control"
                   placeholder="Year issue"
                   min="1500"
-                  v-model.number="year"
-                  @blur="$v.year.$touch()"
-                  :class="{ 'invalid-touched': $v.year.$anyError, valid: !$v.year.invalid && $v.year.$dirty }"
+                  v-model.number="book.year"
+                  @blur="$v.book.year.$touch()"
+                  :class="{ 'invalid-touched': $v.book.year.$anyError, valid: !$v.book.year.invalid && $v.book.year.$dirty }"
                 />
               </div>
-              <div v-if="$v.year.$error">
-                <div class="req-field" v-if="!$v.year.required">This field is required!</div>
+              <div v-if="$v.book.year.$error">
+                <div class="req-field" v-if="!$v.book.year.required">This field is required!</div>
                 <div
                   class="info-field"
-                  v-else-if="!$v.year.minLength"
+                  v-else-if="!$v.book.year.minLength"
                 >Year should contain exactly 4 digits!</div>
                 <div
                   class="info-field"
-                  v-else-if="!$v.year.minValue"
+                  v-else-if="!$v.book.year.minValue"
                 >Year can not be less then 1500 year!</div>
                 <div
                   class="info-field"
-                  v-else-if="!$v.year.maxValue"
+                  v-else-if="!$v.book.year.maxValue"
                 >Year can not be bigger then current year!</div>
               </div>
             </div>
@@ -153,17 +153,17 @@
                   type="text"
                   class="form-control"
                   placeholder="Publisher"
-                  v-model="publisher"
-                  @blur="$v.publisher.$touch()"
-                  :class="{ 'invalid-touched': $v.publisher.$anyError, valid: !$v.publisher.invalid && $v.publisher.$dirty }"
+                  v-model="book.publisher"
+                  @blur="$v.book.publisher.$touch()"
+                  :class="{ 'invalid-touched': $v.book.publisher.$anyError, valid: !$v.book.publisher.invalid && $v.book.publisher.$dirty }"
                 />
               </div>
-              <div v-if="$v.publisher.$error">
-                <div class="req-field" v-if="!$v.publisher.required">This field is required!</div>
+              <div v-if="$v.book.publisher.$error">
+                <div class="req-field" v-if="!$v.book.publisher.required">This field is required!</div>
                 <div
                   class="info-field"
-                  v-else-if="!$v.publisher.minLength"
-                >Publishers should contain at least {{$v.publisher.$params.minLength.min}} signs</div>
+                  v-else-if="!$v.book.publisher.minLength"
+                >Publishers should contain at least {{$v.book.publisher.$params.minLength.min}} signs</div>
               </div>
             </div>
             <div class="col-lg-3">
@@ -178,14 +178,17 @@
                   step="0.01"
                   class="form-control"
                   placeholder="Price"
-                  v-model.number="price"
-                  @blur="$v.price.$touch()"
-                  :class="{ 'invalid-touched': $v.price.$anyError, valid: !$v.price.invalid && $v.price.$dirty }"
+                  v-model.number="book.price"
+                  @blur="$v.book.price.$touch()"
+                  :class="{ 'invalid-touched': $v.book.price.$anyError, valid: !$v.book.price.invalid && $v.book.price.$dirty }"
                 />
               </div>
-              <div v-if="$v.price.$error">
-                <div class="req-field" v-if="!$v.price.required">This field is required!</div>
-                <div class="info-field" v-else-if="!$v.price.minValue">Price should be at least 0.01</div>
+              <div v-if="$v.book.price.$error">
+                <div class="req-field" v-if="!$v.book.price.required">This field is required!</div>
+                <div
+                  class="info-field"
+                  v-else-if="!$v.book.price.minValue"
+                >Price should be at least 0.01</div>
               </div>
             </div>
           </div>
@@ -201,16 +204,16 @@
                   type="text"
                   class="form-control"
                   placeholder="Image Url"
-                  v-model="imageUrl"
-                  @blur="$v.imageUrl.$touch()"
-                  :class="{ 'invalid-touched': $v.imageUrl.$anyError, valid: !$v.imageUrl.invalid && $v.imageUrl.$dirty }"
+                  v-model="book.imageUrl"
+                  @blur="$v.book.imageUrl.$touch()"
+                  :class="{ 'invalid-touched': $v.book.imageUrl.$anyError, valid: !$v.book.imageUrl.invalid && $v.book.imageUrl.$dirty }"
                 />
               </div>
-              <div v-if="$v.imageUrl.$error">
-                <div class="req-field" v-if="!$v.imageUrl.required">This field is required!</div>
+              <div v-if="$v.book.imageUrl.$error">
+                <div class="req-field" v-if="!$v.book.imageUrl.required">This field is required!</div>
                 <div
                   class="info-field"
-                  v-else-if="!$v.imageUrl.url"
+                  v-else-if="!$v.book.imageUrl.url"
                 >Image Url should start wth http:// or https://</div>
               </div>
             </div>
@@ -221,13 +224,14 @@
                   type="submit"
                   class="btn btn-success btn-block"
                   :disabled="$v.$invalid"
-                  @click.prevent="hadleCreateBook($data)"
+                  @click.prevent="createBook(book)"
                 >Create your book!</button>
                 <button
                   v-else
                   type="submit"
                   class="btn btn-success btn-block"
                   :disabled="$v.$invalid"
+                  @click.prevent="editBook([book, id])"
                 >Edit your book!</button>
               </div>
             </div>
@@ -252,26 +256,20 @@ import {
 import { helpers } from "vuelidate/lib/validators";
 import { http } from "../../shared/services/httpClient.js";
 import { toastedSuccess } from "../../shared/services/toasted";
-import { mapActions } from "vuex";
+import { mapActions, mapGetters } from "vuex";
 
 const genresValidator = helpers.regex("alpha", /^[A-Za-z -]+$/);
 export default {
   name: "BookCreate",
   created() {
-    console.log(this.author)
-    if (this.$route.params.id) {
-      console.log(this.$route.params.id);
+    if (this.id !== undefined) {
       this.isEditingBook = true;
-
-      const editingBook = this.$store.state.bookState.allBooks.find(
-        book => (book._id === this.$route.params.id)
-      );
-      console.log(editingBook);
-      Object.keys(editingBook).map(key => {
+      const editingBook = this.getBookById(this.id);
+      Object.keys(this.book).map(key => {
         if (Array.isArray(editingBook[key])) {
-          this[key] = editingBook[key].join(" ");
+          this.book[key] = editingBook[key].join(" ");
         } else {
-          this[key] = editingBook[key];
+          this.book[key] = editingBook[key];
         }
       });
     }
@@ -280,73 +278,79 @@ export default {
   data: function() {
     return {
       isEditingBook: false,
-      title: "",
-      bookAuthor: "",
-      description: "",
-      genres: "",
-      year: null,
-      publisher: "",
-      price: null,
-      imageUrl: "",
-      likes: 0,
-      dislikes: 0,
-      author: this.$store.state.userState.userInfo.username
+      id: this.$route.params.id,
+      book: {
+        title: "",
+        bookAuthor: "",
+        description: "",
+        genres: "",
+        year: null,
+        publisher: "",
+        price: null,
+        imageUrl: "",
+        likes: 0,
+        dislikes: 0,
+        author: localStorage.getItem("userInfo")
+      }
     };
   },
   validations: {
-    title: {
-      required,
-      minLength: minLength(2)
-    },
-    bookAuthor: {
-      required,
-      minLength: minLength(5)
-    },
-    description: {
-      required,
-      minLength: minLength(40)
-    },
-    genres: {
-      required,
-      genresValidator
-    },
-    year: {
-      required,
-      maxValue: maxValue(Number(new Date().toISOString().slice(0, 4))),
-      minLength: minLength(4),
-      minValue: minValue(1500)
-    },
-    publisher: {
-      required,
-      minLength: minLength(6)
-    },
-    price: {
-      required,
-      minValue: minValue(0.01),
-      decimal
-    },
-    imageUrl: {
-      required,
-      url
+    book: {
+      title: {
+        required,
+        minLength: minLength(2)
+      },
+      bookAuthor: {
+        required,
+        minLength: minLength(5)
+      },
+      description: {
+        required,
+        minLength: minLength(40)
+      },
+      genres: {
+        required,
+        genresValidator
+      },
+      year: {
+        required,
+        maxValue: maxValue(Number(new Date().toISOString().slice(0, 4))),
+        minLength: minLength(4),
+        minValue: minValue(1500)
+      },
+      publisher: {
+        required,
+        minLength: minLength(6)
+      },
+      price: {
+        required,
+        minValue: minValue(0.01),
+        decimal
+      },
+      imageUrl: {
+        required,
+        url
+      }
     }
   },
   methods: {
-    ...mapActions(["createBook"]),
-    async hadleCreateBook(data) {
-      console.log(this.$store);
+    ...mapActions(["createBook", "editBook"]),
+    async handleEditBook(book, id) {
       try {
-        const newBook = Object.assign(
-          {},
-          { ...data, author: localStorage.getItem("userInfo") }
-        );
-        newBook.genres = data.genres.split(" ");
-        await http.post("/books", newBook);
-        toastedSuccess("Successfully created book!");
+        const editBook = Object.assign({ ...book });
+        // console.log(this.id);
+        editBook.genres = editBook.genres.split(" ");
+        await http.put(`/books/${id}`, editBook);
+        toastedSuccess("Successfully edited book!");
         this.$router.push("/books/all");
       } catch (error) {
+        console.log(error);
         this.$refs.createBookForm.reset();
       }
     }
+  },
+  computed: {
+    ...mapGetters(["getBookById"])
   }
 };
 </script>

@@ -22,7 +22,7 @@
             </li>
             <template v-if="book.author === username">
               <li>
-                <button @click="removeBook( book['_id'])" class="card-link">delete</button>
+                <button @click="deleteBook( book['_id'])" class="card-link">delete</button>
               </li>
               <li>
                 <router-link :to="{ name: 'bookEdit', params: { id: book._id } }">
@@ -43,27 +43,27 @@ import { mapGetters, mapActions } from "vuex";
 export default {
   name: "BooksShowAll",
   created() {
-    this.getBooks();
+    this.getAllBooks();
   },
   data: function() {
     return {};
   },
   methods: {
     ...mapActions(["getAllBooks", "deleteBook"]),
-    async getBooks() {
-      try {
-        await this.getAllBooks();
-      } catch (error) {
-        console.log(error);
-      }
-    },
-    async removeBook(id) {
-      try {
-        await this.deleteBook(id);
-      } catch (error) {
-        console.log(error);
-      }
-    }
+    // async getBooks() {
+    //   try {
+    //     await this.getAllBooks();
+    //   } catch (error) {
+    //     console.log(error);
+    //   }
+    // },
+    // async removeBook(id) {
+    //   try {
+    //     await this.deleteBook(id);
+    //   } catch (error) {
+    //     console.log(error);
+    //   }
+    // }
   },
   computed: {
     ...mapGetters(["username", "allBooks"])

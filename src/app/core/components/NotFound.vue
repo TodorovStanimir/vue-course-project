@@ -1,6 +1,6 @@
 <template>
   <div class="container">
-    <router-link to="/books/all">
+    <router-link :to="{ name: 'userLogin' }">
       <img class="not-found-image" src="../../../assets/notFound.png" alt="404" />
     </router-link>
   </div>

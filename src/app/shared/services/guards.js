@@ -9,7 +9,7 @@ export const requiresAuth = function (to, from, next) {
 
 export const requiresNotLogged = function (to, from, next) {
     if (store.getters.isLoggedIn) {
-        next({ name: 'books/all' })
+        next({ name: 'booksAll' })
     } else {
         next();
     }
