@@ -20,10 +20,10 @@
             <div class="buttons-container">
               <div v-if="isAuthor(book)" class="buttons">
                 <li>
-                  <button @click="deleteBook( book['_id'])" class="card-link">delete</button>
+                  <button @click="handleDeleteBook( id )" class="card-link">delete</button>
                 </li>
                 <li>
-                  <router-link :to="{ name: 'bookEdit', params: { id: book._id } }">
+                  <router-link :to="{ name: 'bookEdit', params: { id: id } }">
                     <button class="card-link">edit</button>
                   </router-link>
                 </li>
@@ -50,13 +50,13 @@
               <p>Publisher: {{book.publisher}}</p>
             </div>
             <div class="additional-info">
-              <p>Selling price: {{book.price.toFixed(2)}} BGN</p>
+              <p>Selling price: {{book.price}} BGN</p>
             </div>
             <div class="additional-info-footer">
               <div>
                 <button
                   :disabled="isAuthor(book)"
-                  @click="rateBook( book._id, 'like')"
+                  @click="rateBook( id, 'like')"
                   class="additional-info-footer-b-l"
                 >
                   <b>{{book.likes}}</b>&nbsp;&nbsp;
@@ -66,7 +66,7 @@
               <div>
                 <button
                   :disabled="isAuthor(book)"
-                  @click="rateBook(book._id, 'dislike')"
+                  @click="rateBook( id, 'dislike')"
                   class="additional-info-footer-b-d"
                 >
                   <b>{{book.dislikes}}</b>&nbsp;&nbsp;
@@ -128,16 +128,21 @@
 </template>
 
 <script>
-import books from "../../../store.js";
 import { validationMixin } from "vuelidate";
 import { required, minLength } from "vuelidate/lib/validators";
+import { mapGetters, mapActions } from "vuex";
+import router from '../../router'
 
 export default {
   name: "BookDetails",
   mixins: [validationMixin],
-  created() {
-    console.log(this.book);
-    console.log(this.comments);
+  async created() {
+    await this.getAllComments();
+    this.book = this.getBookById(this.id);
+    // delete this.book._kmd;
+    // delete this.book._acl;
+    // delete this.book._id;
+    this.comments = this.allCommentsByIdBook(this.id);
   },
   validations: {
     newComment: {
@@ -158,14 +163,18 @@ export default {
       showInfoOwnerBook: true,
       emailOwnerBook: null,
       phoneOwnerBook: null,
-      book: books.books.find(book => book._id === this.id),
-      comments: books.comments.filter(comment => comment.bookId === this.id),
-      users: books.users
+      book: {},
+      comments: []
     };
   },
   methods: {
+    ...mapActions(["getAllComments", "deleteBook"]),
+    handleDeleteBook(id) {
+      this.deleteBook(id);
+      router.push("/books/all");
+    },
     isAuthor(book) {
-      return book.author === localStorage.getItem("username");
+      return book.author === localStorage.getItem("userInfo");
     },
     rateBook(id, rate) {
       rate === "like" ? (this.book.likes += 1) : (this.book.dislikes += 1);
@@ -192,6 +201,9 @@ export default {
       this.commentId += 1;
       console.log(this.comments);
     }
+  },
+  computed: {
+    ...mapGetters(["getBookById", "allCommentsByIdBook", "allComments"])
   }
 };
 </script>

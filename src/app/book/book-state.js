@@ -1,6 +1,4 @@
-import { toastedSuccess } from '../shared/services/toasted.js';
 import { http } from '../shared/services/httpClient.js';
-import router from '../router.js'
 
 const initialState = {
   allBooks: []
@@ -14,49 +12,21 @@ const getters = {
 
 const actions = {
   async getAllBooks({ commit }) {
-    try {
-      const { data } = await http.get("books");
-      toastedSuccess("Successfully loaded all book!");
-      commit('getAllBooksSuccess', data);
-    } catch (error) {
-      console.log(error);
-    }
+    const { data } = await http.get("books");
+    commit('getAllBooksSuccess', data);
   },
   async deleteBook({ commit }, id) {
-    try {
-      await http.delete(`books/${id}`);
-      toastedSuccess("Successful deleted book!");
-      commit('deleteBookSuccess', id);
-    } catch (error) {
-      console.log(error);
-    }
+    await http.delete(`books/${id}`);
+    commit('deleteBookSuccess', id)
   },
   async createBook({ commit }, book) {
-    try {
-      const newBook = Object.assign({ ...book });
-      newBook.genres = newBook.genres.split(" ");
-      const { data } = await http.post("/books", newBook);
-      toastedSuccess("Successfully created book!");
-      commit('createBookSuccess', { book: data })
-      router.push("/books/all");
-    } catch (error) {
-      this.$refs.createBookForm.reset();
-      console.log(error)
-    }
+    const { data } = await http.post("/books", book);
+    commit('createBookSuccess', { book: data })
   },
   async editBook({ commit }, payload) {
-    try {
-      const [book, id] = payload;
-      const editBook = Object.assign({ ...book });
-      editBook.genres = editBook.genres.split(" ");
-      const { data } = await http.put(`/books/${id}`, editBook);
-      toastedSuccess("Successfully edited book!");
-      commit('editBookSuccess', { book: data })
-      router.push("/books/all");
-    } catch (error) {
-      this.$refs.createBookForm.reset();
-      console.log(error);
-    }
+    const [editBook, id] = payload;
+    const { data } = await http.put(`/books/${id}`, editBook);
+    commit('editBookSuccess', { book: data })
   }
 };
 

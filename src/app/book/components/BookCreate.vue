@@ -224,14 +224,14 @@
                   type="submit"
                   class="btn btn-success btn-block"
                   :disabled="$v.$invalid"
-                  @click.prevent="createBook(book)"
+                  @click.prevent="handlerCreateBook(book)"
                 >Create your book!</button>
                 <button
                   v-else
                   type="submit"
                   class="btn btn-success btn-block"
                   :disabled="$v.$invalid"
-                  @click.prevent="editBook([book, id])"
+                  @click.prevent="handleEditBook()"
                 >Edit your book!</button>
               </div>
             </div>
@@ -254,9 +254,9 @@ import {
   url
 } from "vuelidate/lib/validators";
 import { helpers } from "vuelidate/lib/validators";
-import { http } from "../../shared/services/httpClient.js";
-import { toastedSuccess } from "../../shared/services/toasted";
 import { mapActions, mapGetters } from "vuex";
+import { toastedSuccess } from "../../shared/services/toasted";
+import router from "../../router";
 
 const genresValidator = helpers.regex("alpha", /^[A-Za-z -]+$/);
 export default {
@@ -335,16 +335,25 @@ export default {
   },
   methods: {
     ...mapActions(["createBook", "editBook"]),
-    async handleEditBook(book, id) {
+    async handlerCreateBook(book) {
       try {
-        const editBook = Object.assign({ ...book });
-        // console.log(this.id);
-        editBook.genres = editBook.genres.split(" ");
-        await http.put(`/books/${id}`, editBook);
-        toastedSuccess("Successfully edited book!");
-        this.$router.push("/books/all");
+        const newBook = Object.assign({ ...book });
+        newBook.genres = newBook.genres.split(" ");
+        await this.createBook(newBook);
+        toastedSuccess("Successfully created book!");
+        router.push("/books/all");
       } catch (error) {
-        console.log(error);
+        this.$refs.createBookForm.reset();
+      }
+    },
+    async handleEditBook() {
+      try {
+        const editBook = Object.assign({ ...this.book });
+        editBook.genres = editBook.genres.split(" ");
+        await this.editBook([editBook, this.id]);
+        toastedSuccess("Successfully edited book!");
+        router.push("/books/all");
+      } catch (error) {
         this.$refs.createBookForm.reset();
       }
     }

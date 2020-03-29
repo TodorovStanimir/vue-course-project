@@ -22,7 +22,7 @@
             </li>
             <template v-if="book.author === username">
               <li>
-                <button @click="deleteBook( book['_id'])" class="card-link">delete</button>
+                <button @click="handleDeleteBook( book['_id'])" class="card-link">delete</button>
               </li>
               <li>
                 <router-link :to="{ name: 'bookEdit', params: { id: book._id } }">
@@ -39,31 +39,34 @@
 
 <script>
 import { mapGetters, mapActions } from "vuex";
+import { toastedSuccess } from "../../shared/services/toasted";
 
 export default {
   name: "BooksShowAll",
   created() {
-    this.getAllBooks();
+    this.getBooks();
   },
   data: function() {
     return {};
   },
   methods: {
     ...mapActions(["getAllBooks", "deleteBook"]),
-    // async getBooks() {
-    //   try {
-    //     await this.getAllBooks();
-    //   } catch (error) {
-    //     console.log(error);
-    //   }
-    // },
-    // async removeBook(id) {
-    //   try {
-    //     await this.deleteBook(id);
-    //   } catch (error) {
-    //     console.log(error);
-    //   }
-    // }
+    async getBooks() {
+      try {
+        await this.getAllBooks();
+        toastedSuccess("Successfully loaded all book!");
+      } catch (error) {
+        throw error(error);
+      }
+    },
+    async handleDeleteBook(id) {
+      try {
+        await this.deleteBook(id);
+        toastedSuccess("Successful deleted book!");
+      } catch (error) {
+        throw error(error);
+      }
+    }
   },
   computed: {
     ...mapGetters(["username", "allBooks"])
