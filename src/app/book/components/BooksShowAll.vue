@@ -16,17 +16,17 @@
           <div class="buttons">
             <li>
               <router-link :to="{ name: 'bookDetails', params: { id: book._id }}">
-                <button class="card-link">details</button>
+                <button class="btn card-link">details</button>
               </router-link>
               {{ $route.params.id }}
             </li>
             <template v-if="book.author === username">
               <li>
-                <button @click="handleDeleteBook( book['_id'])" class="card-link">delete</button>
+                <button @click="handleDeleteBook( book['_id'])" class="btn card-link">delete</button>
               </li>
               <li>
                 <router-link :to="{ name: 'bookEdit', params: { id: book._id } }">
-                  <button class="card-link">edit</button>
+                  <button class="btn card-link">edit</button>
                 </router-link>
               </li>
             </template>
@@ -62,7 +62,7 @@ export default {
     async handleDeleteBook(id) {
       try {
         await this.deleteBook(id);
-        toastedSuccess("Successful deleted book!");
+        toastedSuccess("Successfully deleted book!");
       } catch (error) {
         throw error(error);
       }
@@ -126,6 +126,7 @@ img {
   height: 220px;
   width: 180px;
   margin-top: 20px;
+  opacity: 1;
 }
 
 p,
@@ -154,6 +155,7 @@ button {
   width: 1.9cm;
   background-color: black;
   color: whitesmoke;
+  text-align: center;
 }
 
 @media only screen and (max-width: 768px) {

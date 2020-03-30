@@ -1,4 +1,4 @@
-import { requiresNotLogged } from '../shared/services/guards.js';
+import { requiresNotLogged, requiresAuth } from '../shared/services/guards.js';
 
 export default [
     {
@@ -14,5 +14,12 @@ export default [
         beforeEnter: requiresNotLogged,
         component: () =>
             import( /* webpackChunkName: "userRegister" */ "./components/UserRegister.vue"),
+    },
+    {
+        path: "/profile/profile",
+        name: "userProfile",
+        beforeEnter: requiresAuth,
+        component: () =>
+            import( /* webpackChunkName: "userRegister" */ "./components/UserProfile.vue"),
     },
 ];

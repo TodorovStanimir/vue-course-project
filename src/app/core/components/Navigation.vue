@@ -22,7 +22,7 @@
       <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav mr-auto">
           <li v-if="isLoggedIn===true">
-            <router-link class="nav-link" to="/profile/profile">Hello, {{username}}</router-link>
+            <router-link class="nav-link" to="/profile/profile">Hello, {{ username() }}</router-link>
           </li>
           <li v-if="!isLoggedIn" class="nav-item">
             <router-link class="nav-link" :to="{name: 'userRegister'}">Register</router-link>
@@ -68,10 +68,13 @@ export default {
     async handlerLogout() {
       await this.logoutUser();
       this.$router.push("/profile/login");
+    },
+    username() {
+      return localStorage.getItem("userInfo");
     }
   },
   computed: {
-    ...mapGetters(["isLoggedIn", "username"])
+    ...mapGetters(["isLoggedIn"])
   }
 };
 </script>

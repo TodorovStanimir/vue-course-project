@@ -1,7 +1,7 @@
 <template>
   <div class="grid-container">
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css" />
-    <div v-if="book && comments">
+    <div>
       <div class="grid">
         <div class="grid-item">
           <div class="opacity">
@@ -15,16 +15,16 @@
             <h6>{{book.description}}</h6>
             <p class="genres">
               Genres:
-              <span v-for="genre of book.genres" :key="genre">{{genre}}&nbsp;</span>
+              <span v-for="(genre, index) of book.genres" :key="index">{{genre}}&nbsp;</span>
             </p>
             <div class="buttons-container">
               <div v-if="isAuthor(book)" class="buttons">
                 <li>
-                  <button @click="handleDeleteBook( id )" class="card-link">delete</button>
+                  <button @click="handleDeleteBook( id )" class="btn card-link">delete</button>
                 </li>
                 <li>
                   <router-link :to="{ name: 'bookEdit', params: { id: id } }">
-                    <button class="card-link">edit</button>
+                    <button class="btn card-link">edit</button>
                   </router-link>
                 </li>
               </div>
@@ -35,8 +35,12 @@
         <div class="grid-item">
           <div class="opacity">
             <h5>Additional information</h5>
-            <div class="additional-info">
-              <button :disabled="isAuthor(book)" @click="showContact(book.author)">
+            <div class="additional-info-button">
+              <button
+                class="btn btn-outline-dark"
+                :disabled="isAuthor(book)"
+                @click="toggleShowContact()"
+              >
                 <b>
                   Posted by:
                   {{book.author}}
@@ -44,20 +48,29 @@
               </button>
             </div>
             <div class="additional-info">
-              <p>Year Issue: {{book.year}}</p>
+              <p>
+                Year issue:
+                <b>{{book.year}}</b>
+              </p>
             </div>
             <div class="additional-info">
-              <p>Publisher: {{book.publisher}}</p>
+              <p>
+                Publisher:
+                <b>{{book.publisher}}</b>
+              </p>
             </div>
             <div class="additional-info">
-              <p>Selling price: {{book.price}} BGN</p>
+              <p>
+                Selling price:
+                <b>{{book.price}} BGN</b>
+              </p>
             </div>
             <div class="additional-info-footer">
               <div>
                 <button
                   :disabled="isAuthor(book)"
                   @click="rateBook( id, 'like')"
-                  class="additional-info-footer-b-l"
+                  class="btn btn-outline-primary additional-info-footer-b-l"
                 >
                   <b>{{book.likes}}</b>&nbsp;&nbsp;
                   <i class="fa fa-thumbs-up"></i>
@@ -67,17 +80,19 @@
                 <button
                   :disabled="isAuthor(book)"
                   @click="rateBook( id, 'dislike')"
-                  class="additional-info-footer-b-d"
+                  class="btn btn-outline-danger additional-info-footer-b-d"
                 >
                   <b>{{book.dislikes}}</b>&nbsp;&nbsp;
                   <i class="fa fa-thumbs-down"></i>
                 </button>
               </div>
             </div>
-            <div v-if="emailOwnerBook && !showInfoOwnerBook" class="additional-info-footer">
+            <div v-if="!showInfoOwnerBook" class="additional-info-footer">
               <p>
-                You can emailed author of the book "{{book.title}}" to email: {{emailOwnerBook}} or call him
-                to phone: {{phoneOwnerBook}}.
+                <b>
+                  You can emailed author of the book "{{book.title}}" to email: {{ creatorBook.email }} or call him
+                  to phone: {{ creatorBook.phoneNumber }}.
+                </b>
               </p>
             </div>
             <!-- <div class="additional-info-footer"></div> -->
@@ -87,37 +102,40 @@
         <div class="grid-item">
           <div class="opacity">
             <h5>Comments</h5>
-            <!-- <app-comment-create
-              [bookId]="book._id"
-              [comments]="comments"
-              (createCommentEmitter)="postComment($event)"
-            ></app-comment-create>-->
-            <template v-if="!comments.length">
+            <template v-if="!getCommentsByIdBook(id).length">
               <div class="comment-header">
                 <p>There is not comments for this book. You can write the first one.</p>
               </div>
             </template>
             <div class="comment-body">
               <h6>Add Comment</h6>
-              <form @submit.prevent="postComment()">
+              <form @submit.prevent="handleCreateComment()">
                 <div class="comment-body-items">
                   <textarea type="text" placeholder="Your comment..." v-model="newComment"></textarea>
                 </div>
-                <button :disabled="$v.$invalid">add comment</button>
+                <button class="btn btn-outline-secondary" :disabled="$v.$invalid">add comment</button>
               </form>
             </div>
             <div class="comment-body">
-              <article v-for="(comment, index) in comments" :key="index" class="comments">
-                <p>
-                  {{comment.subject}}
-                  <br />
-                  {{comment.author}}
-                </p>
-                <button
-                  class="del-but"
-                  v-if="isAuthor(comment)"
-                  @click="delComment(comment._id)"
-                >delete</button>
+              <article
+                v-for="comment in getCommentsByIdBook(id)"
+                :key="comment._id"
+                class="comments"
+              >
+                <br />
+                <div class="comment-container">
+                  <p>
+                    <b>{{comment.subject}}</b>
+                  </p>
+                  <p>
+                    <b>{{comment.author}}</b>
+                  </p>
+                  <button
+                    class="btn btn-outline-secondary del-but"
+                    v-if="isAuthor(comment)"
+                    @click="handledeleteComment(comment._id)"
+                  >delete</button>
+                </div>
               </article>
             </div>
           </div>
@@ -131,19 +149,12 @@
 import { validationMixin } from "vuelidate";
 import { required, minLength } from "vuelidate/lib/validators";
 import { mapGetters, mapActions } from "vuex";
-import router from '../../router'
+import { toastedSuccess } from "../../shared/services/toasted";
+import router from "../../router";
 
 export default {
   name: "BookDetails",
   mixins: [validationMixin],
-  async created() {
-    await this.getAllComments();
-    this.book = this.getBookById(this.id);
-    // delete this.book._kmd;
-    // delete this.book._acl;
-    // delete this.book._id;
-    this.comments = this.allCommentsByIdBook(this.id);
-  },
   validations: {
     newComment: {
       required,
@@ -158,52 +169,79 @@ export default {
   },
   data: function() {
     return {
-      commentId: 1,
       newComment: "",
       showInfoOwnerBook: true,
-      emailOwnerBook: null,
-      phoneOwnerBook: null,
-      book: {},
-      comments: []
+      book: {}
     };
   },
+  async created() {
+    await this.getAllComments();
+    toastedSuccess("Successfully loaded comments!");
+    this.book = this.getBookById(this.id);
+    const user = this.book.author;
+    await this.getUserInfo(user);
+  },
   methods: {
-    ...mapActions(["getAllComments", "deleteBook"]),
-    handleDeleteBook(id) {
-      this.deleteBook(id);
+    ...mapActions([
+      "getAllComments",
+      "deleteBook",
+      "createComment",
+      "deleteComment",
+      "editBook",
+      "getUserInfo"
+    ]),
+    async handleDeleteBook(id) {
+      await this.deleteBook(id);
+      toastedSuccess("Successfully deleted book!");
       router.push("/books/all");
+    },
+    async handleCreateComment() {
+      await this.createComment({
+        subject: this.newComment,
+        bookId: this.book._id,
+        author: localStorage.getItem("userInfo")
+      });
+      toastedSuccess("Successfully created comment!");
+      this.newComment = "";
+    },
+    async handledeleteComment(id) {
+      await this.deleteComment(id);
+      toastedSuccess("Successfully deleted comment!");
+    },
+    async rateBook(id, rate) {
+      rate === "like" ? (this.book.likes += 1) : (this.book.dislikes += 1);
+      await this.editBook([
+        {
+          title: this.book.title,
+          bookAuthor: this.book.bookAuthor,
+          description: this.book.description,
+          genres: this.book.genres,
+          year: this.book.year,
+          publisher: this.book.publisher,
+          price: this.book.price,
+          imageUrl: this.book.imageUrl,
+          likes: this.book.likes,
+          dislikes: this.book.dislikes,
+          author: this.book.author
+        },
+        id
+      ]);
+      toastedSuccess("Successfully voted for the book!");
     },
     isAuthor(book) {
       return book.author === localStorage.getItem("userInfo");
     },
-    rateBook(id, rate) {
-      rate === "like" ? (this.book.likes += 1) : (this.book.dislikes += 1);
-    },
-    showContact(bookAuthor) {
-      const user = this.users.find(user => user.username === bookAuthor);
-      this.emailOwnerBook = user.email;
-      this.phoneOwnerBook = user.phoneNumber;
+    toggleShowContact() {
       this.showInfoOwnerBook = !this.showInfoOwnerBook;
-      console.log(bookAuthor);
-    },
-    postComment() {
-      const comment = Object.assign(
-        {},
-        {
-          _id: this.commentId,
-          subject: this.newComment,
-          bookId: this.book._id,
-          author: localStorage.getItem("username")
-        }
-      );
-      this.comments.push(comment);
-      this.newComment = "";
-      this.commentId += 1;
-      console.log(this.comments);
     }
   },
   computed: {
-    ...mapGetters(["getBookById", "allCommentsByIdBook", "allComments"])
+    ...mapGetters([
+      "getBookById",
+      "getCommentsByIdBook",
+      "allComments",
+      "creatorBook"
+    ])
   }
 };
 </script>
@@ -228,7 +266,7 @@ export default {
 
 .grid {
   margin-top: 20px;
-  width: auto;
+  width: 100%;
   display: flex;
   flex-wrap: wrap;
   flex-direction: row;
@@ -252,6 +290,7 @@ li button {
   width: 2.5cm;
   color: whitesmoke;
   background-color: black;
+  text-align: center;
 }
 
 .buttons {
@@ -264,6 +303,7 @@ img {
   height: 220px;
   width: 180px;
   margin: 10px;
+  opacity: 1;
 }
 
 .genres {
@@ -300,6 +340,7 @@ span {
 
 button {
   border-radius: 0.5rem;
+  text-align: center;
 }
 
 p.genres {
@@ -314,7 +355,13 @@ p.genres {
   align-content: flex-start;
 }
 
-.additional-info button {
+.additional-info-button {
+  display: flex;
+  margin-left: 0.2cm;
+  justify-content: center;
+}
+
+.additional-info-button button {
   display: flex;
   height: 30px;
   width: 8cm;
@@ -423,7 +470,7 @@ button {
 .comment-body textarea {
   margin-left: 0.2cm;
   margin-right: 0.4cm;
-  margin-bottom: 6px;
+  margin-bottom: 4px;
   height: 5em;
   resize: none;
   border-radius: 0.5rem;
@@ -433,6 +480,7 @@ button {
 
 .comment-body button {
   margin-left: 0.4cm;
+  margin-top: 0.3cm;
   margin-bottom: 0.4cm;
   resize: none;
   align-items: center;
@@ -489,5 +537,15 @@ li button {
    margin-top: -4px; */
   font-style: italic;
   /* white-space: pre; */
+}
+.comment-container {
+  margin-left: 0.4cm;
+  margin-right: 0.4cm;
+  margin-bottom: 0.4cm;
+  /* resize: none; */
+  border-radius: 0.5rem;
+  border: 1px solid grey;
+  background-color: rgb(240, 240, 240);
+  color: black;
 }
 </style>

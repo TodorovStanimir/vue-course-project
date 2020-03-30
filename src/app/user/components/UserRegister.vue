@@ -158,7 +158,7 @@
             >Image URL must start with http or https!</div>
           </div>
           <div class="form-group">
-            <button type="submit" class="btn btn-block" :disabled="$v.$invalid">Create Account</button>
+            <button type="submit" class="btn btn-success btn-block" :disabled="$v.$invalid">Create Account</button>
           </div>
           <p class="text-center">
             <b>Have an account?&nbsp;&nbsp;</b>
