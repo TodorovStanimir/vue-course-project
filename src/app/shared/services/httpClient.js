@@ -29,8 +29,14 @@ const authInterceptor = function (config) {
 
         if (config.url === '_logout' || config.url.includes('username')) {
             config.baseURL = `${baseUrl}/user/${appKey}`;
+
+        } else if (config.url.startsWith('user/')) {
+            config.url = config.url.split('/')[1];
+            config.baseURL = `${baseUrl}/user/${appKey}`;
+
         } else {
-            config.baseURL = `${baseUrl}/appdata/${appKey}`
+            config.baseURL = `${baseUrl}/appdata/${appKey}`;
+
         }
 
         config.headers = {
@@ -51,9 +57,8 @@ http.interceptors.request.use(loggerInterceptor);
 
 const errorInterceptor = function (error) {
     if (error.response.status === 401) {
-        toastedError(
-            `${error.response.statusText}: ${error.response.data.description}`
-        );
+        toastedError(`${error.response.statusText}: ${error.response.data.description}`);
+
     } else if (error.response.status === 500) {
         toastedError(`${error.response.statusText}: Server Error`);
 

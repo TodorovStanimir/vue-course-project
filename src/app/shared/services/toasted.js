@@ -15,7 +15,7 @@ export const toastedSuccess = mesg => {
                 toastObject.goAway(0);
             }
         },
-        position: 'top-center',
+        position: 'bottom-center',
         duration: 3000,
         keepOnHover: true,
         theme: 'outline',

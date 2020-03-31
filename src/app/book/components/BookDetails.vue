@@ -1,6 +1,5 @@
 <template>
   <div class="grid-container">
-    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css" />
     <div>
       <div class="grid">
         <div class="grid-item">
@@ -175,11 +174,9 @@ export default {
     };
   },
   async created() {
-    await this.getAllComments();
-    toastedSuccess("Successfully loaded comments!");
     this.book = this.getBookById(this.id);
     const user = this.book.author;
-    await this.getUserInfo(user);
+    await this.getUserBook(user);
   },
   methods: {
     ...mapActions([
@@ -188,7 +185,7 @@ export default {
       "createComment",
       "deleteComment",
       "editBook",
-      "getUserInfo"
+      "getUserBook"
     ]),
     async handleDeleteBook(id) {
       await this.deleteBook(id);

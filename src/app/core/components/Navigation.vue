@@ -21,22 +21,26 @@
 
       <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav mr-auto">
-          <li v-if="isLoggedIn===true">
+          <li v-if="isLoggedIn" class="isLogged">
             <router-link class="nav-link" to="/profile/profile">Hello, {{ username() }}</router-link>
           </li>
-          <li v-if="!isLoggedIn" class="nav-item">
+          <li v-if="!isLoggedIn" class="nav-item isLogged">
             <router-link class="nav-link" :to="{name: 'userRegister'}">Register</router-link>
           </li>
-          <li v-if="!isLoggedIn" class="nav-item">
+          <li v-if="!isLoggedIn" class="nav-item isLogged">
             <router-link class="nav-link" :to="{name: 'userLogin'}">Login</router-link>
           </li>
-          <li v-if="isLoggedIn" class="nav-item">
+          <li v-if="isLoggedIn" class="nav-item isLogged">
             <a class="nav-link" @click="handlerLogout">Logout</a>
           </li>
-          <li class="nav-item">
+          <li class="nav-item" :class="{ isLogged: isLoggedIn }">
             <router-link v-if="isLoggedIn" class="nav-link" to="/profile/profile">Profile</router-link>
           </li>
-          <li v-if="isLoggedIn" appDropdown class="nav-item dropdown">
+          <li
+            v-if="isLoggedIn"
+            appDropdown
+            class="nav-item dropdown isLogged"
+          >
             <a
               class="nav-link dropdown-toggle"
               id="navbarDropdown"
@@ -84,5 +88,17 @@ export default {
   padding: 0px;
   font-size: 20px;
   font: 1.1em sans-serif;
+}
+img {
+  border-radius: 5px;
+  border: 1px solid grey;
+  margin-left: 10px;
+}
+
+li.isLogged {
+  border-radius: 5px;
+  border: 1px solid grey;
+  margin-left: 10px;
+  padding: 3px;
 }
 </style>

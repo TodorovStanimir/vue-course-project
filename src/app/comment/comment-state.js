@@ -9,7 +9,9 @@ const initialState = {
 
 const getters = {
   allComments: state => state.allComments,
-  getCommentsByIdBook: (state) => (id) => { return state.allComments.filter(comment => comment.bookId === id) }
+  getCommentsByIdBook: (state) => (id) => { return state.allComments.filter(comment => comment.bookId === id) },
+  counterBookComments: (state) => (id) =>{ return state.allComments.filter(comment => comment.bookId === id).length },
+  countUserComments: (state) => (username) => state.allComments.filter(comment => comment.author === username).length
 };
 
 const actions = {

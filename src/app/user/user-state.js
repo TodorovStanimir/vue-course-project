@@ -5,14 +5,16 @@ const initialState = {
   isLoggedIn: localStorage.getItem('token') !== null,
   token: localStorage.getItem('token'),
   userInfo: localStorage.getItem('userInfo'),
-  creatorBook: {}
+  creatorBook: {},
+  editedUser: {}
 };
 
 const getters = {
   token: state => { return state.token },
   isLoggedIn: state => { return state.isLoggedIn },
   username: state => { return state.userInfo.username },
-  creatorBook: state => { return state.creatorBook }
+  creatorBook: state => { return state.creatorBook },
+  editedUser: state => { return state.editedUser }
 };
 
 const actions = {
@@ -39,9 +41,18 @@ const actions = {
     toastedSuccess('Successfully Registered!');
     commit('registerSuccess');
   },
+  async getUserBook({ commit }, payload) {
+    const { data } = await http.get(`/?query={"username":"${payload}"}`);
+    commit('getUserBookSuccess', data);
+  },
   async getUserInfo({ commit }, payload) {
     const { data } = await http.get(`/?query={"username":"${payload}"}`);
     commit('getUserInfoSuccess', data);
+  },
+  async editUser({ commit }, payload) {
+    const [editedUser, id] = payload
+    const { data } = await http.put(`user/${id}`, editedUser);
+    commit('editUserSuccess', data);
   }
 };
 
@@ -55,8 +66,14 @@ const mutations = {
   registerSuccess(state) {
     Object.assign(state);
   },
-  getUserInfoSuccess(state, payload) {
+  getUserBookSuccess(state, payload) {
     Object.assign(state, { creatorBook: payload[0] });
+  },
+  getUserInfoSuccess(state, payload) {
+    Object.assign(state, { editedUser: payload[0] })
+  },
+  editUserSuccess(state, payload) {
+    Object.assign(state, { editUser: payload[0] })
   }
 };
 

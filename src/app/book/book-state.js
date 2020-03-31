@@ -4,10 +4,10 @@ const initialState = {
   allBooks: []
 };
 
-
 const getters = {
   allBooks: state => state.allBooks,
-  getBookById: (state) => (id) => state.allBooks.find(book => book._id === id)
+  getBookById: (state) => (id) => state.allBooks.find(book => book._id === id),
+  getBooksByUserName: (state) => (username) => state.allBooks.filter(book => book.author === username).sort((a, b) => b.likes - a.likes)
 };
 
 const actions = {
@@ -24,8 +24,8 @@ const actions = {
     commit('createBookSuccess', { book: data })
   },
   async editBook({ commit }, payload) {
-    const [editBook, id] = payload;
-    const { data } = await http.put(`/books/${id}`, editBook);
+    const [editedBook, id] = payload;
+    const { data } = await http.put(`/books/${id}`, editedBook);
     commit('editBookSuccess', { book: data })
   }
 };

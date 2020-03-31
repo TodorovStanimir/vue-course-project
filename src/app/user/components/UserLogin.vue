@@ -1,6 +1,5 @@
 <template>
   <div class="container">
-    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css" />
     <div class="row">
       <div class="col-lg-4"></div>
       <div class="col-lg-4">

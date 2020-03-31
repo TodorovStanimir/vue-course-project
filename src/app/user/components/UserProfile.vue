@@ -1,13 +1,9 @@
 <template>
   <div class="container">
-    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css" />
     <div class="row">
-      <div class="col-lg-2 text-left">
-        <img :src="editedUser.imageUrl" width="120" height="160" />
-      </div>
-
+      <div class="col-lg-1"></div>
       <div class="col-lg-4">
-        <form @submit.prevent="hadleEditUser()">
+        <form @submit.prevent="handleEditUser()">
           <div class="form-group input-group">
             <div class="input-group-prepend">
               <span class="input-group-text">
@@ -20,7 +16,7 @@
               placeholder="Email Address"
               v-model="editedUser.email"
               @blur="$v.editedUser.email.$touch()"
-              :class="{ 'invalid-touched': $v.editedUser.email.$anyError, valid: !$v.editedUser.email.invalid && $v.editedUser.email.$dirty}"
+              :class="{ 'invalid-touched': $v.editedUser.email.$anyError, valid: !$v.editedUser.email.invalid && $v.editedUser.email.$dirty || true }"
             />
           </div>
           <div v-if="$v.editedUser.email.$error">
@@ -43,7 +39,7 @@
               name="phoneNumber"
               v-model="editedUser.phoneNumber"
               @blur="$v.editedUser.phoneNumber.$touch()"
-              :class="{ 'invalid-touched': $v.editedUser.phoneNumber.$anyError, valid: !$v.editedUser.phoneNumber.invalid && $v.editedUser.phoneNumber.$dirty}"
+              :class="{ 'invalid-touched': $v.editedUser.phoneNumber.$anyError, valid: !$v.editedUser.phoneNumber.invalid && $v.editedUser.phoneNumber.$dirty  || true }"
             />
           </div>
           <div
@@ -68,7 +64,7 @@
               placeholder="Occupation"
               v-model="editedUser.occupation"
               @blur="$v.editedUser.occupation.$touch()"
-              :class="{ 'invalid-touched': $v.editedUser.occupation.$anyError, valid: !$v.editedUser.occupation.invalid && $v.editedUser.occupation.$dirty }"
+              :class="{ 'invalid-touched': $v.editedUser.occupation.$anyError, valid: !$v.editedUser.occupation.invalid && $v.editedUser.occupation.$dirty  || true }"
             />
           </div>
           <div v-if="$v.editedUser.occupation.$error">
@@ -90,7 +86,7 @@
               placeholder="image url"
               v-model="editedUser.imageUrl"
               @blur="$v.editedUser.imageUrl.$touch()"
-              :class="{ 'invalid-touched': $v.editedUser.imageUrl.$anyError, valid: !$v.editedUser.imageUrl.invalid && $v.editedUser.imageUrl.$dirty }"
+              :class="{ 'invalid-touched': $v.editedUser.imageUrl.$anyError, valid: !$v.editedUser.imageUrl.invalid && $v.editedUser.imageUrl.$dirty  || true }"
             />
           </div>
           <div v-if="$v.editedUser.imageUrl.$error">
@@ -100,36 +96,49 @@
               v-else-if="!$v.editedUser.imageUrl.url"
             >Image URL must start with http or https!</div>
           </div>
+          
+          <div class="form-group">
+            <!-- <div class="text-center"> -->
+              <img :src="editedUser.imageUrl" width="120" height="160" />
+            <!-- </div> -->
+          </div>
           <div class="form-group">
             <button
               type="submit"
-              class="btn btn-success btn-block text-center"
+              class="btn btn-success text-center"
               :disabled="$v.$invalid"
             >Change your profile</button>
           </div>
         </form>
       </div>
+      <div class="col-lg-2"></div>
       <div class="col-lg-4">
         <div class="form-group">
           <div class="input-group-prepend-block">
             <span class="input-group-text">
-              <div>You have {{userBooks.length}} books and {{userComments.length}} comments</div>
+              <div>You have {{ userBooks.length }} books and {{ countUserComments(editedUser.username) }} comments</div>
             </span>
           </div>
         </div>
         <div class="form-group">
-          <button class="btn btn-success btn-block" v-for="book in userBooks" :key="book._id">
-            <router-link class="nav-link" :to="{ name: 'bookDetails', params: { id: book._id }}"></router-link>
-            {{book.title}}&nbsp;&nbsp;{{book.likes}}&nbsp;
-            <i class="fa fa-thumbs-up"></i>
-            &nbsp;&nbsp;
-            {{book.dislikes}}&nbsp;
-            <i class="fa fa-thumbs-down"></i>&nbsp;&nbsp;
-            <span *ngIf="booksComments.length>0">
-              {{ booksComments }}&nbsp;
-              <i class="fa fa-comments"></i>
-            </span>
-          </button>
+          <router-link
+            v-for="book in userBooks"
+            :key="book._id"
+            class="nav-link"
+            :to="{ name: 'bookDetails', params: { id: book._id }}"
+          >
+            <button class="btn btn-success btn-block">
+              <div class="book-info">
+                <div class="inside-book-info">{{book.title | Upper}}</div>
+                <div class="inside-book-info">{{book.likes}}</div>
+                <div class="inside-book-info"><i class="fa fa-thumbs-up book"></i></div>
+                <div class="inside-book-info">{{book.dislikes}}</div>
+                <div class="inside-book-info"><i class="fa fa-thumbs-down book"></i></div>
+                <div class="inside-book-info">{{ counterBookComments(book._id) || 0 }}</div>
+                <div class="inside-book-info"><i class="fa fa-comments book"></i></div>
+              </div>
+            </button>
+          </router-link>
         </div>
       </div>
     </div>
@@ -139,6 +148,8 @@
 <script>
 import { validationMixin } from "vuelidate";
 import { required, email, alpha, url, helpers } from "vuelidate/lib/validators";
+import { mapActions, mapGetters } from "vuex";
+import { toastedSuccess } from "../../shared/services/toasted";
 
 const phoneNumberValidator = helpers.regex("alpha", /^[+]{1}\d{10,}$/);
 
@@ -165,25 +176,44 @@ export default {
       }
     }
   },
+  filters: {
+    Upper: function(value) {
+        return value.toUpperCase();
+    }
+  },
   data: function() {
     return {
-      editedUser: {
-        imageUrl:
-          "https://scontent.fsof1-1.fna.fbcdn.net/v/t1.0-9/p720x720/32543883_1947120508653392_2522933359550660608_o.jpg?_nc_cat=107&_nc_sid=8024bb&_nc_ohc=u4JCsrK3aKIAX9ddm9j&_nc_ht=scontent.fsof1-1.fna&_nc_tp=6&oh=c031b7878e0803a0acf958f8fa7cd628&oe=5E93E96B",
-        email: "todorov.stanimir0803@gmail.com",
-        phoneNumber: "+359878244488",
-        occupation: "Student"
-      },
-      userBooks: [],
-      userComments: []
+      userBooks: []
     };
   },
   async created() {
-    await this.getUserInfo();
-    // toastedSuccess("Successfully loaded comments!");
-    this.book = this.getBookById(this.id);
-    const user = this.book.author;
-    await this.getUserBook(user);
+    await this.getUserInfo(localStorage.getItem("userInfo"));
+    toastedSuccess("Successfully loaded user's data!");
+    await this.getAllComments();
+    this.userBooks = this.getBooksByUserName(this.editedUser.username);
+  },
+  methods: {
+    ...mapActions(["getUserInfo", "editUser", "getAllComments"]),
+    async handleEditUser() {
+      await this.editUser([
+        {
+          email: this.editedUser.email,
+          phoneNumber: this.editedUser.phoneNumber,
+          occupation: this.editedUser.occupation,
+          imageUrl: this.editedUser.imageUrl
+        },
+        this.editedUser._id
+      ]);
+      toastedSuccess("Successfully edit Your profile!");
+    }
+  },
+  computed: {
+    ...mapGetters([
+      "editedUser",
+      "getBooksByUserName",
+      "countUserComments",
+      "counterBookComments"
+    ])
   }
 };
 </script>
@@ -218,6 +248,12 @@ input.invalid-touched {
   border-radius: 5px;
   text-align: center;
   width: auto;
+}
+.nav-link {
+  margin-top: -10px;
+  margin-left: -15px;
+  margin-right: -15px;
+  margin-bottom: 10px;
 }
 i {
   width: 12px;
@@ -265,6 +301,18 @@ button {
 
 img {
   border-radius: 10px;
-  opacity: 0.7;
+  border: 2px solid grey;
+  opacity: 0.9;
+}
+.book-info {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: flex-start;
+  align-items: baseline;
+  align-content: flex-start;
+}
+.inside-book-info {
+  margin-right: 13px;
 }
 </style>
