@@ -314,8 +314,8 @@ export default {
         price: null,
         imageUrl: "",
         likes: 0,
-        dislikes: 0,
-        author: localStorage.getItem("userInfo")
+        dislikes: 0
+        // author: ""
       }
     };
   },
@@ -338,6 +338,7 @@ export default {
       try {
         const newBook = Object.assign({ ...book });
         newBook.genres = newBook.genres.split(" ");
+        newBook.author = this.username;
         await this.createBook(newBook);
         toastedSuccess("Successfully created book!");
         router.push("/books/all");
@@ -350,6 +351,7 @@ export default {
       try {
         const editBook = Object.assign({ ...this.book });
         editBook.genres = editBook.genres.split(" ");
+        editBook.author = this.username;
         await this.editBook([editBook, this.id]);
         toastedSuccess("Successfully edited book!");
         router.push("/books/all");
@@ -360,7 +362,7 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(["getBookById"])
+    ...mapGetters(["getBookById", "username"])
   }
 };
 </script>

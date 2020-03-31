@@ -20,6 +20,6 @@ export default [
         name: "userProfile",
         beforeEnter: requiresAuth,
         component: () =>
-            import( /* webpackChunkName: "userRegister" */ "./components/UserProfile.vue"),
+            import( /* webpackChunkName: "userProfile" */ "./components/UserProfile.vue"),
     },
 ];

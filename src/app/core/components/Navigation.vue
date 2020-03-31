@@ -22,25 +22,21 @@
       <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav mr-auto">
           <li v-if="isLoggedIn" class="isLogged">
-            <router-link class="nav-link" to="/profile/profile">Hello, {{ username() }}</router-link>
+            <router-link class="nav-link" :to="{ name: 'userProfile' }">Hello, {{ username }}</router-link>
           </li>
           <li v-if="!isLoggedIn" class="nav-item isLogged">
-            <router-link class="nav-link" :to="{name: 'userRegister'}">Register</router-link>
+            <router-link class="nav-link" :to="{ name: 'userRegister' }">Register</router-link>
           </li>
           <li v-if="!isLoggedIn" class="nav-item isLogged">
-            <router-link class="nav-link" :to="{name: 'userLogin'}">Login</router-link>
+            <router-link class="nav-link" :to="{ name: 'userLogin' }">Login</router-link>
           </li>
           <li v-if="isLoggedIn" class="nav-item isLogged">
             <a class="nav-link" @click="handlerLogout">Logout</a>
           </li>
           <li class="nav-item" :class="{ isLogged: isLoggedIn }">
-            <router-link v-if="isLoggedIn" class="nav-link" to="/profile/profile">Profile</router-link>
+            <router-link v-if="isLoggedIn" class="nav-link" :to="{ name: 'userProfile' }">Profile</router-link>
           </li>
-          <li
-            v-if="isLoggedIn"
-            appDropdown
-            class="nav-item dropdown isLogged"
-          >
+          <li v-if="isLoggedIn" appDropdown class="nav-item dropdown isLogged">
             <a
               class="nav-link dropdown-toggle"
               id="navbarDropdown"
@@ -49,9 +45,9 @@
               aria-expanded="false"
             >My store</a>
             <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-              <router-link class="dropdown-item" :to="{name: 'booksAll'}">All books</router-link>
-              <router-link class="dropdown-item" to="/books/user">My books</router-link>
-              <router-link class="dropdown-item" :to="{name: 'bookCreate'}">Create new book</router-link>
+              <router-link class="dropdown-item" :to="{ name: 'booksAll' }">All books</router-link>
+              <router-link class="dropdown-item" :to="{ name: 'booksUser' }">My books</router-link>
+              <router-link class="dropdown-item" :to="{ name: 'bookCreate'} ">Create new book</router-link>
             </div>
           </li>
         </ul>
@@ -62,6 +58,8 @@
 
 <script>
 import { mapGetters, mapActions } from "vuex";
+import router from "../../router";
+
 export default {
   name: "Navigation",
   data: function() {
@@ -71,14 +69,11 @@ export default {
     ...mapActions(["logoutUser"]),
     async handlerLogout() {
       await this.logoutUser();
-      this.$router.push("/profile/login");
+      router.push({name: 'userLogin'})
     },
-    username() {
-      return localStorage.getItem("userInfo");
-    }
   },
   computed: {
-    ...mapGetters(["isLoggedIn"])
+    ...mapGetters(["isLoggedIn", "username"])
   }
 };
 </script>

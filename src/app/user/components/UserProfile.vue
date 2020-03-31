@@ -96,11 +96,9 @@
               v-else-if="!$v.editedUser.imageUrl.url"
             >Image URL must start with http or https!</div>
           </div>
-          
+
           <div class="form-group">
-            <!-- <div class="text-center"> -->
-              <img :src="editedUser.imageUrl" width="120" height="160" />
-            <!-- </div> -->
+            <img :src="editedUser.imageUrl" width="120" height="160" />
           </div>
           <div class="form-group">
             <button
@@ -131,11 +129,17 @@
               <div class="book-info">
                 <div class="inside-book-info">{{book.title | Upper}}</div>
                 <div class="inside-book-info">{{book.likes}}</div>
-                <div class="inside-book-info"><i class="fa fa-thumbs-up book"></i></div>
+                <div class="inside-book-info">
+                  <i class="fa fa-thumbs-up book"></i>
+                </div>
                 <div class="inside-book-info">{{book.dislikes}}</div>
-                <div class="inside-book-info"><i class="fa fa-thumbs-down book"></i></div>
+                <div class="inside-book-info">
+                  <i class="fa fa-thumbs-down book"></i>
+                </div>
                 <div class="inside-book-info">{{ counterBookComments(book._id) || 0 }}</div>
-                <div class="inside-book-info"><i class="fa fa-comments book"></i></div>
+                <div class="inside-book-info">
+                  <i class="fa fa-comments book"></i>
+                </div>
               </div>
             </button>
           </router-link>
@@ -178,7 +182,7 @@ export default {
   },
   filters: {
     Upper: function(value) {
-        return value.toUpperCase();
+      return value.toUpperCase();
     }
   },
   data: function() {
@@ -187,13 +191,13 @@ export default {
     };
   },
   async created() {
-    await this.getUserInfo(localStorage.getItem("userInfo"));
+    await this.getUserInfo(this.username);
     toastedSuccess("Successfully loaded user's data!");
-    await this.getAllComments();
-    this.userBooks = this.getBooksByUserName(this.editedUser.username);
+    await this.loadAllComments();
+    this.userBooks = this.getBooksByUserName(this.username);
   },
   methods: {
-    ...mapActions(["getUserInfo", "editUser", "getAllComments"]),
+    ...mapActions(["getUserInfo", "editUser", "loadAllComments"]),
     async handleEditUser() {
       await this.editUser([
         {
@@ -212,7 +216,8 @@ export default {
       "editedUser",
       "getBooksByUserName",
       "countUserComments",
-      "counterBookComments"
+      "counterBookComments",
+      "username"
     ])
   }
 };

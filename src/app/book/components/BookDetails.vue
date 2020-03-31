@@ -1,6 +1,6 @@
 <template>
   <div class="grid-container">
-    <div>
+    <div v-if="book">
       <div class="grid">
         <div class="grid-item">
           <div class="opacity">
@@ -17,7 +17,7 @@
               <span v-for="(genre, index) of book.genres" :key="index">{{genre}}&nbsp;</span>
             </p>
             <div class="buttons-container">
-              <div v-if="isAuthor(book)" class="buttons">
+              <div v-if="book.author===username" class="buttons">
                 <li>
                   <button @click="handleDeleteBook( id )" class="btn card-link">delete</button>
                 </li>
@@ -37,7 +37,7 @@
             <div class="additional-info-button">
               <button
                 class="btn btn-outline-dark"
-                :disabled="isAuthor(book)"
+                :disabled="book.author===username"
                 @click="toggleShowContact()"
               >
                 <b>
@@ -67,7 +67,7 @@
             <div class="additional-info-footer">
               <div>
                 <button
-                  :disabled="isAuthor(book)"
+                  :disabled="book.author===username"
                   @click="rateBook( id, 'like')"
                   class="btn btn-outline-primary additional-info-footer-b-l"
                 >
@@ -77,7 +77,7 @@
               </div>
               <div>
                 <button
-                  :disabled="isAuthor(book)"
+                  :disabled="book.author===username"
                   @click="rateBook( id, 'dislike')"
                   class="btn btn-outline-danger additional-info-footer-b-d"
                 >
@@ -110,7 +110,7 @@
               <h6>Add Comment</h6>
               <form @submit.prevent="handleCreateComment()">
                 <div class="comment-body-items">
-                  <textarea type="text" placeholder="Your comment..." v-model="newComment"></textarea>
+                  <textarea type="text" placeholder="Your comment..." v-model="subjectNewComment"></textarea>
                 </div>
                 <button class="btn btn-outline-secondary" :disabled="$v.$invalid">add comment</button>
               </form>
@@ -131,7 +131,7 @@
                   </p>
                   <button
                     class="btn btn-outline-secondary del-but"
-                    v-if="isAuthor(comment)"
+                    v-if="comment.author===username"
                     @click="handledeleteComment(comment._id)"
                   >delete</button>
                 </div>
@@ -148,14 +148,14 @@
 import { validationMixin } from "vuelidate";
 import { required, minLength } from "vuelidate/lib/validators";
 import { mapGetters, mapActions } from "vuex";
-import { toastedSuccess } from "../../shared/services/toasted";
+import { toastedSuccess, toastedError } from "../../shared/services/toasted";
 import router from "../../router";
 
 export default {
   name: "BookDetails",
   mixins: [validationMixin],
   validations: {
-    newComment: {
+    subjectNewComment: {
       required,
       minLength: minLength(4)
     }
@@ -168,38 +168,46 @@ export default {
   },
   data: function() {
     return {
-      newComment: "",
+      subjectNewComment: "",
       showInfoOwnerBook: true,
       book: {}
     };
   },
   async created() {
-    this.book = this.getBookById(this.id);
-    const user = this.book.author;
-    await this.getUserBook(user);
+    try {
+      this.book = this.getBookById(this.id);
+      const author = this.book.author;
+      await this.loadCreatorBook(author);
+    } catch {
+      toastedError(
+        "You refreshed the page and were automatically redirected to AllBooksPage!"
+      );
+      router.push({ name: "booksAll" });
+    }
   },
   methods: {
     ...mapActions([
-      "getAllComments",
+      // "getAllComments",
       "deleteBook",
       "createComment",
       "deleteComment",
       "editBook",
-      "getUserBook"
+      "loadCreatorBook"
     ]),
     async handleDeleteBook(id) {
       await this.deleteBook(id);
       toastedSuccess("Successfully deleted book!");
-      router.push("/books/all");
+      router.push({ name: "booksAll" });
     },
     async handleCreateComment() {
-      await this.createComment({
-        subject: this.newComment,
+      const newComment = {
+        subject: this.subjectNewComment,
         bookId: this.book._id,
-        author: localStorage.getItem("userInfo")
-      });
+        author: this.username
+      };
+      await this.createComment(newComment);
       toastedSuccess("Successfully created comment!");
-      this.newComment = "";
+      this.subjectNewComment = "";
     },
     async handledeleteComment(id) {
       await this.deleteComment(id);
@@ -225,9 +233,6 @@ export default {
       ]);
       toastedSuccess("Successfully voted for the book!");
     },
-    isAuthor(book) {
-      return book.author === localStorage.getItem("userInfo");
-    },
     toggleShowContact() {
       this.showInfoOwnerBook = !this.showInfoOwnerBook;
     }
@@ -236,8 +241,8 @@ export default {
     ...mapGetters([
       "getBookById",
       "getCommentsByIdBook",
-      "allComments",
-      "creatorBook"
+      "creatorBook",
+      "username"
     ])
   }
 };

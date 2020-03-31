@@ -1,6 +1,6 @@
 import axios from 'axios';
-
-import { toastedError } from './toasted.js';
+import { toastedError } from './toasted';
+import store from '../../user/user-state'
 
 const baseUrl = 'https://baas.kinvey.com';
 const appKey = 'kid_rkkcYykB8';
@@ -25,7 +25,8 @@ const authInterceptor = function (config) {
             Authorization: 'Basic ' + btoa(`${appKey}:${appSecret}`)
         };
     } else {
-        const token = localStorage.getItem('token');
+        // console.log(store.state.token);
+        const token = store.state.token;
 
         if (config.url === '_logout' || config.url.includes('username')) {
             config.baseURL = `${baseUrl}/user/${appKey}`;

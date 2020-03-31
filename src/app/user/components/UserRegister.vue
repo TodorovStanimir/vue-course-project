@@ -3,7 +3,7 @@
     <div class="row">
       <div class="col-lg-4"></div>
       <div class="col-lg-4">
-        <form @submit.prevent="handleRegister" ref="registerForm">
+        <form @submit.prevent="handleRegister">
           <div class="form-group input-group">
             <div class="input-group-prepend">
               <span class="input-group-text">
@@ -157,11 +157,15 @@
             >Image URL must start with http or https!</div>
           </div>
           <div class="form-group">
-            <button type="submit" class="btn btn-success btn-block" :disabled="$v.$invalid">Create Account</button>
+            <button
+              type="submit"
+              class="btn btn-success btn-block"
+              :disabled="$v.$invalid"
+            >Create Account</button>
           </div>
           <p class="text-center">
             <b>Have an account?&nbsp;&nbsp;</b>
-            <router-link :to="{ path: '/profile/login' }">
+            <router-link :to="{ name: 'userLogin' }">
               <b>Log In</b>
             </router-link>
           </p>
@@ -174,8 +178,16 @@
 
 <script>
 import { validationMixin } from "vuelidate";
-import { required, email, alpha, url, sameAs, helpers } from "vuelidate/lib/validators";
+import {
+  required,
+  email,
+  alpha,
+  url,
+  sameAs,
+  helpers
+} from "vuelidate/lib/validators";
 import { mapActions } from "vuex";
+import router from "../../router";
 
 const usernameValidator = helpers.regex("alpha", /^[A-Z][a-z]+\s[A-Z][a-z]+$/);
 const phoneNumberValidator = helpers.regex("alpha", /^[+]{1}\d{10,}$/);
@@ -239,7 +251,7 @@ export default {
           password: this.password,
           imageUrl: this.imageUrl
         });
-        this.$router.push("/profile/login");
+        router.push({ name: "userLogin" });
       } catch (error) {
         Object.keys(this.$data).map(key => (this.$data[key] = ""));
         this.$v.$reset();

@@ -3,7 +3,7 @@
     <div class="row">
       <div class="col-lg-4"></div>
       <div class="col-lg-4">
-        <form @submit.prevent="handleLogin" ref="loginForm">
+        <form @submit.prevent="handleLogin">
           <div class="form-group input-group">
             <div class="input-group-prepend">
               <span class="input-group-text">
@@ -53,7 +53,7 @@
           </div>
           <p class="text-center">
             <b>Have not an account?</b>
-            <router-link :to="{ path: '/profile/register' }">
+            <router-link :to="{ name: 'userRegister' }">
               <b>&nbsp; Register here</b>
             </router-link>
           </p>
@@ -68,6 +68,7 @@
 import { validationMixin } from "vuelidate";
 import { required, minLength, helpers } from "vuelidate/lib/validators";
 import { mapActions } from "vuex";
+import router from "../../router";
 
 const usernameValidator = helpers.regex("alpha", /^[A-Z][a-z]+\s[A-Z][a-z]+$/);
 
@@ -98,7 +99,7 @@ export default {
           username: this.username,
           password: this.password
         });
-        this.$router.push("/books/all");
+        router.push({ name: "booksAll" });
       } catch (err) {
         Object.keys(this.$data).map(key => (this.$data[key] = ""));
         this.$v.$reset();

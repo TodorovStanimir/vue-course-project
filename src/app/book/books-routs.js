@@ -10,6 +10,13 @@ export default [
         component: () => import( /* webpackChunkName: "booksShowAll" */ "./components/BooksShowAll.vue")
     },
     {
+        path: "/books/user",
+        name: "booksUser",
+        props: false,
+        beforeEnter: requiresAuth,
+        component: () => import( /* webpackChunkName: "booksShowAll" */ "./components/BooksShowAll.vue")
+    },
+    {
         path: "/books/create",
         name: "bookCreate",
         props: true,
@@ -28,6 +35,6 @@ export default [
         name: "bookEdit",
         props: true,
         beforeEnter: requiresAuth,
-        component: () => import( /* webpackChunkName: "bookCreate" */ "./components/BookCreate.vue")
+        component: () => import( /* webpackChunkName: "bookEdit" */ "./components/BookCreate.vue")
     }
 ];

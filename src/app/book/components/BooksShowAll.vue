@@ -50,11 +50,11 @@ export default {
     return {};
   },
   methods: {
-    ...mapActions(["getAllBooks", "deleteBook", "getAllComments"]),
+    ...mapActions(["loadAllBooks", "deleteBook", "loadAllComments"]),
     async getBooks() {
       try {
-        await this.getAllBooks();
-        await this.getAllComments()
+        await this.loadAllBooks();
+        await this.loadAllComments()
         toastedSuccess("Successfully loaded all book!");
       } catch (error) {
         throw new Error(error);

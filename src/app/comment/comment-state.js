@@ -1,6 +1,4 @@
-// import { toastedSuccess } from '../shared/services/toasted.js';
 import { http } from '../shared/services/httpClient.js';
-// import router from '../router.js'
 
 const initialState = {
   allComments: []
@@ -15,10 +13,10 @@ const getters = {
 };
 
 const actions = {
-  async getAllComments({ commit }) {
+  async loadAllComments({ commit }) {
     try {
       const { data } = await http.get("comments");
-      commit('getAllCommentsSuccess', data);
+      commit('loadAllCommentsSuccess', data);
     } catch (error) {
       console.log(error);
     }
@@ -34,7 +32,7 @@ const actions = {
 };
 
 const mutations = {
-  getAllCommentsSuccess(state, payload) {
+  loadAllCommentsSuccess(state, payload) {
     Object.assign(state, { allComments: payload });
   },
   createCommentSuccess(state, payload) {

@@ -4,17 +4,17 @@ import { http } from '../shared/services/httpClient.js';
 const initialState = {
   isLoggedIn: localStorage.getItem('token') !== null,
   token: localStorage.getItem('token'),
-  userInfo: localStorage.getItem('userInfo'),
+  userInfo: JSON.parse(localStorage.getItem('userInfo')),
   creatorBook: {},
   editedUser: {}
 };
 
 const getters = {
-  token: state => { return state.token },
-  isLoggedIn: state => { return state.isLoggedIn },
-  username: state => { return state.userInfo.username },
-  creatorBook: state => { return state.creatorBook },
-  editedUser: state => { return state.editedUser }
+  token: state => state.token,
+  isLoggedIn: state => state.isLoggedIn,
+  username: state => state.userInfo.username,
+  creatorBook: state => state.creatorBook,
+  editedUser: state => state.editedUser
 };
 
 const actions = {
@@ -22,7 +22,7 @@ const actions = {
     const { username, password } = payload;
     const { data } = await http.post('login', { username, password });
     localStorage.setItem('token', data._kmd.authtoken);
-    localStorage.setItem('userInfo', data.username);
+    localStorage.setItem('userInfo', JSON.stringify(data));
     toastedSuccess('Successfully logged in!');
     commit('loginSuccess', {
       userInfo: data,
@@ -41,9 +41,9 @@ const actions = {
     toastedSuccess('Successfully Registered!');
     commit('registerSuccess');
   },
-  async getUserBook({ commit }, payload) {
+  async loadCreatorBook({ commit }, payload) {
     const { data } = await http.get(`/?query={"username":"${payload}"}`);
-    commit('getUserBookSuccess', data);
+    commit('loadCreatorBookSuccess', data);
   },
   async getUserInfo({ commit }, payload) {
     const { data } = await http.get(`/?query={"username":"${payload}"}`);
@@ -66,7 +66,7 @@ const mutations = {
   registerSuccess(state) {
     Object.assign(state);
   },
-  getUserBookSuccess(state, payload) {
+  loadCreatorBookSuccess(state, payload) {
     Object.assign(state, { creatorBook: payload[0] });
   },
   getUserInfoSuccess(state, payload) {

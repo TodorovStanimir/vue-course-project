@@ -1,4 +1,4 @@
-import { http } from '../shared/services/httpClient.js';
+import { http } from '../shared/services/httpClient';
 
 const initialState = {
   allBooks: []
@@ -11,9 +11,9 @@ const getters = {
 };
 
 const actions = {
-  async getAllBooks({ commit }) {
+  async loadAllBooks({ commit }) {
     const { data } = await http.get("books");
-    commit('getAllBooksSuccess', data);
+    commit('loadAllBooksSuccess', data);
   },
   async deleteBook({ commit }, id) {
     await http.delete(`books/${id}`);
@@ -31,7 +31,7 @@ const actions = {
 };
 
 const mutations = {
-  getAllBooksSuccess(state, payload) {
+  loadAllBooksSuccess(state, payload) {
     Object.assign(state, { allBooks: payload });
   },
   deleteBookSuccess(state, payload) {
