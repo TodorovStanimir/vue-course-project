@@ -52,16 +52,21 @@
           </li>
         </ul>
       </div>
+      <loader v-if="loading"></loader>
     </nav>
   </div>
 </template>
 
 <script>
+import Loader from "../../core/components/Loader";
 import { mapGetters, mapActions } from "vuex";
 import router from "../../router";
 
 export default {
   name: "Navigation",
+  components: {
+    Loader
+  },
   data: function() {
     return {};
   },
@@ -69,11 +74,11 @@ export default {
     ...mapActions(["logoutUser"]),
     async handlerLogout() {
       await this.logoutUser();
-      router.push({name: 'userLogin'})
-    },
+      router.push({ name: "userLogin" });
+    }
   },
   computed: {
-    ...mapGetters(["isLoggedIn", "username"])
+    ...mapGetters(["isLoggedIn", "username", "loading"])
   }
 };
 </script>
@@ -83,6 +88,9 @@ export default {
   padding: 0px;
   font-size: 20px;
   font: 1.1em sans-serif;
+  /* position: absolute; */
+  /* left: 0px;
+  top: 0px; */
 }
 img {
   border-radius: 5px;

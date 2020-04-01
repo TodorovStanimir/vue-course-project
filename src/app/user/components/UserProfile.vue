@@ -191,14 +191,22 @@ export default {
     };
   },
   async created() {
+    this.changeLoading(true);
     await this.getUserInfo(this.username);
     toastedSuccess("Successfully loaded user's data!");
     await this.loadAllComments();
     this.userBooks = this.getBooksByUserName(this.username);
+    this.changeLoading(false);
   },
   methods: {
-    ...mapActions(["getUserInfo", "editUser", "loadAllComments"]),
+    ...mapActions([
+      "getUserInfo",
+      "editUser",
+      "loadAllComments",
+      "changeLoading"
+    ]),
     async handleEditUser() {
+      this.changeLoading(true);
       await this.editUser([
         {
           email: this.editedUser.email,
@@ -209,6 +217,7 @@ export default {
         this.editedUser._id
       ]);
       toastedSuccess("Successfully edit Your profile!");
+      this.changeLoading(false);
     }
   },
   computed: {

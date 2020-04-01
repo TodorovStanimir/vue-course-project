@@ -240,8 +240,9 @@ export default {
     }
   },
   methods: {
-    ...mapActions(["registerUser"]),
+    ...mapActions(["registerUser", "changeLoading"]),
     async handleRegister() {
+      this.changeLoading(true);
       try {
         await this.registerUser({
           username: this.username,
@@ -256,6 +257,7 @@ export default {
         Object.keys(this.$data).map(key => (this.$data[key] = ""));
         this.$v.$reset();
       }
+      this.changeLoading(false);
     }
   }
 };

@@ -320,6 +320,7 @@ export default {
     };
   },
   created() {
+    this.changeLoading(true);
     if (this.id !== undefined) {
       this.isEditingBook = true;
       const editingBook = this.getBookById(this.id);
@@ -331,11 +332,13 @@ export default {
         }
       });
     }
+    this.changeLoading(false);
   },
   methods: {
-    ...mapActions(["createBook", "editBook"]),
+    ...mapActions(["createBook", "editBook", "changeLoading"]),
     async handlerCreateBook(book) {
       try {
+        this.changeLoading(true);
         const newBook = Object.assign({ ...book });
         newBook.genres = newBook.genres.split(" ");
         newBook.author = this.username;
@@ -346,8 +349,10 @@ export default {
         this.$refs.createBookForm.reset();
         throw new Error(error);
       }
+      this.changeLoading(false);
     },
     async handleEditBook() {
+      this.changeLoading(true);
       try {
         const editBook = Object.assign({ ...this.book });
         editBook.genres = editBook.genres.split(" ");
@@ -359,6 +364,7 @@ export default {
         this.$refs.createBookForm.reset();
         throw new Error(error);
       }
+      this.changeLoading(false);
     }
   },
   computed: {

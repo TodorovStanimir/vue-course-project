@@ -6,11 +6,33 @@ import commentState from './comment/comment-state.js'
 
 Vue.use(Vuex);
 
-const store =  new Vuex.Store({
+const store = new Vuex.Store({
+  state: {
+    loading: false
+  },
+  getters: {
+    loading(state) {
+      return state.loading
+    }
+  },
+  actions: {
+    changeLoading({ commit }, payload) {
+      if (payload) {
+        commit('changeLoadingSuccess', payload);
+      } else {
+        setTimeout(()=>commit('changeLoadingSuccess', payload), 1500);
+      }      
+    }
+  },
+  mutations: {
+    changeLoadingSuccess(state, payload) {
+      Object.assign(state, { loading: payload });
+    }
+  },
   modules: {
-   userState,
-   bookState,
-   commentState
+    userState,
+    bookState,
+    commentState
   }
 });
 

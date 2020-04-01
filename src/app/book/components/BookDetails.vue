@@ -174,6 +174,7 @@ export default {
     };
   },
   async created() {
+    this.changeLoading(true);
     try {
       this.book = this.getBookById(this.id);
       const author = this.book.author;
@@ -184,15 +185,16 @@ export default {
       );
       router.push({ name: "booksAll" });
     }
+    this.changeLoading(false);
   },
   methods: {
     ...mapActions([
-      // "getAllComments",
       "deleteBook",
       "createComment",
       "deleteComment",
       "editBook",
-      "loadCreatorBook"
+      "loadCreatorBook",
+      "changeLoading"
     ]),
     async handleDeleteBook(id) {
       await this.deleteBook(id);
@@ -200,6 +202,7 @@ export default {
       router.push({ name: "booksAll" });
     },
     async handleCreateComment() {
+      this.changeLoading(true);
       const newComment = {
         subject: this.subjectNewComment,
         bookId: this.book._id,
@@ -208,10 +211,13 @@ export default {
       await this.createComment(newComment);
       toastedSuccess("Successfully created comment!");
       this.subjectNewComment = "";
+      this.changeLoading(false);
     },
     async handledeleteComment(id) {
+      this.changeLoading(true);
       await this.deleteComment(id);
       toastedSuccess("Successfully deleted comment!");
+      this.changeLoading(false);
     },
     async rateBook(id, rate) {
       rate === "like" ? (this.book.likes += 1) : (this.book.dislikes += 1);

@@ -92,8 +92,9 @@ export default {
     }
   },
   methods: {
-    ...mapActions(["loginUser"]),
+    ...mapActions(["loginUser", "changeLoading"]),
     async handleLogin() {
+      this.changeLoading(true);
       try {
         await this.loginUser({
           username: this.username,
@@ -104,6 +105,7 @@ export default {
         Object.keys(this.$data).map(key => (this.$data[key] = ""));
         this.$v.$reset();
       }
+      this.changeLoading(false);
     }
   }
 };

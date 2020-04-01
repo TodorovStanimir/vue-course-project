@@ -25,7 +25,6 @@ const authInterceptor = function (config) {
             Authorization: 'Basic ' + btoa(`${appKey}:${appSecret}`)
         };
     } else {
-        // console.log(store.state.token);
         const token = store.state.token;
 
         if (config.url === '_logout' || config.url.includes('username')) {
