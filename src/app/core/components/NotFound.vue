@@ -15,7 +15,7 @@ export default {};
   display: flex;
   justify-content: space-around;
   align-items: center;
-  margin-bottom: -539px;
+  margin-bottom: -548px;
 }
 .not-found-image {
   margin-top: 100px;

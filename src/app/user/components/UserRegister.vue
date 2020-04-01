@@ -266,7 +266,7 @@ export default {
 <style scoped>
 .container {
   padding-top: 31px;
-  margin-bottom: -594px;
+  margin-bottom: -602px;
 }
 
 input.valid {

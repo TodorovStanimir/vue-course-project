@@ -376,7 +376,7 @@ export default {
 <style scoped>
 .container {
   margin-top: 80px;
-  margin-bottom: -487px;
+  margin-bottom: -497px;
 }
 .valid {
   border-left: 2px solid #42a948; /* green */

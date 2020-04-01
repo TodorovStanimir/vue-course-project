@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="sticky">
     <nav class="navbar navbar-expand-lg navbar-light bg-light mynav">
       <nav class="navbar navbar-light bg-light">
         <router-link class="navbar-brand" :to="{ path: isLoggedIn ? '/books/all' : '/'  }">
@@ -84,7 +84,15 @@ export default {
 </script>
 
 <style scoped>
+div.sticky {
+  /* position: -webkit-sticky;
+  position: sticky; */
+  top: 0px;
+  padding: 4px;
+  border-radius: 5px;
+}
 .navbar {
+  border-radius: 3px;
   padding: 0px;
   font-size: 20px;
   font: 1.1em sans-serif;
