@@ -2,142 +2,106 @@
   <div class="grid-container">
     <div v-if="book">
       <div class="grid">
-        <div class="grid-item">
-          <div class="opacity">
-            <div class="main-info">
+        <div class="grid-item opacity">
+          <div class="main-info">
+            <p class="description">{{ book.description }}</p>
+          </div>
+        </div>
+        <div class="grid-item opacity">
+          <div class="grid-item-fr">
+            <div class="grid-item-fr-fc">
               <p>
                 <img :src="book.imageUrl" />
               </p>
-              <h4>{{book.title}}</h4>
-              <h5>{{book.bookAuthor}}</h5>
             </div>
-            <h6>{{book.description}}</h6>
-            <p class="genres">
-              Genres:
-              <span v-for="(genre, index) of book.genres" :key="index">{{genre}}&nbsp;</span>
-            </p>
-            <div class="buttons-container">
-              <div v-if="book.author===username" class="buttons">
-                <li>
-                  <button @click="handleDeleteBook( id )" class="btn card-link">delete</button>
-                </li>
-                <li>
-                  <router-link :to="{ name: 'bookEdit', params: { id: id } }">
-                    <button class="btn card-link">edit</button>
-                  </router-link>
-                </li>
-              </div>
+            <div class="grid-item-fr-sc">
+              <p class="title">{{ book.title | toUpper }}</p>
+              <p class="author">{{ book.bookAuthor | toLower }}</p>
+              <p class="genres">
+                <span v-for="(genre, index) in book.genres" :key="index">{{ genre | toLower }}&nbsp;</span>
+              </p>
+              <p class="genres">year issue {{ book.year | toLower }}</p>
+              <p class="genres">publisher {{ book.publisher | toLower }}</p>
+              <p class="genres">price {{ book.price }} bgn</p>
             </div>
           </div>
-        </div>
-        <!-- Provide additional information about book -->
-        <div class="grid-item">
-          <div class="opacity">
-            <h5>Additional information</h5>
-            <div class="additional-info-button">
+          <div class="grid-item-sr">
+            <div>
               <button
-                class="btn btn-outline-dark"
-                :disabled="book.author===username"
-                @click="toggleShowContact()"
+                :disabled="book.author === username"
+                @click="rateBook(id, 'like')"
+                class="btn btn-outline-primary grid-item-sr-b-l"
               >
-                <b>
-                  Posted by:
-                  {{book.author}}
-                </b>
+                <b>{{ book.likes }}</b>&nbsp;&nbsp;
+                <i class="fa fa-thumbs-up"></i>
               </button>
             </div>
-            <div class="additional-info">
-              <p>
-                Year issue:
-                <b>{{book.year}}</b>
-              </p>
+            <div v-if="book.author === username">
+              <button @click="handleDeleteBook( book['_id'])" class="btn card-link">
+                <i class="fa fa-trash-alt"></i>
+              </button>
             </div>
-            <div class="additional-info">
-              <p>
-                Publisher:
-                <b>{{book.publisher}}</b>
-              </p>
-            </div>
-            <div class="additional-info">
-              <p>
-                Selling price:
-                <b>{{book.price}} BGN</b>
-              </p>
-            </div>
-            <div class="additional-info-footer">
-              <div>
-                <button
-                  :disabled="book.author===username"
-                  @click="rateBook( id, 'like')"
-                  class="btn btn-outline-primary additional-info-footer-b-l"
-                >
-                  <b>{{book.likes}}</b>&nbsp;&nbsp;
-                  <i class="fa fa-thumbs-up"></i>
+            <div v-if="book.author === username">
+              <router-link :to="{ name: 'bookEdit', params: { id: book._id }}">
+                <button class="btn card-link">
+                  <i class="fa fa-edit"></i>
                 </button>
-              </div>
-              <div>
-                <button
-                  :disabled="book.author===username"
-                  @click="rateBook( id, 'dislike')"
-                  class="btn btn-outline-danger additional-info-footer-b-d"
-                >
-                  <b>{{book.dislikes}}</b>&nbsp;&nbsp;
-                  <i class="fa fa-thumbs-down"></i>
-                </button>
-              </div>
+              </router-link>
             </div>
-            <div v-if="!showInfoOwnerBook" class="additional-info-footer">
-              <p>
-                <b>
-                  You can emailed author of the book "{{book.title}}" to email: {{ creatorBook.email }} or call him
-                  to phone: {{ creatorBook.phoneNumber }}.
-                </b>
-              </p>
+            <div v-if="book.author !== username">
+              <button class="btn btn-outline-dark" @click="toggleShowContact()">
+                <i class="fa fa-user"></i>
+              </button>
             </div>
-            <!-- <div class="additional-info-footer"></div> -->
+            <div>
+              <button
+                :disabled="book.author===username"
+                @click="rateBook(id, 'dislike')"
+                class="btn btn-outline-danger grid-item-sr-b-d"
+              >
+                <b>{{ book.dislikes }}</b>&nbsp;
+                <i class="fa fa-thumbs-down"></i>
+              </button>
+            </div>
+          </div>
+          <div v-if="!showInfoOwnerBook">
+            <p class="owner-info">
+              You can emailed owner of the book {{ book.author }} to email: {{ creatorBook.email }} or phonecall
+              to phone: {{ creatorBook.phoneNumber }}.
+            </p>
           </div>
         </div>
         <!-- Provide information about comments -->
-        <div class="grid-item">
-          <div class="opacity">
-            <h5>Comments</h5>
-            <template v-if="!getCommentsByIdBook(id).length">
-              <div class="comment-header">
-                <p>There is not comments for this book. You can write the first one.</p>
-              </div>
-            </template>
-            <div class="comment-body">
-              <h6>Add Comment</h6>
-              <form @submit.prevent="handleCreateComment()">
-                <div class="comment-body-items">
-                  <textarea type="text" placeholder="Your comment..." v-model="subjectNewComment"></textarea>
-                </div>
-                <button class="btn btn-outline-secondary" :disabled="$v.$invalid">add comment</button>
-              </form>
-            </div>
-            <div class="comment-body">
-              <article
-                v-for="comment in getCommentsByIdBook(id)"
-                :key="comment._id"
-                class="comments"
-              >
-                <br />
-                <div class="comment-container">
-                  <p>
-                    <b>{{comment.subject}}</b>
-                  </p>
-                  <p>
-                    <b>{{comment.author}}</b>
-                  </p>
-                  <button
-                    class="btn btn-outline-secondary del-but"
-                    v-if="comment.author===username"
-                    @click="handledeleteComment(comment._id)"
-                  >delete</button>
-                </div>
-              </article>
-            </div>
+        <div class="grid-item opacity">
+          <div class="comment-header" v-if="!getCommentsByIdBook(id).length">
+            <p>There is not comments for this book.</p>
+            <p>You can write the first one.</p>
           </div>
+          <div class="add-comment">
+            <form @submit.prevent="handleCreateComment()">
+              <div class="comment-body-items">
+                <textarea type="text" placeholder="Your comment..." v-model="subjectNewComment"></textarea>
+              </div>
+              <button class="btn btn-outline-dark" :disabled="$v.$invalid">
+                <i class="fa fa-save"></i>
+              </button>
+            </form>
+          </div>
+          <article v-for="comment in getCommentsByIdBook(id)" :key="comment._id" class="comments">
+            <div class="comment-container">
+              <p>{{ comment.subject }}</p>
+              <div class="author-comment">
+                <p>{{ comment.author }}</p>
+                <button
+                  class="btn btn-outline-secondary del-but"
+                  v-if="comment.author===username"
+                  @click="handledeleteComment(comment._id)"
+                >
+                  <i class="fa fa-trash-alt"></i>
+                </button>
+              </div>
+            </div>
+          </article>
         </div>
       </div>
     </div>
@@ -260,9 +224,8 @@ export default {
   padding: 0;
   box-sizing: border-box;
 }
-
 .opacity {
-  opacity: 0.7;
+  opacity: 0.8;
   border-radius: 0.5rem;
   background: white;
   color: black;
@@ -270,8 +233,8 @@ export default {
 .grid-container {
   display: flex;
   justify-content: center;
+  margin-bottom: -396px;
 }
-
 .grid {
   margin-top: 20px;
   width: 100%;
@@ -279,145 +242,196 @@ export default {
   flex-wrap: wrap;
   flex-direction: row;
   justify-content: space-evenly;
+  align-items: stretch;
 }
-
 .grid-item {
   display: flex;
-  margin: 5px;
-  width: 30%;
+  margin-top: 20px;
+  width: 28%;
   flex-direction: column;
 }
-.buttons-container {
-  padding: 10px;
-  align-items: flex-end;
-  display: flex;
-  justify-content: center;
-}
-li button {
-  border-radius: 0.5rem;
-  width: 2.5cm;
-  color: whitesmoke;
-  background-color: black;
-  text-align: center;
-}
-
-.buttons {
-  display: flex;
-  justify-content: space-around;
-}
-
-img {
-  border-radius: 0.5rem;
-  height: 220px;
-  width: 180px;
-  margin: 10px;
-  opacity: 1;
-}
-
-.genres {
-  margin-left: 15px;
-}
-
-.main-info p,
-h4,
-h5 {
-  margin: 7px;
-  text-align: center;
-}
-
-.additional-info p,
-h4,
-h5 {
-  margin: 7px;
-  text-align: center;
-}
-
-h6 {
-  margin: 15px;
+.description {
+  margin-top: 15px;
+  margin-left: 20px;
+  margin-right: 20px;
+  margin-bottom: 20px;
   text-align: justify;
+  font: italic small-caps 15px/16px Georgia, serif;
 }
-
-li {
-  margin: 4px;
+.grid-item-fr {
+  display: flex;
+  justify-content: space-between;
+}
+.grid-item-fr-fc {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  margin-left: 10px;
+  margin-top: 10px;
+  margin-right: 5px;
+}
+img {
+  opacity: 1;
   border-radius: 0.5rem;
-  list-style-type: none;
+  height: 180px;
+  width: 150px;
 }
-span {
-  font-style: italic;
+.grid-item-fr-sc {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  margin-top: 10px;
+  margin-left: 5px;
+  margin-right: 5px;
+  width: 100%;
 }
-
-button {
-  border-radius: 0.5rem;
-  text-align: center;
+.title {
+  font: italic small-caps bold 15px/18px Georgia, serif;
 }
-
-p.genres {
-  text-align: left;
+.author {
+  font: italic small-caps bold 17px/18px Georgia, serif;
+}
+.genres {
+  font: italic small-caps bold 17px/18px Georgia, serif;
 }
 
 /* CSS for Additional info */
-
-.additional-info {
+.grid-item-sr {
   display: flex;
-  margin-left: 0.2cm;
-  align-content: flex-start;
+  justify-content: space-evenly;
+  margin-top: 30px;
+  margin-bottom: 8px;
+  margin-left: 3px;
+  margin-right: 3px;
+  text-align: justify;
 }
-
-.additional-info-button {
-  display: flex;
-  margin-left: 0.2cm;
-  justify-content: center;
-}
-
-.additional-info-button button {
-  display: flex;
+.grid-item-sr-b-l {
+  width: 80px;
   height: 30px;
-  width: 8cm;
-  margin-left: 0.2cm;
-  margin-right: 0.2cm;
-  justify-content: center;
+  text-align: center;
+  color: blue;
 }
-
-.additional-info-footer {
-  display: flex;
-  margin: 0.5cm;
-  align-content: flex-start;
-  justify-content: space-around;
+.grid-item-sr-b-d {
+  width: 80px;
+  height: 30px;
+  text-align: center;
+  color: red;
 }
-
-.additional-info-footer p {
+button {
+  height: 30px;
+  width: 80px;
+  border: 1px solid grey;
+}
+.owner-info {
+  font: italic small-caps 18px/23px Georgia, serif;
+  margin: 10px;
   text-align: justify;
 }
 
-.additional-info-footer-b-l {
-  width: 60px;
-  height: 30px;
-  text-align: center;
-  width: 2.5cm;
-  color: blue;
+/* CSS for Create Comment */
+.comment-header {
+  display: flex;
+  flex-direction: column;
+  margin-top: 10px;
+  margin-left: 15px;
+}
+.comment-header p {
+  text-align: left;
+  color: rgb(61, 6, 6);
+  font: italic small-caps bold 15px/18px Georgia, serif;
+}
+.add-comment {
+  display: flex;
+  flex-direction: column;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  padding-left: 4px;
+  padding-right: 12px;
+}
+.comment-body-items {
+  display: flex;
+  flex-direction: column;
+  margin-left: 0.2cm;
+  resize: none;
+  border-radius: 0.5rem;
+}
+.add-comment textarea {
+  margin-bottom: 10px;
+  padding-left: 6px;
+  height: 5em;
+  resize: none;
+  border-radius: 4px;
+  background-color: whitesmoke;
+  color: black;
 }
 
-.additional-info-footer-b-d {
-  width: 60px;
-  height: 30px;
-  text-align: center;
-  width: 2.5cm;
-  color: red;
+/* CSS for details comment */
+.comments p {
+  font-style: italic;
+}
+.comment-container {
+  display: flex;
+  flex-direction: column;
+  text-align: left;
+  margin-left: 10px;
+  margin-right: 10px;
+  margin-bottom: 10px;
+  border-radius: 4px;
+  border: 1px solid grey;
+  background-color: rgb(240, 240, 240);
+}
+.comment-container p {
+  margin-left: 4px;
+  margin-right: 6px;
+  text-align: justify;
+}
+.author-comment {
+  display: flex;
+  justify-content: space-between;
+}
+.author-comment button {
+  margin-right: -1px;
+  margin-bottom: -1px;
 }
 
-@media only screen and (max-width: 768px) {
-  img {
-    border-radius: 0.5rem;
-    height: 92%;
-    width: 75%;
-    margin-top: 20px;
+@media only screen and (max-width: 1280px) {
+  .opacity {
+    opacity: 1;
   }
-
   .grid-container {
     display: flex;
     justify-content: center;
   }
+  .grid {
+    margin-top: 20px;
+    width: auto;
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: row;
+    justify-content: space-evenly;
+    align-items: stretch;
+  }
+  .grid-item {
+    justify-content: space-around;
+    align-items: stretch;
+    width: 47%;
+  }
+}
 
+@media only screen and (max-width: 768px) {
+  .opacity {
+    opacity: 1;
+  }
+  /* img {
+    border-radius: 0.5rem;
+    height: 92%;
+    width: 75%;
+    margin-top: 20px;
+  } */
+  .grid-container {
+    display: flex;
+    justify-content: center;
+  }
   .grid {
     width: auto;
     display: flex;
@@ -426,134 +440,11 @@ p.genres {
     justify-content: center;
     align-items: stretch;
   }
-
   .grid-item {
     margin: 1em;
     justify-content: space-around;
     align-items: stretch;
-    width: 90%;
+    width: 95%;
   }
-
-  button {
-    border-radius: 0.5rem;
-    width: 2.5cm;
-    background-color: black;
-    color: whitesmoke;
-  }
-}
-/* CSS for Create Comment */
-h6 {
-  margin: 15px;
-  text-align: justify;
-}
-button {
-  /* background: transparent; */
-  border-radius: 0.5rem;
-}
-.comment-header {
-  display: flex;
-  justify-content: left;
-}
-
-.comment-header p {
-  margin: 0.3cm;
-  margin-bottom: 0.4cm;
-  text-align: left;
-}
-
-.comment-body p {
-  display: flex;
-  margin-left: 0.4cm;
-  text-align: left;
-}
-
-.comment-body-items {
-  display: flex;
-  flex-direction: column;
-  margin-left: 0.2cm;
-  resize: none;
-  border-radius: 0.5rem;
-}
-
-.comment-body textarea {
-  margin-left: 0.2cm;
-  margin-right: 0.4cm;
-  margin-bottom: 4px;
-  height: 5em;
-  resize: none;
-  border-radius: 0.5rem;
-  background-color: whitesmoke;
-  color: black;
-}
-
-.comment-body button {
-  margin-left: 0.4cm;
-  margin-top: 0.3cm;
-  margin-bottom: 0.4cm;
-  resize: none;
-  align-items: center;
-  width: 4cm;
-  color: whitesmoke;
-  background-color: black;
-}
-
-.comments span {
-  margin-left: 0.4cm;
-}
-
-.comment p {
-  margin-bottom: -2px;
-  margin-top: -8px;
-  font-style: italic;
-}
-li button {
-  /* background: transparent; */
-  border-radius: 0.5rem;
-  width: 2.5cm;
-  color: whitesmoke;
-  background-color: black;
-}
-/* CSS for details comment */
-.comment-body p {
-  display: flex;
-  margin-left: 0.4cm;
-  text-align: left;
-}
-.comment-body-items {
-  display: flex;
-  flex-direction: column;
-  margin-left: 0.2cm;
-  resize: none;
-  border-radius: 0.5rem;
-}
-.comment-body button {
-  margin-left: 0.4cm;
-  margin-bottom: 0.4cm;
-  resize: none;
-  align-items: center;
-  width: 4cm;
-  color: whitesmoke;
-  background-color: black;
-  border-radius: 0.5rem;
-}
-.comments span {
-  margin-left: 0.4cm;
-  margin-top: 2px;
-}
-.comments p {
-  /* margin-bottom: -3px;
-   margin-top: -4px; */
-  font-style: italic;
-  /* white-space: pre; */
-}
-.comment-container {
-  margin-left: 0.4cm;
-  margin-right: 0.4cm;
-  margin-bottom: 0.4cm;
-  /* resize: none; */
-  border-radius: 0.5rem;
-  border: 1px solid grey;
-  background-color: rgb(240, 240, 240);
-  color: black;
 }
 </style>

@@ -127,7 +127,7 @@
           >
             <button class="btn btn-success btn-block">
               <div class="book-info">
-                <div class="inside-book-info">{{book.title | Upper}}</div>
+                <div class="inside-book-info">{{book.title | toUpper }}</div>
                 <div class="inside-book-info">{{book.likes}}</div>
                 <div class="inside-book-info">
                   <i class="fa fa-thumbs-up book"></i>
@@ -178,11 +178,6 @@ export default {
         required,
         url
       }
-    }
-  },
-  filters: {
-    Upper: function(value) {
-      return value.toUpperCase();
     }
   },
   data: function() {

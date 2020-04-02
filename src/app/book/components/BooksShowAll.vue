@@ -101,9 +101,8 @@ export default {
   padding: 0;
   box-sizing: border-box;
 }
-
 .opacity {
-  opacity: 0.7;
+  opacity: 0.8;
   border-radius: 0.5rem;
   background: white;
   color: black;
@@ -111,9 +110,8 @@ export default {
 .grid-container {
   display: flex;
   justify-content: center;
-  margin-bottom: -500px;
+  margin-bottom: -577px;
 }
-
 .grid {
   margin-top: 20px;
   width: auto;
@@ -123,7 +121,6 @@ export default {
   justify-content: space-evenly;
   align-items: stretch;
 }
-
 .grid-item {
   display: flex;
   margin-top: 20px;
@@ -158,30 +155,24 @@ img {
   margin-right: 5px;
   width: 100%;
 }
-
 .title {
   font: italic small-caps bold 15px/18px Georgia, serif;
 }
-
 .author {
   font: italic small-caps bold 17px/18px Georgia, serif;
 }
-
 .genres {
   font: italic small-caps bold 17px/18px Georgia, serif;
 }
-
 .buttons-container {
   display: flex;
   justify-content: center;
 }
-
 .buttons {
   display: flex;
   justify-content: center;
   width: max-content;
 }
-
 .grid-item-sr {
   display: flex;
   flex-direction: column;
@@ -190,8 +181,6 @@ img {
   text-align: justify;
 }
 li {
-  /* margin-left: 3px;
-  margin-right: 3px; */
   list-style-type: none;
 }
 button {
@@ -202,18 +191,10 @@ button {
 }
 
 @media only screen and (max-width: 1280px) {
-  /* img {
-    border-radius: 0.5rem;
-    height: 90%;
-    width: 100%;
-
-  } */
-
   .grid-container {
     display: flex;
     justify-content: center;
   }
-
   .grid {
     margin-top: 20px;
     width: auto;
@@ -223,7 +204,6 @@ button {
     justify-content: space-evenly;
     align-items: stretch;
   }
-
   .grid-item {
     justify-content: space-around;
     align-items: stretch;
@@ -233,15 +213,11 @@ button {
 @media only screen and (max-width: 768px) {
   .opacity {
   opacity: 1;
-  /* border-radius: 0.5rem;
-  background: white;
-  color: black; */
 }
   .grid-container {
     display: flex;
     justify-content: center;
   }
-
   .grid {
     width: auto;
     display: flex;
@@ -250,7 +226,6 @@ button {
     justify-content: center;
     align-items: stretch;
   }
-
   .grid-item {
     justify-content: space-around;
     align-items: stretch;

@@ -1,11 +1,11 @@
 import Vue from 'vue';
 
 export function toUpper(value) {
-    return value.toUpperCase();
+    return String(value).toUpperCase();
 }
 
 export function toLower(value) {
-    return value.toLowerCase();
+    return String(value).toLowerCase();
 }
 
 export function substr(value, count) {
