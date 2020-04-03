@@ -64,7 +64,6 @@ const errorInterceptor = function (error) {
 
     } else {
         toastedError(`${error.response.statusText}`);
-
     }
 
     return Promise.reject(error);

@@ -254,7 +254,7 @@ import {
 } from "vuelidate/lib/validators";
 import { helpers } from "vuelidate/lib/validators";
 import { mapActions, mapGetters } from "vuex";
-import { toastedSuccess } from "../../shared/services/toasted";
+import { toastedSuccess, toastedError } from "../../shared/services/toasted";
 import router from "../../router";
 
 const genresValidator = helpers.regex("alpha", /^[A-Za-z -]+$/);
@@ -315,7 +315,6 @@ export default {
         imageUrl: "",
         likes: 0,
         dislikes: 0
-        // author: ""
       }
     };
   },
@@ -347,7 +346,7 @@ export default {
         router.push("/books/all");
       } catch (error) {
         this.$refs.createBookForm.reset();
-        throw new Error(error);
+        toastedError('Something wrong happens. You could not create a book. Please try again later.');
       }
       this.changeLoading(false);
     },
@@ -362,7 +361,7 @@ export default {
         router.push("/books/all");
       } catch (error) {
         this.$refs.createBookForm.reset();
-        throw new Error(error);
+         toastedError('Something wrong happens. You could not edit a book. Please try again later.');
       }
       this.changeLoading(false);
     }

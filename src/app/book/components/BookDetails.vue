@@ -29,7 +29,7 @@
             <div>
               <button
                 :disabled="book.author === username"
-                @click="rateBook(id, 'like')"
+                @click.once="rateBook(id, 'like')"
                 class="btn btn-outline-primary grid-item-sr-b-l"
               >
                 <b>{{ book.likes }}</b>&nbsp;&nbsp;
@@ -56,7 +56,7 @@
             <div>
               <button
                 :disabled="book.author===username"
-                @click="rateBook(id, 'dislike')"
+                @click.once="rateBook(id, 'dislike')"
                 class="btn btn-outline-danger grid-item-sr-b-d"
               >
                 <b>{{ book.dislikes }}</b>&nbsp;
@@ -73,35 +73,8 @@
         </div>
         <!-- Provide information about comments -->
         <div class="grid-item opacity">
-          <div class="comment-header" v-if="!getCommentsByIdBook(id).length">
-            <p>There is not comments for this book.</p>
-            <p>You can write the first one.</p>
-          </div>
-          <div class="add-comment">
-            <form @submit.prevent="handleCreateComment()">
-              <div class="comment-body-items">
-                <textarea type="text" placeholder="Your comment..." v-model="subjectNewComment"></textarea>
-              </div>
-              <button class="btn btn-outline-dark" :disabled="$v.$invalid">
-                <i class="fa fa-save"></i>
-              </button>
-            </form>
-          </div>
-          <article v-for="comment in getCommentsByIdBook(id)" :key="comment._id" class="comments">
-            <div class="comment-container">
-              <p>{{ comment.subject }}</p>
-              <div class="author-comment">
-                <p>{{ comment.author }}</p>
-                <button
-                  class="btn btn-outline-secondary del-but"
-                  v-if="comment.author===username"
-                  @click="handledeleteComment(comment._id)"
-                >
-                  <i class="fa fa-trash-alt"></i>
-                </button>
-              </div>
-            </div>
-          </article>
+          <comment-create :id="this.id"></comment-create>
+          <comment-details :id="this.id"></comment-details>
         </div>
       </div>
     </div>
@@ -114,9 +87,15 @@ import { required, minLength } from "vuelidate/lib/validators";
 import { mapGetters, mapActions } from "vuex";
 import { toastedSuccess, toastedError } from "../../shared/services/toasted";
 import router from "../../router";
+import CommentCreate from "../../comment/components/CommentCreate";
+import CommentDetails from "../../comment/components/CommentDetails";
 
 export default {
   name: "BookDetails",
+  components: {
+    CommentCreate,
+    CommentDetails
+  },
   mixins: [validationMixin],
   validations: {
     subjectNewComment: {
@@ -132,7 +111,6 @@ export default {
   },
   data: function() {
     return {
-      subjectNewComment: "",
       showInfoOwnerBook: true,
       book: {}
     };
@@ -154,8 +132,6 @@ export default {
   methods: {
     ...mapActions([
       "deleteBook",
-      "createComment",
-      "deleteComment",
       "editBook",
       "loadCreatorBook",
       "changeLoading"
@@ -164,24 +140,6 @@ export default {
       await this.deleteBook(id);
       toastedSuccess("Successfully deleted book!");
       router.push({ name: "booksAll" });
-    },
-    async handleCreateComment() {
-      this.changeLoading(true);
-      const newComment = {
-        subject: this.subjectNewComment,
-        bookId: this.book._id,
-        author: this.username
-      };
-      await this.createComment(newComment);
-      toastedSuccess("Successfully created comment!");
-      this.subjectNewComment = "";
-      this.changeLoading(false);
-    },
-    async handledeleteComment(id) {
-      this.changeLoading(true);
-      await this.deleteComment(id);
-      toastedSuccess("Successfully deleted comment!");
-      this.changeLoading(false);
     },
     async rateBook(id, rate) {
       rate === "like" ? (this.book.likes += 1) : (this.book.dislikes += 1);
@@ -210,7 +168,6 @@ export default {
   computed: {
     ...mapGetters([
       "getBookById",
-      "getCommentsByIdBook",
       "creatorBook",
       "username"
     ])
@@ -328,72 +285,6 @@ button {
   text-align: justify;
 }
 
-/* CSS for Create Comment */
-.comment-header {
-  display: flex;
-  flex-direction: column;
-  margin-top: 10px;
-  margin-left: 15px;
-}
-.comment-header p {
-  text-align: left;
-  color: rgb(61, 6, 6);
-  font: italic small-caps bold 15px/18px Georgia, serif;
-}
-.add-comment {
-  display: flex;
-  flex-direction: column;
-  padding-top: 10px;
-  padding-bottom: 10px;
-  padding-left: 4px;
-  padding-right: 12px;
-}
-.comment-body-items {
-  display: flex;
-  flex-direction: column;
-  margin-left: 0.2cm;
-  resize: none;
-  border-radius: 0.5rem;
-}
-.add-comment textarea {
-  margin-bottom: 10px;
-  padding-left: 6px;
-  height: 5em;
-  resize: none;
-  border-radius: 4px;
-  background-color: whitesmoke;
-  color: black;
-}
-
-/* CSS for details comment */
-.comments p {
-  font-style: italic;
-}
-.comment-container {
-  display: flex;
-  flex-direction: column;
-  text-align: left;
-  margin-left: 10px;
-  margin-right: 10px;
-  margin-bottom: 10px;
-  border-radius: 4px;
-  border: 1px solid grey;
-  background-color: rgb(240, 240, 240);
-}
-.comment-container p {
-  margin-left: 4px;
-  margin-right: 6px;
-  text-align: justify;
-}
-.author-comment {
-  display: flex;
-  justify-content: space-between;
-}
-.author-comment button {
-  margin-right: -1px;
-  margin-bottom: -1px;
-}
-
 @media only screen and (max-width: 1280px) {
   .opacity {
     opacity: 1;
@@ -422,12 +313,6 @@ button {
   .opacity {
     opacity: 1;
   }
-  /* img {
-    border-radius: 0.5rem;
-    height: 92%;
-    width: 75%;
-    margin-top: 20px;
-  } */
   .grid-container {
     display: flex;
     justify-content: center;

@@ -212,8 +212,8 @@ button {
 }
 @media only screen and (max-width: 768px) {
   .opacity {
-  opacity: 1;
-}
+    opacity: 1;
+  }
   .grid-container {
     display: flex;
     justify-content: center;
