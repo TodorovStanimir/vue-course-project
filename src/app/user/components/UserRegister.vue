@@ -178,23 +178,13 @@
 
 <script>
 import { validationMixin } from "vuelidate";
-import {
-  required,
-  email,
-  alpha,
-  url,
-  sameAs,
-  helpers
-} from "vuelidate/lib/validators";
+import { required, email, alpha, url, sameAs, helpers } from "vuelidate/lib/validators";
 import { mapActions } from "vuex";
-import router from "../../router";
 
 const usernameValidator = helpers.regex("alpha", /^[A-Z][a-z]+\s[A-Z][a-z]+$/);
 const phoneNumberValidator = helpers.regex("alpha", /^[+]{1}\d{10,}$/);
-const passwordValidator = helpers.regex(
-  "alpha",
-  /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{3,16}$/
-);
+const passwordValidator = helpers.regex("alpha", /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{3,16}$/);
+
 export default {
   name: "UserRegister",
   mixins: [validationMixin],
@@ -240,24 +230,16 @@ export default {
     }
   },
   methods: {
-    ...mapActions(["registerUser", "changeLoading"]),
+    ...mapActions(["registerUser"]),
     async handleRegister() {
-      this.changeLoading(true);
-      try {
-        await this.registerUser({
-          username: this.username,
-          email: this.email,
-          phoneNumber: this.phoneNumber,
-          occupation: this.occupation,
-          password: this.password,
-          imageUrl: this.imageUrl
-        });
-        router.push({ name: "userLogin" });
-      } catch (error) {
-        Object.keys(this.$data).map(key => (this.$data[key] = ""));
-        this.$v.$reset();
-      }
-      this.changeLoading(false);
+      await this.registerUser({
+        username: this.username,
+        email: this.email,
+        phoneNumber: this.phoneNumber,
+        occupation: this.occupation,
+        password: this.password,
+        imageUrl: this.imageUrl
+      });
     }
   }
 };

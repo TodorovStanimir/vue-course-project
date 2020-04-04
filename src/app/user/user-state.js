@@ -1,5 +1,6 @@
-import { toastedSuccess } from '../shared/services/toasted.js';
+import { toastedSuccess, toastedError } from '../shared/services/toasted.js';
 import { http } from '../shared/services/httpClient.js';
+import router from '../router'
 
 const initialState = {
   isLoggedIn: localStorage.getItem('token') !== null,
@@ -19,40 +20,69 @@ const getters = {
 
 const actions = {
   async loginUser({ commit }, payload) {
-    const { username, password } = payload;
-    const { data } = await http.post('login', { username, password });
-    localStorage.setItem('token', data._kmd.authtoken);
-    localStorage.setItem('userInfo', JSON.stringify(data));
-    toastedSuccess('Successfully logged in!');
-    commit('loginSuccess', {
-      userInfo: data,
-      token: data._kmd.authtoken,
-      isLoggedIn: true
-    });
+    this.state.loading = true;
+    try {
+      const { username, password } = payload;
+      const { data } = await http.post('login', { username, password });
+      localStorage.setItem('token', data._kmd.authtoken);
+      localStorage.setItem('userInfo', JSON.stringify(data));
+      toastedSuccess('Successfully logged in!');
+      commit('loginSuccess', {
+        userInfo: data,
+        token: data._kmd.authtoken,
+        isLoggedIn: true
+      });
+      router.push({ name: "booksAll" });
+    } catch (error) {
+      if (!error.response) { toastedError(error) }
+    }
+    setTimeout(() => this.state.loading = false, 1500);
   },
   async logoutUser({ commit }) {
+    this.state.loading = true;
     await http.post("_logout");
     toastedSuccess('Successful logged out!');
     commit('logoutSuccess');
     localStorage.clear();
+    router.push({ name: "userLogin" });
+    setTimeout(() => this.state.loading = false, 1500);
   },
   async registerUser({ commit }, payload) {
-    await http.post('', payload);
-    toastedSuccess('Successfully Registered!');
-    commit('registerSuccess');
+    this.state.loading = true;
+    try {
+      await http.post('', payload);
+      toastedSuccess('Successfully Registered!');
+      commit('registerSuccess');
+      router.push({ name: "userLogin" });
+    } catch (error) {
+      if (!error.response) { toastedError(error) }
+    }
+    setTimeout(() => this.state.loading = false, 1500);
   },
   async loadCreatorBook({ commit }, payload) {
     const { data } = await http.get(`/?query={"username":"${payload}"}`);
     commit('loadCreatorBookSuccess', data);
   },
-  async getUserInfo({ commit }, payload) {
-    const { data } = await http.get(`/?query={"username":"${payload}"}`);
-    commit('getUserInfoSuccess', data);
+  async loadUserInfo({ commit }, payload) {
+    try {
+      const { data } = await http.get(`/?query={"username":"${payload}"}`);
+      toastedSuccess("Successfully loaded user's data!");
+      commit('loadUserInfoSuccess', data);
+    } catch (error) {
+      if (!error.response) { toastedError(error) }
+    }
   },
   async editUser({ commit }, payload) {
-    const [editedUser, id] = payload
-    const { data } = await http.put(`user/${id}`, editedUser);
-    commit('editUserSuccess', data);
+    this.state.loading = true;
+    try {
+      const [editedUser, id] = payload
+      const { data } = await http.put(`user/${id}`, editedUser);
+      toastedSuccess("Successfully edit Your profile!");
+      commit('editUserSuccess', data);
+    } catch (error) {
+      if (!error.response) { toastedError(error) }
+    }
+    setTimeout(() => this.state.loading = false, 1500);
   }
 };
 
@@ -69,7 +99,7 @@ const mutations = {
   loadCreatorBookSuccess(state, payload) {
     Object.assign(state, { creatorBook: payload[0] });
   },
-  getUserInfoSuccess(state, payload) {
+  loadUserInfoSuccess(state, payload) {
     Object.assign(state, { editedUser: payload[0] })
   },
   editUserSuccess(state, payload) {

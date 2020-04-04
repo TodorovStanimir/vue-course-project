@@ -3,7 +3,7 @@
     <div class="row">
       <div class="col-lg-4"></div>
       <div class="col-lg-4">
-        <form @submit.prevent="handleLogin">
+        <form @submit.prevent="loginUser({username, password})">
           <div class="form-group input-group">
             <div class="input-group-prepend">
               <span class="input-group-text">
@@ -68,7 +68,6 @@
 import { validationMixin } from "vuelidate";
 import { required, minLength, helpers } from "vuelidate/lib/validators";
 import { mapActions } from "vuex";
-import router from "../../router";
 
 const usernameValidator = helpers.regex("alpha", /^[A-Z][a-z]+\s[A-Z][a-z]+$/);
 
@@ -92,21 +91,7 @@ export default {
     }
   },
   methods: {
-    ...mapActions(["loginUser", "changeLoading"]),
-    async handleLogin() {
-      this.changeLoading(true);
-      try {
-        await this.loginUser({
-          username: this.username,
-          password: this.password
-        });
-        router.push({ name: "booksAll" });
-      } catch (err) {
-        Object.keys(this.$data).map(key => (this.$data[key] = ""));
-        this.$v.$reset();
-      }
-      this.changeLoading(false);
-    }
+    ...mapActions(["loginUser"]),
   }
 };
 </script>

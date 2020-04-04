@@ -20,7 +20,7 @@ const store = new Vuex.Store({
       if (payload) {
         commit('changeLoadingSuccess', payload);
       } else {
-        setTimeout(()=>commit('changeLoadingSuccess', payload), 1500);
+        setTimeout(commit('changeLoadingSuccess', payload), 2000);
       }      
     }
   },

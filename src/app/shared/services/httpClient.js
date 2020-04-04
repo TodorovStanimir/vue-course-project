@@ -56,13 +56,13 @@ http.interceptors.request.use(authInterceptor);
 http.interceptors.request.use(loggerInterceptor);
 
 const errorInterceptor = function (error) {
-    if (error.response.status === 401) {
+    if (error.response && error.response.status === 401) {
         toastedError(`${error.response.statusText}: ${error.response.data.description}`);
 
-    } else if (error.response.status === 500) {
+    } else if (error.response && error.response.status === 500) {
         toastedError(`${error.response.statusText}: Server Error`);
 
-    } else {
+    } else if (error.response) {
         toastedError(`${error.response.statusText}`);
     }
 

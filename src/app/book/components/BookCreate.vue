@@ -254,8 +254,6 @@ import {
 } from "vuelidate/lib/validators";
 import { helpers } from "vuelidate/lib/validators";
 import { mapActions, mapGetters } from "vuex";
-import { toastedSuccess, toastedError } from "../../shared/services/toasted";
-import router from "../../router";
 
 const genresValidator = helpers.regex("alpha", /^[A-Za-z -]+$/);
 export default {
@@ -318,11 +316,14 @@ export default {
       }
     };
   },
-  created() {
-    this.changeLoading(true);
+  async created() {
     if (this.id !== undefined) {
       this.isEditingBook = true;
-      const editingBook = this.getBookById(this.id);
+      let editingBook = this.getBookById(this.id);
+      if (!editingBook) {
+        await this.loadAllBooks();
+        editingBook = this.getBookById(this.id);
+      }
       Object.keys(this.book).map(key => {
         if (Array.isArray(editingBook[key])) {
           this.book[key] = editingBook[key].join(" ");
@@ -331,39 +332,20 @@ export default {
         }
       });
     }
-    this.changeLoading(false);
   },
   methods: {
-    ...mapActions(["createBook", "editBook", "changeLoading"]),
+    ...mapActions(["createBook", "editBook", "loadAllBooks"]),
     async handlerCreateBook(book) {
-      try {
-        this.changeLoading(true);
-        const newBook = Object.assign({ ...book });
-        newBook.genres = newBook.genres.split(" ");
-        newBook.author = this.username;
-        await this.createBook(newBook);
-        toastedSuccess("Successfully created book!");
-        router.push("/books/all");
-      } catch (error) {
-        this.$refs.createBookForm.reset();
-        toastedError('Something wrong happens. You could not create a book. Please try again later.');
-      }
-      this.changeLoading(false);
+      const newBook = Object.assign({ ...book });
+      newBook.genres = newBook.genres.split(" ");
+      newBook.author = this.username;
+      await this.createBook(newBook);
     },
     async handleEditBook() {
-      this.changeLoading(true);
-      try {
-        const editBook = Object.assign({ ...this.book });
-        editBook.genres = editBook.genres.split(" ");
-        editBook.author = this.username;
-        await this.editBook([editBook, this.id]);
-        toastedSuccess("Successfully edited book!");
-        router.push("/books/all");
-      } catch (error) {
-        this.$refs.createBookForm.reset();
-         toastedError('Something wrong happens. You could not edit a book. Please try again later.');
-      }
-      this.changeLoading(false);
+      const editBook = Object.assign({ ...this.book });
+      editBook.genres = editBook.genres.split(" ");
+      editBook.author = this.username;
+      await this.editBook([editBook, this.id]);
     }
   },
   computed: {

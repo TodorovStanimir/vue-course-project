@@ -50,12 +50,12 @@
 
 <script>
 import { mapGetters, mapActions } from "vuex";
-import { toastedSuccess } from "../../shared/services/toasted";
 
 export default {
   name: "BooksShowAll",
-  created() {
-    this.getBooks();
+  async created() {
+    await this.loadAllBooks();
+    await this.loadAllComments();
   },
   data: function() {
     return {};
@@ -65,28 +65,9 @@ export default {
       "loadAllBooks",
       "deleteBook",
       "loadAllComments",
-      "changeLoading"
     ]),
-    async getBooks() {
-      this.changeLoading(true);
-      try {
-        await this.loadAllBooks();
-        await this.loadAllComments();
-        toastedSuccess("Successfully loaded all book!");
-      } catch (error) {
-        throw new Error(error);
-      }
-      this.changeLoading(false);
-    },
     async handleDeleteBook(id) {
-      this.changeLoading(true);
-      try {
-        await this.deleteBook(id);
-        toastedSuccess("Successfully deleted book!");
-      } catch (error) {
-        throw error(error);
-      }
-      this.changeLoading(false);
+      await this.deleteBook(id);
     }
   },
   computed: {

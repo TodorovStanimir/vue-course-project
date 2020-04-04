@@ -31,7 +31,7 @@
             <router-link class="nav-link" :to="{ name: 'userLogin' }">Login</router-link>
           </li>
           <li v-if="isLoggedIn" class="nav-item isLogged">
-            <a class="nav-link" @click="handlerLogout">Logout</a>
+            <a class="nav-link" @click="logoutUser()">Logout</a>
           </li>
           <li class="nav-item" :class="{ isLogged: isLoggedIn }">
             <router-link v-if="isLoggedIn" class="nav-link" :to="{ name: 'userProfile' }">Profile</router-link>
@@ -60,22 +60,17 @@
 <script>
 import Loader from "../../core/components/Loader";
 import { mapGetters, mapActions } from "vuex";
-import router from "../../router";
 
 export default {
   name: "Navigation",
   components: {
     Loader
   },
-  data: function() {
-    return {};
-  },
   methods: {
     ...mapActions(["logoutUser"]),
-    async handlerLogout() {
-      await this.logoutUser();
-      router.push({ name: "userLogin" });
-    }
+    // async handlerLogout() {
+    //   await this.logoutUser();
+    // }
   },
   computed: {
     ...mapGetters(["isLoggedIn", "username", "loading"])

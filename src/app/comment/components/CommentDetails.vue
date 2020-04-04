@@ -20,7 +20,7 @@
 
 <script>
 import { mapActions, mapGetters } from "vuex";
-import { toastedSuccess } from "../../shared/services/toasted";
+
 export default {
   props: {
     id: {
@@ -29,12 +29,9 @@ export default {
     }
   },
   methods: {
-    ...mapActions(["deleteComment", "changeLoading"]),
-    async handledeleteComment(id) {
-      this.changeLoading(true);
-      await this.deleteComment(id);
-      toastedSuccess("Successfully deleted comment!");
-      this.changeLoading(false);
+    ...mapActions(["deleteComment"]),
+    handledeleteComment(id) {
+      this.deleteComment(id);
     }
   },
   computed: {

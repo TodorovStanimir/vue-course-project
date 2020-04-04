@@ -153,7 +153,6 @@
 import { validationMixin } from "vuelidate";
 import { required, email, alpha, url, helpers } from "vuelidate/lib/validators";
 import { mapActions, mapGetters } from "vuex";
-import { toastedSuccess } from "../../shared/services/toasted";
 
 const phoneNumberValidator = helpers.regex("alpha", /^[+]{1}\d{10,}$/);
 
@@ -186,22 +185,22 @@ export default {
     };
   },
   async created() {
-    this.changeLoading(true);
-    await this.getUserInfo(this.username);
-    toastedSuccess("Successfully loaded user's data!");
     await this.loadAllComments();
+    await this.loadUserInfo(this.username);
     this.userBooks = this.getBooksByUserName(this.username);
-    this.changeLoading(false);
+    if (this.userBooks.length === 0) {
+      await this.loadAllBooks();
+      this.userBooks = this.getBooksByUserName(this.username);
+    }
   },
   methods: {
     ...mapActions([
-      "getUserInfo",
+      "loadUserInfo",
       "editUser",
       "loadAllComments",
-      "changeLoading"
+      "loadAllBooks"
     ]),
     async handleEditUser() {
-      this.changeLoading(true);
       await this.editUser([
         {
           email: this.editedUser.email,
@@ -211,8 +210,6 @@ export default {
         },
         this.editedUser._id
       ]);
-      toastedSuccess("Successfully edit Your profile!");
-      this.changeLoading(false);
     }
   },
   computed: {

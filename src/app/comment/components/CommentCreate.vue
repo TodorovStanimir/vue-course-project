@@ -1,5 +1,5 @@
 <template>
-  <div >
+  <div>
     <div class="comment-header" v-if="!getCommentsByIdBook(id).length">
       <p>There is not comments for this book.</p>
       <p>You can write the first one.</p>
@@ -20,7 +20,6 @@
 <script>
 import { validationMixin } from "vuelidate";
 import { required, minLength } from "vuelidate/lib/validators";
-import { toastedSuccess } from "../../shared/services/toasted";
 import { mapActions, mapGetters } from "vuex";
 export default {
   name: "CommentCreate",
@@ -43,18 +42,15 @@ export default {
     };
   },
   methods: {
-    ...mapActions(["createComment", "changeLoading"]),
+    ...mapActions(["createComment"]),
     async handleCreateComment() {
-      this.changeLoading(true);
       const newComment = {
         subject: this.subjectNewComment,
         bookId: this.id,
         author: this.username
       };
       await this.createComment(newComment);
-      toastedSuccess("Successfully created comment!");
       this.subjectNewComment = "";
-      this.changeLoading(false);
     }
   },
   computed: {

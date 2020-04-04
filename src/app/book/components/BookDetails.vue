@@ -85,8 +85,7 @@
 import { validationMixin } from "vuelidate";
 import { required, minLength } from "vuelidate/lib/validators";
 import { mapGetters, mapActions } from "vuex";
-import { toastedSuccess, toastedError } from "../../shared/services/toasted";
-import router from "../../router";
+import { toastedSuccess } from "../../shared/services/toasted";
 import CommentCreate from "../../comment/components/CommentCreate";
 import CommentDetails from "../../comment/components/CommentDetails";
 
@@ -116,30 +115,23 @@ export default {
     };
   },
   async created() {
-    this.changeLoading(true);
-    try {
+    this.book = this.getBookById(this.id);
+    if (!this.book) {
+      await this.loadAllBooks();
       this.book = this.getBookById(this.id);
-      const author = this.book.author;
-      await this.loadCreatorBook(author);
-    } catch {
-      toastedError(
-        "You refreshed the page and were automatically redirected to AllBooksPage!"
-      );
-      router.push({ name: "booksAll" });
     }
-    this.changeLoading(false);
+    const author = this.book.author;
+    await this.loadCreatorBook(author);
   },
   methods: {
     ...mapActions([
       "deleteBook",
       "editBook",
       "loadCreatorBook",
-      "changeLoading"
+      "loadAllBooks"
     ]),
     async handleDeleteBook(id) {
       await this.deleteBook(id);
-      toastedSuccess("Successfully deleted book!");
-      router.push({ name: "booksAll" });
     },
     async rateBook(id, rate) {
       rate === "like" ? (this.book.likes += 1) : (this.book.dislikes += 1);
@@ -166,11 +158,7 @@ export default {
     }
   },
   computed: {
-    ...mapGetters([
-      "getBookById",
-      "creatorBook",
-      "username"
-    ])
+    ...mapGetters(["getBookById", "creatorBook", "username"])
   }
 };
 </script>
@@ -303,8 +291,6 @@ button {
     align-items: stretch;
   }
   .grid-item {
-    justify-content: space-around;
-    align-items: stretch;
     width: 47%;
   }
 }

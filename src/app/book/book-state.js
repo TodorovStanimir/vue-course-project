@@ -1,4 +1,7 @@
+import { toastedSuccess, toastedError } from '../shared/services/toasted.js';
 import { http } from '../shared/services/httpClient';
+import router from '../router';
+
 
 const initialState = {
   allBooks: []
@@ -12,21 +15,56 @@ const getters = {
 
 const actions = {
   async loadAllBooks({ commit }) {
-    const { data } = await http.get("books");
-    commit('loadAllBooksSuccess', data);
+    this.state.loading = true;
+    try {
+      const { data } = await http.get("books");
+      commit('loadAllBooksSuccess', data);
+      toastedSuccess("Successfully loaded all book!");
+    } catch (error) {
+      if (!error.response) { toastedError(error) }
+    }
+    setTimeout(() => this.state.loading = false, 1500);
   },
   async deleteBook({ commit }, id) {
-    await http.delete(`books/${id}`);
-    commit('deleteBookSuccess', id)
+    this.state.loading = true;
+    try {
+      await http.delete(`books/${id}`);
+      commit('deleteBookSuccess', id);
+      toastedSuccess("Successfully deleted book!");
+      if (router.currentRoute.name !== "booksAll") {
+        router.push({ name: "booksAll" });
+      }
+    } catch (error) {
+      if (!error.response) { toastedError(error) }
+    }
+    setTimeout(() => this.state.loading = false, 1500);
   },
   async createBook({ commit }, book) {
-    const { data } = await http.post("/books", book);
-    commit('createBookSuccess', { book: data })
+    this.state.loading = true;
+    try {
+      const { data } = await http.post("/books", book);
+      commit('createBookSuccess', { book: data })
+      toastedSuccess("Successfully created book!");
+      router.push("/books/all");
+    } catch (error) {
+      if (!error.response) { toastedError(error) }
+    }
+    setTimeout(() => this.state.loading = false, 1500);
   },
   async editBook({ commit }, payload) {
-    const [editedBook, id] = payload;
-    const { data } = await http.put(`/books/${id}`, editedBook);
-    commit('editBookSuccess', { book: data })
+    this.state.loading = true;
+    try {
+      const [editedBook, id] = payload;
+      const { data } = await http.put(`/books/${id}`, editedBook);
+      commit('editBookSuccess', { book: data });
+      if (router.currentRoute.name === "bookEdit") {
+        toastedSuccess("Successfully edited book!");
+        router.go(-1);
+      }
+    } catch (error) {
+      if (!error.response) { toastedError(error) }
+    }
+    setTimeout(() => this.state.loading = false, 1500);
   }
 };
 
