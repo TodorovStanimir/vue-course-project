@@ -28,6 +28,7 @@ Vue course project
 Book store is SPA for advertising the books.
 
 It was generated with Vue CLI version 4.2.3.
+It use Vuex state management.
 
 Application structure
 The application have public part and private part.
