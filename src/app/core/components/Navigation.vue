@@ -47,7 +47,7 @@
             <div class="dropdown-menu" aria-labelledby="navbarDropdown">
               <router-link class="dropdown-item" :to="{ name: 'booksAll' }">All books</router-link>
               <router-link class="dropdown-item" :to="{ name: 'booksUser' }">My books</router-link>
-              <router-link class="dropdown-item" :to="{ name: 'bookCreate'} ">Create new book</router-link>
+              <router-link class="dropdown-item" :to="{ name: 'bookCreate'}">Create new book</router-link>
             </div>
           </li>
         </ul>
@@ -67,7 +67,7 @@ export default {
     Loader
   },
   methods: {
-    ...mapActions(["logoutUser"]),
+    ...mapActions(["logoutUser"])
   },
   computed: {
     ...mapGetters(["isLoggedIn", "username", "loading"])

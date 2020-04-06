@@ -283,7 +283,7 @@ input.invalid-touched {
   margin-bottom: 10px;
   border-radius: 5px;
   text-align: center;
-  width: 180px;
+  width: auto;
 }
 .info-field {
   background-color: #ffffff;
@@ -318,5 +318,12 @@ button {
 }
 .login {
   color: #000080;
+}
+@media only screen and (max-width: 768px) {
+  .container {
+    padding: 5px;
+    margin-bottom: -687px;
+    width: 84%;
+  }
 }
 </style>

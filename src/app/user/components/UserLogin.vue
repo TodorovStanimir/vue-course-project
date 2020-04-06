@@ -70,7 +70,10 @@ import { required, helpers } from "vuelidate/lib/validators";
 import { mapActions } from "vuex";
 
 const usernameValidator = helpers.regex("alpha", /^[A-Z][a-z]+\s[A-Z][a-z]+$/);
-const passwordValidator = helpers.regex("alpha", /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{3,16}$/);
+const passwordValidator = helpers.regex(
+  "alpha",
+  /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{3,16}$/
+);
 
 export default {
   name: "UserLogin",
@@ -100,12 +103,16 @@ export default {
 <style scoped>
 input.valid {
   border: 2px solid #42a948; /* green */
+  border-top-left-radius: 0px;
+  border-bottom-left-radius: 0px;
 }
 input.invalid-touched {
   border: 2px solid #a94442; /* red */
+  border-top-left-radius: 0px;
+  border-bottom-left-radius: 0px;
 }
 .req-field {
-  background-color: #FFFFFF;
+  background-color: #ffffff;
   color: #a94442;
   height: auto;
   margin-top: -10px;
@@ -115,7 +122,7 @@ input.invalid-touched {
   width: auto;
 }
 .info-field {
-  background-color: #FFFFFF;
+  background-color: #ffffff;
   color: #a94442;
   height: auto;
   margin-top: -10px;
@@ -142,7 +149,7 @@ input {
   margin-top: 113px;
   margin-bottom: -436px;
 }
-.form-container{
+.form-container {
   background-color: rgb(0, 0, 0, 0.1);
   padding: 20px;
   padding-bottom: 0px;
@@ -157,7 +164,13 @@ button {
   border: 2px solid grey;
   background-color: #42a948;
 }
-.register{
+.register {
   color: #1034a6;
+}
+@media only screen and (max-width: 768px) {
+  .container {
+    margin-bottom: -550px;
+    width: 90%;
+  }
 }
 </style>

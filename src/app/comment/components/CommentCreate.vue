@@ -64,7 +64,8 @@ export default {
 button {
   height: 30px;
   width: 80px;
-  border: 1px solid grey;
+  /* border: 1px solid grey; */
+  border: 1px solid white;
   padding: 0px;
   color: black;
 }
@@ -76,10 +77,11 @@ button {
 }
 .comment-header p {
   text-align: left;
-  color: #fdfff5;
-  text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
   font: italic small-caps bold 15px/18px Georgia, serif;
   margin-bottom: 0px;
+  color: black;
+  /* color: #fdfff5;
+  text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black; */
 }
 .add-comment {
   display: flex;
@@ -96,8 +98,8 @@ button {
   resize: none;
   border-radius: 0.5rem;
 }
-::placeholder { 
-  color: white;
+::placeholder {
+  color: black;
 }
 .add-comment textarea {
   margin-bottom: 10px;
@@ -105,8 +107,11 @@ button {
   height: 5em;
   resize: none;
   border-radius: 4px;
-  border: 1px solid grey;
-  background-color: rgb(240, 240, 240, 0);
-  color: white;
+  /* border: 1px solid grey; */
+  border: 1px solid white;
+  color: black;
+  background-color: rgb(0, 0, 0, 0.1);
+  /* color: white;
+  background-color: rgb(240, 240, 240, 0); */
 }
 </style>

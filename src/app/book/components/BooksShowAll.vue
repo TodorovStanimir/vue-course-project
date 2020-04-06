@@ -1,7 +1,11 @@
 <template>
   <div class="grid-container">
     <div class="grid">
-      <div class="grid-item opacity" v-for="book in allBooks" :key="book._id">
+      <div
+        class="grid-item"
+        v-for="book in (areAllBooks ? allBooks : getBooksByUserName(username) )"
+        :key="book._id"
+      >
         <div class="grid-item-fr">
           <div class="grid-item-fr-fc">
             <img :src="book.imageUrl" />
@@ -50,15 +54,19 @@
 
 <script>
 import { mapGetters, mapActions } from "vuex";
+import router from "../../router";
 
 export default {
   name: "BooksShowAll",
   async created() {
     await this.loadAllBooks();
     await this.loadAllComments();
+    this.areAllBooks = router.currentRoute.name === "booksAll";
   },
   data: function() {
-    return {};
+    return {
+      areAllBooks: true
+    };
   },
   methods: {
     ...mapActions(["loadAllBooks", "deleteBook", "loadAllComments"]),
@@ -67,7 +75,7 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(["username", "allBooks"])
+    ...mapGetters(["username", "allBooks", "getBooksByUserName"])
   }
 };
 </script>
@@ -78,12 +86,6 @@ export default {
   padding: 0;
   box-sizing: border-box;
 }
-/* .opacity {
-  opacity: 0.8;
-  border-radius: 0.5rem;
-  background: white;
-  color: black;
-} */
 .grid-container {
   display: flex;
   justify-content: center;
@@ -136,18 +138,21 @@ img {
 }
 .title {
   font: italic small-caps bold 15px/18px Georgia, serif;
-  color: white;
-  text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
+  color: blackl;
+  /* color: white; */
+  /* text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black; */
 }
 .author {
   font: italic small-caps bold 17px/18px Georgia, serif;
-  color: white;
-  text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
+  color: black;
+  /* color: white;
+  text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black; */
 }
 .genres {
   font: italic small-caps bold 17px/18px Georgia, serif;
-  color: white;
-  text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
+  color: black;
+  /* color: white;
+  text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black; */
 }
 .buttons-container {
   display: flex;
@@ -168,9 +173,10 @@ img {
   border-radius: 5px;
   /* border: 1px solid white; */
   padding: 10px;
-  color: #fdfff5;
-  text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
   height: 64%;
+  color: black;
+  /* color: #fdfff5;
+  text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black; */
 }
 li {
   list-style-type: none;
@@ -191,26 +197,21 @@ button {
   }
   .grid {
     margin-top: 20px;
-    width: auto;
+    /* width: auto; */
     display: flex;
     flex-wrap: wrap;
     flex-direction: row;
     justify-content: space-evenly;
     align-items: stretch;
+    width: 100%;
   }
   .grid-item {
     justify-content: space-around;
     align-items: stretch;
-    width: 47%;
-  }
-  .grid-item-sr {
-    color: white;
+    width: 40%;
   }
 }
 @media only screen and (max-width: 768px) {
-  .opacity {
-    opacity: 1;
-  }
   .grid-container {
     display: flex;
     justify-content: center;
@@ -226,14 +227,11 @@ button {
   .grid-item {
     justify-content: space-around;
     align-items: stretch;
-    width: 95%;
-  }
-  .grid-item-sr {
-    color: white;
+    width: 93%;
   }
   button {
     height: 30px;
-    width: 50px;
+    width: 40px;
     margin-right: 5px;
     border: 1px solid grey;
   }

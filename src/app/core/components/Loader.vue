@@ -30,15 +30,14 @@ body {
 }
 
 .loading {
-  // $colors: #7ef9ff, #89cff0, #4682b4, #0f52ba, #000080;
   $colors: #d0fBce, #72d572, #2baf2b, #0a8f08, #056f00;
   display: flex;
   animation-delay: 1s;
 
   .dot {
     position: relative;
-    width: 1em;
-    height: 1em;
+    width: 0.8em;
+    height: 0.8em;
     margin: 0.8em;
     border-radius: 50%;
 
@@ -73,6 +72,16 @@ body {
   80%,
   100% {
     opacity: 0;
+  }
+}
+
+@media only screen and (max-width: 768px) {
+  .loading {
+    width: 60%;
+  }
+    .dot {
+    width: 0.9em;
+    height: 0.9em;
   }
 }
 </style>>

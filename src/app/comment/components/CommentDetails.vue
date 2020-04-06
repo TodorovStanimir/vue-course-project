@@ -52,10 +52,12 @@ export default {
   margin-right: 10px;
   margin-bottom: 10px;
   border-radius: 4px;
-  border: 1px solid grey;
+  /* border: 1px solid grey; */
+  border: 1px solid white;
   background-color: rgb(240, 240, 240, 0);
-  color: #fdfff5;
-  text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
+  color: black;
+  /* color: #fdfff5;
+  text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black; */
 }
 .comment-container p {
   margin-left: 4px;
@@ -74,7 +76,8 @@ export default {
 button {
   height: 30px;
   width: 80px;
-  border: 1px solid grey;
+  /* border: 1px solid grey; */
+  border: 1px solid white;
   padding: 0px;
   color: black;
 }

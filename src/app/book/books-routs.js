@@ -7,14 +7,14 @@ export default [
         name: "booksAll",
         props: false,
         beforeEnter: requiresAuth,
-        component: () => import( /* webpackChunkName: "booksShowAll" */ "./components/BooksShowAll.vue")
+        component: () => import( /* webpackChunkName: "showAllBooks" */ "./components/BooksShowAll.vue")
     },
     {
         path: "/books/user",
         name: "booksUser",
         props: false,
         beforeEnter: requiresAuth,
-        component: () => import( /* webpackChunkName: "booksShowAll" */ "./components/BooksShowAll.vue")
+        component: () => import( /* webpackChunkName: "showUserBooks" */ "./components/BooksShowAll.vue")
     },
     {
         path: "/books/create",

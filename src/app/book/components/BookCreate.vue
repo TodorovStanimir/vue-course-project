@@ -5,7 +5,7 @@
         <form ref="createBookForm">
           <div class="firstr">
             <div class="firstr-firstc">
-              <div class="form-group input-group">
+              <div class="user-info-form-group">
                 <div class="input-group-prepend">
                   <span class="input-group-text">
                     <i class="fa fa-book"></i>
@@ -29,7 +29,7 @@
               </div>
             </div>
             <div class="firstr-secondc">
-              <div class="form-group input-group">
+              <div class="user-info-form-group">
                 <div class="input-group-prepend">
                   <span class="input-group-text">
                     <i class="fa fa-user-tie"></i>
@@ -55,7 +55,7 @@
           </div>
           <div class="secondr">
             <div class="secondr-firstc">
-              <div class="form-group input-group">
+              <div class="user-info-form-group">
                 <div class="input-group-prepend">
                   <span class="input-group-text">
                     <i class="fa fa-edit"></i>
@@ -82,7 +82,7 @@
           </div>
           <div class="thirdr">
             <div class="thirdr-firstc">
-              <div class="form-group input-group">
+              <div class="user-info-form-group">
                 <div class="input-group-prepend">
                   <span class="input-group-text">
                     <i class="fa fa-folder"></i>
@@ -106,7 +106,7 @@
               </div>
             </div>
             <div class="thirdr-secondc">
-              <div class="form-group input-group">
+              <div class="user-info-form-group">
                 <div class="input-group-prepend">
                   <span class="input-group-text">
                     <i class="fa fa-calendar-alt"></i>
@@ -141,7 +141,7 @@
           </div>
           <div class="fourthr">
             <div class="fourthr-firstc">
-              <div class="form-group input-group">
+              <div class="user-info-form-group">
                 <div class="input-group-prepend">
                   <span class="input-group-text">
                     <i class="fa fa-user-tie"></i>
@@ -165,7 +165,7 @@
               </div>
             </div>
             <div class="fourthr-secondc">
-              <div class="form-group input-group">
+              <div class="user-info-form-group">
                 <div class="input-group-prepend">
                   <span class="input-group-text">
                     <i class="fa fa-dollar-sign"></i>
@@ -192,7 +192,7 @@
           </div>
           <div class="fifthr">
             <div class="fifthr-firstc">
-              <div class="form-group input-group">
+              <div class="user-info-form-group">
                 <div class="input-group-prepend">
                   <span class="input-group-text">
                     <i class="fa fa-image"></i>
@@ -376,6 +376,10 @@ export default {
   display: flex;
   flex-direction: column;
 }
+.user-info-form-group {
+  display: flex;
+  margin-bottom: 1rem;
+}
 .firstr {
   display: flex;
   flex-direction: row;
@@ -420,12 +424,15 @@ export default {
 .fifthr-secondc {
   width: 30%;
 }
-
 .valid {
   border: 2px solid #42a948; /* green */
+  border-top-left-radius: 0px;
+  border-bottom-left-radius: 0px;
 }
 .invalid-touched {
   border: 2px solid #a94442; /* red */
+  border-top-left-radius: 0px;
+  border-bottom-left-radius: 0px;
 }
 .req-field {
   background-color: #ffffff;
@@ -435,7 +442,7 @@ export default {
   margin-bottom: 10px;
   border-radius: 5px;
   text-align: center;
-  width: 180px;
+  width: auto;
 }
 .info-field {
   background-color: #ffffff;
@@ -468,8 +475,8 @@ textarea {
 }
 @media only screen and (max-width: 768px) {
   .grid-container {
-  margin-top: 10px;
-   margin-bottom: -605px;
+    margin-top: 10px;
+    margin-bottom: -605px;
   }
   .grid {
     width: 90%;

@@ -186,21 +186,22 @@ export default {
 .grid-item {
   display: flex;
   margin-top: 10px;
-  width: 28%;
+  width: 32%;
   flex-direction: column;
   padding: 10px;
   /* border: 1px solid white;
   border-radius: 5px; */
 }
 .description {
-  margin-top: 15px;
+  margin-top: 10px;
   margin-left: 20px;
   margin-right: 20px;
   margin-bottom: 20px;
   text-align: justify;
   font: italic small-caps 15px/16px Georgia, serif;
-  color: #fdfff5;
-  text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
+  color: black;
+  /* color: #fdfff5;
+  text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black; */
 }
 .grid-item-fr {
   display: flex;
@@ -215,7 +216,6 @@ export default {
   margin-right: 5px;
 }
 img {
-  /* opacity: 1; */
   border-radius: 0.5rem;
   height: 180px;
   width: 150px;
@@ -228,8 +228,9 @@ img {
   margin-left: 5px;
   margin-right: 5px;
   width: 100%;
-  color: #fdfff5;
-  text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
+  color: black;
+  /* color: #fdfff5;
+  text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black; */
 }
 .title {
   font: italic small-caps bold 15px/18px Georgia, serif;
@@ -272,20 +273,17 @@ button {
   font: italic small-caps 18px/23px Georgia, serif;
   margin: 10px;
   text-align: justify;
-  color: #fdfff5;
-  text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
+  color: black;
+  /* color: #fdfff5;
+  text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black; */
 }
 
 @media only screen and (max-width: 1280px) {
-  /* .opacity {
-    opacity: 1;
-  } */
   .grid-container {
     display: flex;
     justify-content: center;
   }
   .grid {
-    margin-top: 20px;
     width: auto;
     display: flex;
     flex-wrap: wrap;
@@ -295,13 +293,11 @@ button {
   }
   .grid-item {
     width: 47%;
+    margin-top: 0px;
   }
 }
 
 @media only screen and (max-width: 768px) {
-  /* .opacity {
-    opacity: 1;
-  } */
   .grid-container {
     display: flex;
     justify-content: center;
@@ -315,7 +311,6 @@ button {
     align-items: stretch;
   }
   .grid-item {
-    margin: 1em;
     justify-content: space-around;
     align-items: stretch;
     width: 95%;
