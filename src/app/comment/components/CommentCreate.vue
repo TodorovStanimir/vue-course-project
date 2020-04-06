@@ -65,6 +65,8 @@ button {
   height: 30px;
   width: 80px;
   border: 1px solid grey;
+  padding: 0px;
+  color: black;
 }
 .comment-header {
   display: flex;
@@ -74,7 +76,8 @@ button {
 }
 .comment-header p {
   text-align: left;
-  color: rgb(61, 6, 6);
+  color: #fdfff5;
+  text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
   font: italic small-caps bold 15px/18px Georgia, serif;
   margin-bottom: 0px;
 }
@@ -93,13 +96,17 @@ button {
   resize: none;
   border-radius: 0.5rem;
 }
+::placeholder { 
+  color: white;
+}
 .add-comment textarea {
   margin-bottom: 10px;
   padding-left: 6px;
   height: 5em;
   resize: none;
   border-radius: 4px;
-  background-color: whitesmoke;
-  color: black;
+  border: 1px solid grey;
+  background-color: rgb(240, 240, 240, 0);
+  color: white;
 }
 </style>

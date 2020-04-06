@@ -2,7 +2,7 @@
   <div class="container">
     <div class="row">
       <div class="col-lg-4"></div>
-      <div class="col-lg-4">
+      <div class="col-lg-4 form-container">
         <form @submit.prevent="handleRegister">
           <div class="form-group input-group">
             <div class="input-group-prepend">
@@ -66,7 +66,7 @@
           <div
             class="info-field"
             v-if="!$v.phoneNumber.phoneNumberValidator"
-          >Phone number should consists country code and at least 10 digits!</div>
+          >Phone number should consists country code and at least 7 digits!</div>
           <div v-else-if="$v.phoneNumber.$error">
             <div class="req-field" v-if="!$v.phoneNumber.$required">This field is required!</div>
           </div>
@@ -164,9 +164,9 @@
             >Create Account</button>
           </div>
           <p class="text-center">
-            <b>Have an account?&nbsp;&nbsp;</b>
+            Have an account?&nbsp;&nbsp;
             <router-link :to="{ name: 'userLogin' }">
-              <b>Log In</b>
+              <b class="login">Log In</b>
             </router-link>
           </p>
         </form>
@@ -178,12 +178,22 @@
 
 <script>
 import { validationMixin } from "vuelidate";
-import { required, email, alpha, url, sameAs, helpers } from "vuelidate/lib/validators";
+import {
+  required,
+  email,
+  alpha,
+  url,
+  sameAs,
+  helpers
+} from "vuelidate/lib/validators";
 import { mapActions } from "vuex";
 
 const usernameValidator = helpers.regex("alpha", /^[A-Z][a-z]+\s[A-Z][a-z]+$/);
 const phoneNumberValidator = helpers.regex("alpha", /^[+]{1}\d{10,}$/);
-const passwordValidator = helpers.regex("alpha", /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{3,16}$/);
+const passwordValidator = helpers.regex(
+  "alpha",
+  /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{3,16}$/
+);
 
 export default {
   name: "UserRegister",
@@ -247,20 +257,27 @@ export default {
 
 <style scoped>
 .container {
-  padding-top: 31px;
-  margin-bottom: -602px;
+  padding-top: 10px;
+  margin-bottom: -603px;
 }
-
+.form-container {
+  background-color: rgb(0, 0, 0, 0.1);
+  padding: 20px;
+  padding-bottom: 0px;
+  border-radius: 4px;
+  border: 1px solid white;
+}
 input.valid {
-  border-left: 2px solid #42a948; /* green */
+  border: 2px solid #42a948; /* green */
 }
 
 input.invalid-touched {
-  border-left: 2px solid #a94442; /* red */
+  border: 2px solid #a94442; /* red */
 }
 
 .req-field {
-  background-color: #a94442;
+  background-color: #ffffff;
+  color: #a94442;
   height: auto;
   margin-top: -10px;
   margin-bottom: 10px;
@@ -268,9 +285,9 @@ input.invalid-touched {
   text-align: center;
   width: 180px;
 }
-
 .info-field {
-  background-color: #a94442;
+  background-color: #ffffff;
+  color: #a94442;
   height: auto;
   margin-top: -10px;
   margin-bottom: 10px;
@@ -278,29 +295,28 @@ input.invalid-touched {
   text-align: center;
   width: auto;
 }
-
 i {
   color: #42a948;
 }
-
 span {
-  border-left: 2px solid grey;
-  border-top: 2px solid grey;
-  border-bottom: 2px solid grey;
+  border-left: 2px solid #42a948;
+  border-top: 2px solid #42a948;
+  border-bottom: 2px solid #42a948;
 }
-
 input {
-  border-right: 2px solid grey;
-  border-top: 2px solid grey;
-  border-bottom: 2px solid grey;
+  border-right: 2px solid #42a948;
+  border-top: 2px solid #42a948;
+  border-bottom: 2px solid #42a948;
 }
-
 .text-center {
   font-style: italic;
+  color: beige;
 }
-
 button {
   border: 2px solid grey;
   background-color: #42a948;
+}
+.login {
+  color: #000080;
 }
 </style>

@@ -53,7 +53,9 @@ export default {
   margin-bottom: 10px;
   border-radius: 4px;
   border: 1px solid grey;
-  background-color: rgb(240, 240, 240);
+  background-color: rgb(240, 240, 240, 0);
+  color: #fdfff5;
+  text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
 }
 .comment-container p {
   margin-left: 4px;
@@ -73,5 +75,7 @@ button {
   height: 30px;
   width: 80px;
   border: 1px solid grey;
+  padding: 0px;
+  color: black;
 }
 </style>

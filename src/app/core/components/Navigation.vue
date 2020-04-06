@@ -33,8 +33,8 @@
           <li v-if="isLoggedIn" class="nav-item isLogged">
             <a class="nav-link" @click="logoutUser()">Logout</a>
           </li>
-          <li class="nav-item" :class="{ isLogged: isLoggedIn }">
-            <router-link v-if="isLoggedIn" class="nav-link" :to="{ name: 'userProfile' }">Profile</router-link>
+          <li v-if="isLoggedIn" class="nav-item isLogged">
+            <router-link class="nav-link" :to="{ name: 'userProfile' }">Profile</router-link>
           </li>
           <li v-if="isLoggedIn" appDropdown class="nav-item dropdown isLogged">
             <a
@@ -68,9 +68,6 @@ export default {
   },
   methods: {
     ...mapActions(["logoutUser"]),
-    // async handlerLogout() {
-    //   await this.logoutUser();
-    // }
   },
   computed: {
     ...mapGetters(["isLoggedIn", "username", "loading"])
@@ -80,8 +77,8 @@ export default {
 
 <style scoped>
 div.sticky {
-  /* position: -webkit-sticky;
-  position: sticky; */
+  position: -webkit-sticky;
+  position: sticky;
   top: 0px;
   padding: 4px;
   border-radius: 5px;

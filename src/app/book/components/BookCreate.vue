@@ -1,11 +1,10 @@
 <template>
-  <div class="container">
-    <div class="row">
-      <div class="col-lg-2"></div>
-      <div class="col-lg-10">
+  <div class="grid-container">
+    <div class="grid">
+      <div class="grid-item">
         <form ref="createBookForm">
-          <div class="row">
-            <div class="col-lg-5">
+          <div class="firstr">
+            <div class="firstr-firstc">
               <div class="form-group input-group">
                 <div class="input-group-prepend">
                   <span class="input-group-text">
@@ -29,7 +28,7 @@
                 >Title shoud contain at least {{$v.book.title.$params.minLength.min}} signs</div>
               </div>
             </div>
-            <div class="col-lg-5">
+            <div class="firstr-secondc">
               <div class="form-group input-group">
                 <div class="input-group-prepend">
                   <span class="input-group-text">
@@ -54,8 +53,8 @@
               </div>
             </div>
           </div>
-          <div class="row">
-            <div class="col-lg-10">
+          <div class="secondr">
+            <div class="secondr-firstc">
               <div class="form-group input-group">
                 <div class="input-group-prepend">
                   <span class="input-group-text">
@@ -81,8 +80,8 @@
               </div>
             </div>
           </div>
-          <div class="row">
-            <div class="col-lg-7">
+          <div class="thirdr">
+            <div class="thirdr-firstc">
               <div class="form-group input-group">
                 <div class="input-group-prepend">
                   <span class="input-group-text">
@@ -106,7 +105,7 @@
                 >Genres should contain genres of book separeted by space!</div>
               </div>
             </div>
-            <div class="col-lg-3">
+            <div class="thirdr-secondc">
               <div class="form-group input-group">
                 <div class="input-group-prepend">
                   <span class="input-group-text">
@@ -140,8 +139,8 @@
               </div>
             </div>
           </div>
-          <div class="row">
-            <div class="col-lg-7">
+          <div class="fourthr">
+            <div class="fourthr-firstc">
               <div class="form-group input-group">
                 <div class="input-group-prepend">
                   <span class="input-group-text">
@@ -165,7 +164,7 @@
                 >Publishers should contain at least {{$v.book.publisher.$params.minLength.min}} signs</div>
               </div>
             </div>
-            <div class="col-lg-3">
+            <div class="fourthr-secondc">
               <div class="form-group input-group">
                 <div class="input-group-prepend">
                   <span class="input-group-text">
@@ -191,8 +190,8 @@
               </div>
             </div>
           </div>
-          <div class="row">
-            <div class="col-lg-7">
+          <div class="fifthr">
+            <div class="fifthr-firstc">
               <div class="form-group input-group">
                 <div class="input-group-prepend">
                   <span class="input-group-text">
@@ -216,7 +215,7 @@
                 >Image Url should start wth http:// or https://</div>
               </div>
             </div>
-            <div class="col-lg-3">
+            <div class="fifthr-secondc">
               <div class="form-group">
                 <button
                   v-if="!isEditingBook"
@@ -237,7 +236,6 @@
           </div>
         </form>
       </div>
-      <div class="col-lg-4"></div>
     </div>
   </div>
 </template>
@@ -355,18 +353,83 @@ export default {
 </script>
 
 <style scoped>
-.container {
-  margin-top: 80px;
-  margin-bottom: -497px;
+.grid-container {
+  margin-top: 60px;
+  margin-bottom: -509px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
+.grid {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: stretch;
+  width: 60%;
+  padding: 25px;
+  padding-bottom: 5px;
+  background-color: rgb(0, 0, 0, 0.1);
+  border-radius: 4px;
+  border: 1px solid white;
+}
+.grid-item {
+  display: flex;
+  flex-direction: column;
+}
+.firstr {
+  display: flex;
+  flex-direction: row;
+}
+.firstr-firstc {
+  width: 50%;
+  margin-right: 20px;
+}
+.firstr-secondc {
+  width: 50%;
+}
+.thirdr {
+  display: flex;
+  flex-direction: row;
+}
+.thirdr-firstc {
+  width: 70%;
+  margin-right: 20px;
+}
+.thirdr-secondc {
+  width: 30%;
+}
+.fourthr {
+  display: flex;
+  flex-direction: row;
+}
+.fourthr-firstc {
+  width: 70%;
+  margin-right: 20px;
+}
+.fourthr-secondc {
+  width: 30%;
+}
+.fifthr {
+  display: flex;
+  flex-direction: row;
+}
+.fifthr-firstc {
+  width: 70%;
+  margin-right: 20px;
+}
+.fifthr-secondc {
+  width: 30%;
+}
+
 .valid {
-  border-left: 2px solid #42a948; /* green */
+  border: 2px solid #42a948; /* green */
 }
 .invalid-touched {
-  border-left: 2px solid #a94442; /* red */
+  border: 2px solid #a94442; /* red */
 }
 .req-field {
-  background-color: #a94442;
+  background-color: #ffffff;
+  color: #a94442;
   height: auto;
   margin-top: -10px;
   margin-bottom: 10px;
@@ -375,7 +438,8 @@ export default {
   width: 180px;
 }
 .info-field {
-  background-color: #a94442;
+  background-color: #ffffff;
+  color: #a94442;
   height: auto;
   margin-top: -10px;
   margin-bottom: 10px;
@@ -388,18 +452,78 @@ i {
   color: #42a948;
 }
 span {
-  border-left: 2px solid grey;
-  border-top: 2px solid grey;
-  border-bottom: 2px solid grey;
+  border-left: 2px solid #42a948;
+  border-top: 2px solid #42a948;
+  border-bottom: 2px solid #42a948;
 }
 input {
-  border-right: 2px solid grey;
-  border-top: 2px solid grey;
-  border-bottom: 2px solid grey;
+  border-right: 2px solid #42a948;
+  border-top: 2px solid #42a948;
+  border-bottom: 2px solid #42a948;
 }
 textarea {
-  border-right: 2px solid grey;
-  border-top: 2px solid grey;
-  border-bottom: 2px solid grey;
+  border-right: 2px solid #42a948;
+  border-top: 2px solid #42a948;
+  border-bottom: 2px solid #42a948;
+}
+@media only screen and (max-width: 768px) {
+  .grid-container {
+  margin-top: 10px;
+   margin-bottom: -605px;
+  }
+  .grid {
+    width: 90%;
+    padding: 5px;
+    padding-bottom: 0px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    /* align-items: stretch; */
+  }
+  .grid-item {
+    width: 100%;
+  }
+  .firstr {
+    flex-direction: column;
+  }
+  .firstr-firstc {
+    width: 100%;
+  }
+  .firstr-secondc {
+    width: 100%;
+  }
+  .thirdr {
+    display: flex;
+    flex-direction: column;
+  }
+  .thirdr-firstc {
+    width: 100%;
+  }
+  .thirdr-secondc {
+    width: 100%;
+  }
+  .fourthr {
+    display: flex;
+    flex-direction: column;
+  }
+  .fourthr-firstc {
+    width: 100%;
+  }
+  .fourthr-secondc {
+    width: 100%;
+  }
+  .fifthr {
+    display: flex;
+    flex-direction: column;
+  }
+  .fifthr-firstc {
+    width: 100%;
+    margin-right: 20px;
+  }
+  .fifthr-secondc {
+    display: flex;
+    width: 100%;
+    justify-content: center;
+  }
 }
 </style>

@@ -64,6 +64,7 @@ const actions = {
     commit('loadCreatorBookSuccess', data);
   },
   async loadUserInfo({ commit }, payload) {
+    this.state.loading = true;
     try {
       const { data } = await http.get(`/?query={"username":"${payload}"}`);
       toastedSuccess("Successfully loaded user's data!");
@@ -71,6 +72,7 @@ const actions = {
     } catch (error) {
       if (!error.response) { toastedError(error) }
     }
+    setTimeout(() => this.state.loading = false, 1500);
   },
   async editUser({ commit }, payload) {
     this.state.loading = true;

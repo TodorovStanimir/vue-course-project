@@ -61,11 +61,7 @@ export default {
     return {};
   },
   methods: {
-    ...mapActions([
-      "loadAllBooks",
-      "deleteBook",
-      "loadAllComments",
-    ]),
+    ...mapActions(["loadAllBooks", "deleteBook", "loadAllComments"]),
     async handleDeleteBook(id) {
       await this.deleteBook(id);
     }
@@ -82,12 +78,12 @@ export default {
   padding: 0;
   box-sizing: border-box;
 }
-.opacity {
+/* .opacity {
   opacity: 0.8;
   border-radius: 0.5rem;
   background: white;
   color: black;
-}
+} */
 .grid-container {
   display: flex;
   justify-content: center;
@@ -104,26 +100,27 @@ export default {
 }
 .grid-item {
   display: flex;
-  margin-top: 20px;
-  width: 28%;
+  padding: 15px;
+  width: 30%;
   flex-direction: column;
+  justify-content: stretch;
   margin-bottom: 30px;
+  background-color: rgb(0, 0, 0, 0.1);
+  border-radius: 4px;
+  border: 1px solid white;
 }
 .grid-item-fr {
   display: flex;
   justify-content: space-between;
+  height: 36%;
 }
 .grid-item-fr-fc {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  margin-left: 10px;
-  margin-top: 10px;
-  margin-right: 5px;
 }
 img {
-  opacity: 1;
-  border-radius: 0.5rem;
+  border-radius: 5px;
   height: 180px;
   width: 150px;
 }
@@ -131,23 +128,30 @@ img {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  margin-top: 10px;
-  margin-left: 5px;
-  margin-right: 5px;
+  margin-left: 8px;
   width: 100%;
+  border-radius: 5px;
+  /* background: rgb(190, 190, 190, 0.4); */
+  padding: 5px;
 }
 .title {
   font: italic small-caps bold 15px/18px Georgia, serif;
+  color: white;
+  text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
 }
 .author {
   font: italic small-caps bold 17px/18px Georgia, serif;
+  color: white;
+  text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
 }
 .genres {
   font: italic small-caps bold 17px/18px Georgia, serif;
+  color: white;
+  text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
 }
 .buttons-container {
   display: flex;
-  justify-content: center;
+  justify-content: space-evenly;
 }
 .buttons {
   display: flex;
@@ -158,8 +162,15 @@ img {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  margin: 10px;
+  margin-top: 10px;
   text-align: justify;
+  /* background: rgb(190, 190, 190, 0.4); */
+  border-radius: 5px;
+  /* border: 1px solid white; */
+  padding: 10px;
+  color: #fdfff5;
+  text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
+  height: 64%;
 }
 li {
   list-style-type: none;
@@ -167,8 +178,10 @@ li {
 button {
   height: 30px;
   width: 58px;
-  margin-right: 5px;
-  border: 1px solid grey;
+  border: 1px solid black;
+  color: black;
+  margin: 2px;
+  margin-bottom: 0px;
 }
 
 @media only screen and (max-width: 1280px) {
@@ -189,6 +202,9 @@ button {
     justify-content: space-around;
     align-items: stretch;
     width: 47%;
+  }
+  .grid-item-sr {
+    color: white;
   }
 }
 @media only screen and (max-width: 768px) {
@@ -211,6 +227,9 @@ button {
     justify-content: space-around;
     align-items: stretch;
     width: 95%;
+  }
+  .grid-item-sr {
+    color: white;
   }
   button {
     height: 30px;

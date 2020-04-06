@@ -1,8 +1,8 @@
 <template>
   <div class="container">
     <div class="row">
-      <div class="col-lg-1"></div>
-      <div class="col-lg-4">
+      <!-- <div class="col-lg-1"></div> -->
+      <div class="col-lg-4 user-info">
         <form @submit.prevent="handleEditUser()">
           <div class="form-group input-group">
             <div class="input-group-prepend">
@@ -109,14 +109,14 @@
           </div>
         </form>
       </div>
-      <div class="col-lg-2"></div>
-      <div class="col-lg-4">
+      <div class="col-lg-1"></div>
+      <div class="col-lg-6 book-info">
         <div class="form-group">
-          <div class="input-group-prepend-block">
-            <span class="input-group-text">
+          <!-- <div class="input-group-prepend-block"> -->
+            <!-- <span class="input-group-text"> -->
               <div>You have {{ userBooks.length }} books and {{ countUserComments(editedUser.username) }} comments</div>
-            </span>
-          </div>
+            <!-- </span> -->
+          <!-- </div> -->
         </div>
         <div class="form-group">
           <router-link
@@ -125,7 +125,7 @@
             class="nav-link"
             :to="{ name: 'bookDetails', params: { id: book._id }}"
           >
-            <button class="btn btn-success btn-block">
+            <button class="btn btn-success btn-block btn-books">
               <div class="book-info">
                 <div class="inside-book-info">{{book.title | toUpper }}</div>
                 <div class="inside-book-info">{{book.likes}}</div>
@@ -225,22 +225,21 @@ export default {
 </script>
 
 <style scoped>
-.opacity {
+/* .opacity {
   opacity: 0.7;
   border-radius: 0.5rem;
   background: white;
   color: black;
-}
-
+} */
 input.valid {
-  border-left: 2px solid #42a948; /* green */
+  border: 2px solid #42a948; /* green */
 }
-
 input.invalid-touched {
-  border-left: 2px solid #a94442; /* red */
+  border: 2px solid #a94442; /* red */
 }
 .req-field {
-  background-color: #a94442;
+  background-color: #ffffff;
+  color: #a94442;
   height: auto;
   margin-bottom: 10px;
   border-radius: 5px;
@@ -248,7 +247,8 @@ input.invalid-touched {
   width: 180px;
 }
 .info-field {
-  background-color: #a94442;
+  background-color: #ffffff;
+  color: #a94442;
   height: auto;
   margin-bottom: 10px;
   border-radius: 5px;
@@ -266,18 +266,18 @@ i {
   color: #42a948;
 }
 span.input-group-text {
-  border-left: 2px solid grey;
-  border-top: 2px solid grey;
-  border-bottom: 2px solid grey;
+  border-left: 2px solid #42a948;
+  border-top: 2px solid #42a948;
+  border-bottom: 2px solid #42a948;
 }
 input.form-control {
-  border-right: 2px solid grey;
-  border-top: 2px solid grey;
-  border-bottom: 2px solid grey;
+  border-right: 2px solid #42a948;
+  border-top: 2px solid #42a948;
+  border-bottom: 2px solid #42a948;
 }
 .container {
-  margin-top: 50px;
-  margin-bottom: -595px;
+  margin-top: 20px;
+  margin-bottom: -593px;
   width: 100%;
 }
 li {
@@ -291,8 +291,8 @@ li {
 }
 
 button {
-  border: 2px solid grey;
-  background-color: #42a948;
+  /* border: 2px solid grey; */
+  background-color: (#42a948);
 }
 .fa-thumbs-up {
   color: white;
@@ -308,7 +308,7 @@ button {
 img {
   border-radius: 10px;
   border: 2px solid grey;
-  opacity: 0.9;
+  /* opacity: 0.9; */
 }
 .book-info {
   display: flex;
@@ -320,5 +320,15 @@ img {
 }
 .inside-book-info {
   margin-right: 13px;
+}
+.user-info {
+  background-color: rgb(0, 0, 0, 0.3);
+  border-radius: 5px;
+  padding: 15px;
+}
+.book-info {
+  background-color: rgb(0, 0, 0, 0.3);
+  border-radius: 5px;
+  padding: 15px;
 }
 </style>
