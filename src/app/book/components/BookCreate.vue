@@ -242,18 +242,12 @@
 
 <script>
 import { validationMixin } from "vuelidate";
-import {
-  required,
-  minLength,
-  maxValue,
-  minValue,
-  decimal,
-  url
-} from "vuelidate/lib/validators";
+import { required, minLength, maxValue, minValue, decimal, url } from "vuelidate/lib/validators";
 import { helpers } from "vuelidate/lib/validators";
 import { mapActions, mapGetters } from "vuex";
 
 const genresValidator = helpers.regex("alpha", /^[A-Za-z -]+$/);
+
 export default {
   name: "BookCreate",
   mixins: [validationMixin],

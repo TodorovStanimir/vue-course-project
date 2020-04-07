@@ -15,7 +15,7 @@ const getters = {
 
 const actions = {
   async loadAllBooks({ commit }) {
-    this.state.loading = true;
+    this.dispatch('changeLoading', true);
     try {
       const { data } = await http.get("books");
       commit('loadAllBooksSuccess', data);
@@ -23,10 +23,9 @@ const actions = {
     } catch (error) {
       if (!error.response) { toastedError(error) }
     }
-    setTimeout(() => this.state.loading = false, 1500);
   },
   async deleteBook({ commit }, id) {
-    this.state.loading = true;
+    this.dispatch('changeLoading', true);
     try {
       await http.delete(`books/${id}`);
       commit('deleteBookSuccess', id);
@@ -37,10 +36,9 @@ const actions = {
     } catch (error) {
       if (!error.response) { toastedError(error) }
     }
-    setTimeout(() => this.state.loading = false, 1500);
   },
   async createBook({ commit }, book) {
-    this.state.loading = true;
+    this.dispatch('changeLoading', true);
     try {
       const { data } = await http.post("/books", book);
       commit('createBookSuccess', { book: data })
@@ -49,10 +47,9 @@ const actions = {
     } catch (error) {
       if (!error.response) { toastedError(error) }
     }
-    setTimeout(() => this.state.loading = false, 1500);
   },
   async editBook({ commit }, payload) {
-    this.state.loading = true;
+    this.dispatch('changeLoading', true);
     try {
       const [editedBook, id] = payload;
       const { data } = await http.put(`/books/${id}`, editedBook);
@@ -64,7 +61,6 @@ const actions = {
     } catch (error) {
       if (!error.response) { toastedError(error) }
     }
-    setTimeout(() => this.state.loading = false, 1500);
   }
 };
 

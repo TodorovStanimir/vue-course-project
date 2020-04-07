@@ -14,7 +14,6 @@ const appRoutes = [
   {
     path: "*",
     name: "notFound",
-    // props: true,
     component: () =>
       import( /* webpackChunkName: "notFound" */ "../app/core/components/NotFound.vue"),
   }
@@ -24,7 +23,6 @@ const routes = [...appRoutes, ...userRoutes, ...booksRoutes];
 
 const router = new VueRouter({
   mode: "history",
-  // linkExactActiveClass: "vue-course-project",
   routes
 });
 

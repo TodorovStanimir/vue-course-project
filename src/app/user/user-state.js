@@ -20,7 +20,7 @@ const getters = {
 
 const actions = {
   async loginUser({ commit }, payload) {
-    this.state.loading = true;
+    this.dispatch('changeLoading', true);
     try {
       const { username, password } = payload;
       const { data } = await http.post('login', { username, password });
@@ -36,19 +36,17 @@ const actions = {
     } catch (error) {
       if (!error.response) { toastedError(error) }
     }
-    setTimeout(() => this.state.loading = false, 1500);
   },
   async logoutUser({ commit }) {
-    this.state.loading = true;
+    this.dispatch('changeLoading', true);
     await http.post("_logout");
     toastedSuccess('Successful logged out!');
     commit('logoutSuccess');
     localStorage.clear();
     router.push({ name: "userLogin" });
-    setTimeout(() => this.state.loading = false, 1500);
   },
   async registerUser({ commit }, payload) {
-    this.state.loading = true;
+    this.dispatch('changeLoading', true);
     try {
       await http.post('', payload);
       toastedSuccess('Successfully Registered!');
@@ -57,14 +55,13 @@ const actions = {
     } catch (error) {
       if (!error.response) { toastedError(error) }
     }
-    setTimeout(() => this.state.loading = false, 1500);
   },
   async loadCreatorBook({ commit }, payload) {
     const { data } = await http.get(`/?query={"username":"${payload}"}`);
     commit('loadCreatorBookSuccess', data);
   },
   async loadUserInfo({ commit }, payload) {
-    this.state.loading = true;
+    this.dispatch('changeLoading', true);
     try {
       const { data } = await http.get(`/?query={"username":"${payload}"}`);
       toastedSuccess("Successfully loaded user's data!");
@@ -72,10 +69,9 @@ const actions = {
     } catch (error) {
       if (!error.response) { toastedError(error) }
     }
-    setTimeout(() => this.state.loading = false, 1500);
   },
   async editUser({ commit }, payload) {
-    this.state.loading = true;
+    this.dispatch('changeLoading', true);
     try {
       const [editedUser, id] = payload
       const { data } = await http.put(`user/${id}`, editedUser);
@@ -84,7 +80,6 @@ const actions = {
     } catch (error) {
       if (!error.response) { toastedError(error) }
     }
-    setTimeout(() => this.state.loading = false, 1500);
   }
 };
 

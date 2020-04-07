@@ -47,7 +47,7 @@
             <div class="dropdown-menu" aria-labelledby="navbarDropdown">
               <router-link class="dropdown-item" :to="{ name: 'booksAll' }">All books</router-link>
               <router-link class="dropdown-item" :to="{ name: 'booksUser' }">My books</router-link>
-              <router-link class="dropdown-item" :to="{ name: 'bookCreate'}">Create new book</router-link>
+              <router-link class="dropdown-item" :to="{ name: 'bookCreate'}">Create book</router-link>
             </div>
           </li>
         </ul>
@@ -88,9 +88,6 @@ div.sticky {
   padding: 0px;
   font-size: 20px;
   font: 1.1em sans-serif;
-  /* position: absolute; */
-  /* left: 0px;
-  top: 0px; */
 }
 img {
   border-radius: 5px;

@@ -21,6 +21,7 @@
 import { validationMixin } from "vuelidate";
 import { required, minLength } from "vuelidate/lib/validators";
 import { mapActions, mapGetters } from "vuex";
+
 export default {
   name: "CommentCreate",
   mixins: [validationMixin],
@@ -60,11 +61,9 @@ export default {
 </script>
 
 <style scoped>
-/* CSS for Create Comment */
 button {
   height: 30px;
   width: 80px;
-  /* border: 1px solid grey; */
   border: 1px solid white;
   padding: 0px;
   color: black;
@@ -80,8 +79,6 @@ button {
   font: italic small-caps bold 15px/18px Georgia, serif;
   margin-bottom: 0px;
   color: black;
-  /* color: #fdfff5;
-  text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black; */
 }
 .add-comment {
   display: flex;
@@ -107,11 +104,8 @@ button {
   height: 5em;
   resize: none;
   border-radius: 4px;
-  /* border: 1px solid grey; */
   border: 1px solid white;
   color: black;
   background-color: rgb(0, 0, 0, 0.1);
-  /* color: white;
-  background-color: rgb(240, 240, 240, 0); */
 }
 </style>

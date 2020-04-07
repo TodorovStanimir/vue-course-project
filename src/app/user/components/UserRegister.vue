@@ -178,22 +178,12 @@
 
 <script>
 import { validationMixin } from "vuelidate";
-import {
-  required,
-  email,
-  alpha,
-  url,
-  sameAs,
-  helpers
-} from "vuelidate/lib/validators";
+import { required, email, alpha, url, sameAs, helpers } from "vuelidate/lib/validators";
 import { mapActions } from "vuex";
 
 const usernameValidator = helpers.regex("alpha", /^[A-Z][a-z]+\s[A-Z][a-z]+$/);
 const phoneNumberValidator = helpers.regex("alpha", /^[+]{1}\d{10,}$/);
-const passwordValidator = helpers.regex(
-  "alpha",
-  /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{3,16}$/
-);
+const passwordValidator = helpers.regex("alpha", /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{3,16}$/);
 
 export default {
   name: "UserRegister",
@@ -274,7 +264,6 @@ input.valid {
 input.invalid-touched {
   border: 2px solid #a94442; /* red */
 }
-
 .req-field {
   background-color: #ffffff;
   color: #a94442;

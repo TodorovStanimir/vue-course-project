@@ -23,10 +23,4 @@ export default {};
   border-radius: 5px;
   opacity: 0.5;
 }
-/* .opacity {
-    opacity: 0.7;
-    border-radius: 0.5rem;
-    background: white;
-    color: black;
-} */
 </style>

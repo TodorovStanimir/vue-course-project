@@ -189,8 +189,6 @@ export default {
   width: 32%;
   flex-direction: column;
   padding: 10px;
-  /* border: 1px solid white;
-  border-radius: 5px; */
 }
 .description {
   margin-top: 10px;
@@ -200,8 +198,6 @@ export default {
   text-align: justify;
   font: italic small-caps 15px/16px Georgia, serif;
   color: black;
-  /* color: #fdfff5;
-  text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black; */
 }
 .grid-item-fr {
   display: flex;
@@ -229,8 +225,6 @@ img {
   margin-right: 5px;
   width: 100%;
   color: black;
-  /* color: #fdfff5;
-  text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black; */
 }
 .title {
   font: italic small-caps bold 15px/18px Georgia, serif;
@@ -274,8 +268,6 @@ button {
   margin: 10px;
   text-align: justify;
   color: black;
-  /* color: #fdfff5;
-  text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black; */
 }
 
 @media only screen and (max-width: 1280px) {

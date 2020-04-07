@@ -19,9 +19,8 @@ const store = new Vuex.Store({
     changeLoading({ commit }, payload) {
       if (payload) {
         commit('changeLoadingSuccess', payload);
-      } else {
-        setTimeout(commit('changeLoadingSuccess', payload), 2000);
-      }      
+        setTimeout(() => commit('changeLoadingSuccess', false), 2000);
+      }    
     }
   },
   mutations: {

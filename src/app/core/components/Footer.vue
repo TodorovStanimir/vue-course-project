@@ -30,8 +30,6 @@ export default {
 <style scoped>
 .footer {
   display: block;
-  /* position: absolute; */
-  /* bottom: 0; */
   margin-top: 95vh;
   font-size: 20px;
   font-family: "Lucida Sans", "Lucida Sans Regular", "Lucida Grande",

@@ -28,7 +28,7 @@
                 </li>
                 <template v-if="book.author === username">
                   <li>
-                    <button @click="handleDeleteBook( book['_id'])" class="btn card-link">
+                    <button @click="deleteBook( book['_id'])" class="btn card-link">
                       <i class="fa fa-trash-alt"></i>
                     </button>
                   </li>
@@ -69,10 +69,7 @@ export default {
     };
   },
   methods: {
-    ...mapActions(["loadAllBooks", "deleteBook", "loadAllComments"]),
-    async handleDeleteBook(id) {
-      await this.deleteBook(id);
-    }
+    ...mapActions(["loadAllBooks", "deleteBook", "loadAllComments"])
   },
   computed: {
     ...mapGetters(["username", "allBooks", "getBooksByUserName"])
@@ -133,26 +130,19 @@ img {
   margin-left: 8px;
   width: 100%;
   border-radius: 5px;
-  /* background: rgb(190, 190, 190, 0.4); */
   padding: 5px;
 }
 .title {
   font: italic small-caps bold 15px/18px Georgia, serif;
   color: black;
-  /* color: white; */
-  /* text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black; */
 }
 .author {
   font: italic small-caps bold 17px/18px Georgia, serif;
   color: black;
-  /* color: white;
-  text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black; */
 }
 .genres {
   font: italic small-caps bold 17px/18px Georgia, serif;
   color: black;
-  /* color: white;
-  text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black; */
 }
 .buttons-container {
   display: flex;
@@ -169,16 +159,12 @@ img {
   justify-content: space-between;
   margin-top: 10px;
   text-align: justify;
-  /* background: rgb(190, 190, 190, 0.4); */
   border-radius: 5px;
-  /* border: 1px solid white; */
   padding-left: 10px;
   padding-right: 10px;
   padding-top: 10px;
   height: 64%;
   color: black;
-  /* color: #fdfff5;
-  text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black; */
 }
 li {
   list-style-type: none;
@@ -199,7 +185,6 @@ button {
   }
   .grid {
     margin-top: 20px;
-    /* width: auto; */
     display: flex;
     flex-wrap: wrap;
     flex-direction: row;

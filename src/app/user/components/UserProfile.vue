@@ -141,7 +141,6 @@
                   </button>
                 </router-link>
                 {{ $route.params.id }}
-                <!-- <template> -->
                 <button @click="handleDeleteBook( book._id )" class="btn">
                   <i class="fa fa-trash-alt"></i>
                 </button>
@@ -150,7 +149,6 @@
                     <i class="fa fa-edit"></i>
                   </button>
                 </router-link>
-                <!-- </template> -->
               </div>
             </div>
           </div>
@@ -346,7 +344,6 @@ img {
 }
 .book-summary {
   font: italic small-caps bold 17px/18px Georgia, serif;
-  /* color: black; */
   color: #fdfff5;
   text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
 }

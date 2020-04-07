@@ -15,17 +15,16 @@ const getters = {
 
 const actions = {
   async loadAllComments({ commit }) {
-    this.state.loading = true;
+    this.dispatch('changeLoading', true);
     try {
       const { data } = await http.get("comments");
       commit('loadAllCommentsSuccess', data);
     } catch (error) {
       if (!error.response) { toastedError(error) }
     }
-    this.state.loading = false;
   },
   async createComment({ commit }, comment) {
-    this.state.loading = true;
+    this.dispatch('changeLoading', true);
     try {
       const { data } = await http.post("/comments", comment);
       commit('createCommentSuccess', { comment: data });
@@ -33,10 +32,9 @@ const actions = {
     } catch (error) {
       if (!error.response) { toastedError(error) }
     }
-    setTimeout(() => this.state.loading = false, 1500);
   },
   async deleteComment({ commit }, id) {
-    this.state.loading = true;
+    this.dispatch('changeLoading', true);
     try {
       await http.delete(`comments/${id}`);
       commit('deleteCommentSuccess', id);
@@ -44,7 +42,6 @@ const actions = {
     } catch (error) {
       if (!error.response) { toastedError(error) }
     }
-    setTimeout(() => this.state.loading = false, 1500);
   }
 };
 

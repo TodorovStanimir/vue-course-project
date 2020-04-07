@@ -8,7 +8,7 @@
           <button
             class="btn btn-outline-secondary del-but"
             v-if="comment.author===username"
-            @click="handledeleteComment(comment._id)"
+            @click="deleteComment(comment._id)"
           >
             <i class="fa fa-trash-alt"></i>
           </button>
@@ -29,10 +29,7 @@ export default {
     }
   },
   methods: {
-    ...mapActions(["deleteComment"]),
-    handledeleteComment(id) {
-      this.deleteComment(id);
-    }
+    ...mapActions(["deleteComment"])
   },
   computed: {
     ...mapGetters(["getCommentsByIdBook", "username"])
@@ -52,12 +49,9 @@ export default {
   margin-right: 10px;
   margin-bottom: 10px;
   border-radius: 4px;
-  /* border: 1px solid grey; */
   border: 1px solid white;
   background-color: rgb(240, 240, 240, 0);
   color: black;
-  /* color: #fdfff5;
-  text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black; */
 }
 .comment-container p {
   margin-left: 4px;
@@ -76,7 +70,6 @@ export default {
 button {
   height: 30px;
   width: 80px;
-  /* border: 1px solid grey; */
   border: 1px solid white;
   padding: 0px;
   color: black;
