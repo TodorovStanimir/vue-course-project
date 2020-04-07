@@ -462,11 +462,15 @@ span {
   border-left: 2px solid #42a948;
   border-top: 2px solid #42a948;
   border-bottom: 2px solid #42a948;
+  border-top-right-radius: 0px;
+  border-bottom-right-radius: 0px;
 }
 input {
   border-right: 2px solid #42a948;
   border-top: 2px solid #42a948;
   border-bottom: 2px solid #42a948;
+  border-top-left-radius: 0px;
+  border-bottom-left-radius: 0px;
 }
 textarea {
   border-right: 2px solid #42a948;

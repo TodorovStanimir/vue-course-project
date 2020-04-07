@@ -141,16 +141,16 @@
                   </button>
                 </router-link>
                 {{ $route.params.id }}
-                <template v-if="book.author === username">
-                  <button @click="handleDeleteBook( book['_id'])" class="btn">
-                    <i class="fa fa-trash-alt"></i>
+                <!-- <template> -->
+                <button @click="handleDeleteBook( book._id )" class="btn">
+                  <i class="fa fa-trash-alt"></i>
+                </button>
+                <router-link :to="{ name: 'bookEdit', params: { id: book._id } }">
+                  <button class="btn">
+                    <i class="fa fa-edit"></i>
                   </button>
-                  <router-link :to="{ name: 'bookEdit', params: { id: book._id } }">
-                    <button class="btn">
-                      <i class="fa fa-edit"></i>
-                    </button>
-                  </router-link>
-                </template>
+                </router-link>
+                <!-- </template> -->
               </div>
             </div>
           </div>
@@ -209,7 +209,8 @@ export default {
       "loadUserInfo",
       "editUser",
       "loadAllComments",
-      "loadAllBooks"
+      "loadAllBooks",
+      "deleteBook"
     ]),
     async handleEditUser() {
       await this.editUser([
@@ -221,6 +222,10 @@ export default {
         },
         this.editedUser._id
       ]);
+    },
+    handleDeleteBook(id) {
+      this.userBooks = this.userBooks.filter(book => book._id !== id);
+      this.deleteBook(id);
     }
   },
   computed: {
@@ -293,11 +298,15 @@ input.invalid-touched {
 }
 i {
   color: #42a948;
+  border-top-right-radius: 0px;
+  border-bottom-right-radius: 0px;
 }
 span.input-group-text {
   border-left: 2px solid #42a948;
   border-top: 2px solid #42a948;
   border-bottom: 2px solid #42a948;
+  border-top-right-radius: 0px;
+  border-bottom-right-radius: 0px;
 }
 input.form-control {
   border-right: 2px solid #42a948;

@@ -31,8 +31,8 @@ const actions = {
       await http.delete(`books/${id}`);
       commit('deleteBookSuccess', id);
       toastedSuccess("Successfully deleted book!");
-      if (router.currentRoute.name !== "booksAll") {
-        router.push({ name: "booksAll" });
+      if (router.currentRoute.name.includes("bookDetails")) {
+        router.go(-1);
       }
     } catch (error) {
       if (!error.response) { toastedError(error) }

@@ -8,7 +8,7 @@
       >
         <div class="grid-item-fr">
           <div class="grid-item-fr-fc">
-            <img :src="book.imageUrl" />
+            <img :src="book.imageUrl" alt="Missing book photo" />
           </div>
           <div class="grid-item-fr-sc">
             <p class="title">{{book.title | toUpper}}</p>
@@ -138,7 +138,7 @@ img {
 }
 .title {
   font: italic small-caps bold 15px/18px Georgia, serif;
-  color: blackl;
+  color: black;
   /* color: white; */
   /* text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black; */
 }
@@ -172,7 +172,9 @@ img {
   /* background: rgb(190, 190, 190, 0.4); */
   border-radius: 5px;
   /* border: 1px solid white; */
-  padding: 10px;
+  padding-left: 10px;
+  padding-right: 10px;
+  padding-top: 10px;
   height: 64%;
   color: black;
   /* color: #fdfff5;
