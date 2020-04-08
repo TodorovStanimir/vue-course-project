@@ -64,9 +64,10 @@ The rest of the private part consists:
 
 In this two pages each user can navigate to edit the book, can navigate to details information for each book or delete the book. 
 
-#### details information for book.
+#### details information for book if user is owner of the book.
 ![book details if user is owner of the book](https://github.com/TodorovStanimir/vue-course-project/blob/master/images/bookDetails%20if%20user%20is%20owner%20book.png)
 
+#### details information for book if user is not owner of the book.
 ![book details if user is not owner of the book](https://github.com/TodorovStanimir/vue-course-project/blob/master/images/bookDetails%20if%20user%20is%20not%20owner%20book.png)
 
 Here user can comment books or delete his comments, can navigate to edit the book /if is owner of the book/, can delete book, can rate /like or unlike/ books of other users, but not rate owned by him books, can see contact information for owner of each book - email and phone number. The part for comment of the books looks different if there are comments or not.
