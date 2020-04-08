@@ -52,8 +52,8 @@ The rest of the private part consists:
 
 Appication is separated in:
 
-- book module. It consists three components, book routing file, book state file;
-- comment module. It consists two components, comment state;
+- book module. It consists three components, book routing file, book store file;
+- comment module. It consists two components, comment store;
 - core module. It consists for components - Footer, Navigation, Loader, NotFound;
 - shared module. It consists services - filters, guards, httpClient - using axios, interceptors, toaster.
-- user module. It consists three components - login, register and profile, user routing file, user state file;
+- user module. It consists three components - login, register and profile, user routing file, user store file;

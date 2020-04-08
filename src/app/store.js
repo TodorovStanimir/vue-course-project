@@ -1,8 +1,8 @@
 import Vue from 'vue';
 import Vuex from 'vuex';
-import userState from './user/user-state.js';
-import bookState from './book/book-state.js'
-import commentState from './comment/comment-state.js'
+import userStore from './user/user-store.js';
+import bookStore from './book/book-store.js'
+import commentStore from './comment/comment-store.js'
 
 Vue.use(Vuex);
 
@@ -29,9 +29,9 @@ const store = new Vuex.Store({
     }
   },
   modules: {
-    userState,
-    bookState,
-    commentState
+    userStore,
+    bookStore,
+    commentStore
   }
 });
 
