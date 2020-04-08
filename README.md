@@ -1,31 +1,6 @@
-# vue-course-project
+# Vue course project
 
-## Project setup
-```
-npm install
-```
-
-### Compiles and hot-reloads for development
-```
-npm run serve
-```
-
-### Compiles and minifies for production
-```
-npm run build
-```
-
-### Lints and fixes files
-```
-npm run lint
-```
-
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
-
-Vue course project
-
-Book store is SPA for advertising the books.
+## Book store is SPA for advertising the books.
 
 It was generated with Vue CLI version 4.2.3, using a Vuex state management and all input forms are with validation of the entered information, using Vuelidate.
 
@@ -92,3 +67,26 @@ Appication is separated in:
 - core module. It consists for components - Footer, Navigation, Loader, NotFound;
 - shared module. It consists services - filters, guards, httpClient - using axios, interceptors, toaster.
 - user module. It consists three components - login, register and profile, user routing file, user store file;
+
+## Project setup
+```
+npm install
+```
+
+### Compiles and hot-reloads for development
+```
+npm run serve
+```
+
+### Compiles and minifies for production
+```
+npm run build
+```
+
+### Lints and fixes files
+```
+npm run lint
+```
+
+### Customize configuration
+See [Configuration Reference](https://cli.vuejs.org/config/).
