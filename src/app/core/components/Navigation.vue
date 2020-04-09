@@ -30,7 +30,7 @@
           <li v-if="!isLoggedIn" class="nav-item isLogged">
             <router-link class="nav-link" :to="{ name: 'userLogin' }">Login</router-link>
           </li>
-          <li v-if="isLoggedIn" class="nav-item isLogged">
+          <li v-if="isLoggedIn" class="nav-item isLogged logout">
             <a class="nav-link" @click="logoutUser()">Logout</a>
           </li>
           <li v-if="isLoggedIn" class="nav-item isLogged">
@@ -100,5 +100,8 @@ li.isLogged {
   border: 1px solid grey;
   margin-left: 10px;
   padding: 3px;
+}
+.logout {
+  cursor: pointer;
 }
 </style>
