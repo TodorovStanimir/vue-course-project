@@ -111,7 +111,6 @@ export default {
 .grid-item-fr {
   display: flex;
   justify-content: space-between;
-  height: 36%;
 }
 .grid-item-fr-fc {
   display: flex;
@@ -163,8 +162,8 @@ img {
   padding-left: 10px;
   padding-right: 10px;
   padding-top: 10px;
-  height: 64%;
   color: black;
+  margin-top: 1px;
 }
 li {
   list-style-type: none;
