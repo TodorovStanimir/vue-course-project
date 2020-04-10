@@ -1,11 +1,7 @@
 <template>
   <div class="grid-container">
     <div class="grid">
-      <div
-        class="grid-item"
-        v-for="book in (areAllBooks ? allBooks : getBooksByUserName(username) )"
-        :key="book._id"
-      >
+      <div class="grid-item" v-for="book in books" :key="book._id">
         <div class="grid-item-fr">
           <div class="grid-item-fr-fc">
             <img :src="book.imageUrl" alt="Missing book photo" />
@@ -58,21 +54,20 @@ import router from "../../router";
 
 export default {
   name: "BooksShowAll",
-  async created() {
-    await this.loadAllBooks();
-    await this.loadAllComments();
-    this.areAllBooks = router.currentRoute.name === "booksAll";
-  },
-  data: function() {
-    return {
-      areAllBooks: true
-    };
+  created() {
+    this.loadAllBooks();
+    this.loadAllComments();
   },
   methods: {
     ...mapActions(["loadAllBooks", "deleteBook", "loadAllComments"])
   },
   computed: {
-    ...mapGetters(["username", "allBooks", "getBooksByUserName"])
+    ...mapGetters(["username", "allBooks"]),
+    books: function() {
+      return router.currentRoute.name === "booksAll"
+        ? this.allBooks
+        : this.allBooks.filter(book => book.author === this.username);
+    }
   }
 };
 </script>
