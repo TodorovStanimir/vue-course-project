@@ -50,24 +50,16 @@
 
 <script>
 import { mapGetters, mapActions } from "vuex";
-import router from "../../router";
+import { booksShowAllServices } from "../bookServices";
 
 export default {
   name: "BooksShowAll",
-  created() {
-    this.loadAllBooks();
-    this.loadAllComments();
-  },
+  mixins: [booksShowAllServices],
   methods: {
     ...mapActions(["loadAllBooks", "deleteBook", "loadAllComments"])
   },
   computed: {
-    ...mapGetters(["username", "allBooks"]),
-    books: function() {
-      return router.currentRoute.name === "booksAll"
-        ? this.allBooks
-        : this.allBooks.filter(book => book.author === this.username);
-    }
+    ...mapGetters(["username", "allBooks"])
   }
 };
 </script>

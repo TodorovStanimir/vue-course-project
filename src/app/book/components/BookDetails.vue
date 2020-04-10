@@ -85,9 +85,9 @@
 import { validationMixin } from "vuelidate";
 import { required, minLength } from "vuelidate/lib/validators";
 import { mapGetters, mapActions } from "vuex";
-import { toastedSuccess } from "../../shared/services/toasted";
 import CommentCreate from "../../comment/components/CommentCreate";
 import CommentDetails from "../../comment/components/CommentDetails";
+import { bookDetailsServices } from "../bookServices";
 
 export default {
   name: "BookDetails",
@@ -95,7 +95,7 @@ export default {
     CommentCreate,
     CommentDetails
   },
-  mixins: [validationMixin],
+  mixins: [validationMixin, bookDetailsServices],
   validations: {
     subjectNewComment: {
       required,
@@ -114,48 +114,8 @@ export default {
       book: {}
     };
   },
-  created() {
-    this.book = this.getBookById(this.id);
-    if (!this.book) {
-      this.loadAllBooks();
-      this.book = this.getBookById(this.id);
-    }
-    const author = this.book.author;
-    this.loadCreatorBook(author);
-  },
   methods: {
-    ...mapActions([
-      "deleteBook",
-      "editBook",
-      "loadCreatorBook",
-      "loadAllBooks"
-    ]),
-    handleDeleteBook(id) {
-      this.deleteBook(id);
-    },
-    rateBook(id, rate) {
-      rate === "like" ? (this.book.likes += 1) : (this.book.dislikes += 1);
-      this.editBook([
-        {
-          title: this.book.title,
-          bookAuthor: this.book.bookAuthor,
-          description: this.book.description,
-          genres: this.book.genres,
-          year: this.book.year,
-          publisher: this.book.publisher,
-          price: this.book.price,
-          imageUrl: this.book.imageUrl,
-          likes: this.book.likes,
-          dislikes: this.book.dislikes,
-          author: this.book.author
-        },
-        id
-      ]);
-      toastedSuccess("Successfully voted for the book!");
-    },
-    toggleShowContact() {
-      this.showInfoOwnerBook = !this.showInfoOwnerBook;
-    }
+    ...mapActions(["deleteBook", "editBook", "loadCreatorBook", "loadAllBooks"])
   },
   computed: {
     ...mapGetters(["getBookById", "creatorBook", "username"])

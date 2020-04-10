@@ -162,12 +162,13 @@
 import { validationMixin } from "vuelidate";
 import { required, email, alpha, url, helpers } from "vuelidate/lib/validators";
 import { mapActions, mapGetters } from "vuex";
+import {userProfileServices} from '../userServices'
 
 const phoneNumberValidator = helpers.regex("alpha", /^[+]{1}\d{10,}$/);
 
 export default {
   name: "UserProfile",
-  mixins: [validationMixin],
+  mixins: [validationMixin, userProfileServices],
   validations: {
     editedUser: {
       email: {
@@ -193,15 +194,15 @@ export default {
       userBooks: []
     };
   },
-  created() {
-    this.loadAllComments();
-    this.loadUserInfo(this.username);
-    this.userBooks = this.getBooksByUserName(this.username);
-    if (this.userBooks.length === 0) {
-      this.loadAllBooks();
-      this.userBooks = this.getBooksByUserName(this.username);
-    }
-  },
+  // created() {
+  //   this.loadAllComments();
+  //   this.loadUserInfo(this.username);
+  //   this.userBooks = this.getBooksByUserName(this.username);
+  //   if (this.userBooks.length === 0) {
+  //     this.loadAllBooks();
+  //     this.userBooks = this.getBooksByUserName(this.username);
+  //   }
+  // },
   methods: {
     ...mapActions([
       "loadUserInfo",
@@ -210,21 +211,21 @@ export default {
       "loadAllBooks",
       "deleteBook"
     ]),
-    handleEditUser() {
-      this.editUser([
-        {
-          email: this.editedUser.email,
-          phoneNumber: this.editedUser.phoneNumber,
-          occupation: this.editedUser.occupation,
-          imageUrl: this.editedUser.imageUrl
-        },
-        this.editedUser._id
-      ]);
-    },
-    handleDeleteBook(id) {
-      this.userBooks = this.userBooks.filter(book => book._id !== id);
-      this.deleteBook(id);
-    }
+    // handleEditUser() {
+    //   this.editUser([
+    //     {
+    //       email: this.editedUser.email,
+    //       phoneNumber: this.editedUser.phoneNumber,
+    //       occupation: this.editedUser.occupation,
+    //       imageUrl: this.editedUser.imageUrl
+    //     },
+    //     this.editedUser._id
+    //   ]);
+    // },
+    // handleDeleteBook(id) {
+    //   this.userBooks = this.userBooks.filter(book => book._id !== id);
+    //   this.deleteBook(id);
+    // }
   },
   computed: {
     ...mapGetters([

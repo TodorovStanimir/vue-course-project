@@ -21,10 +21,11 @@
 import { validationMixin } from "vuelidate";
 import { required, minLength } from "vuelidate/lib/validators";
 import { mapActions, mapGetters } from "vuex";
+import { commentCreateService } from "../commentServices";
 
 export default {
   name: "CommentCreate",
-  mixins: [validationMixin],
+  mixins: [validationMixin, commentCreateService],
   validations: {
     subjectNewComment: {
       required,
@@ -44,15 +45,6 @@ export default {
   },
   methods: {
     ...mapActions(["createComment"]),
-    handleCreateComment() {
-      const newComment = {
-        subject: this.subjectNewComment,
-        bookId: this.id,
-        author: this.username
-      };
-      this.createComment(newComment);
-      this.subjectNewComment = "";
-    }
   },
   computed: {
     ...mapGetters(["getCommentsByIdBook", "username"])

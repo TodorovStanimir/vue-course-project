@@ -242,15 +242,23 @@
 
 <script>
 import { validationMixin } from "vuelidate";
-import { required, minLength, maxValue, minValue, decimal, url } from "vuelidate/lib/validators";
+import {
+  required,
+  minLength,
+  maxValue,
+  minValue,
+  decimal,
+  url
+} from "vuelidate/lib/validators";
 import { helpers } from "vuelidate/lib/validators";
 import { mapActions, mapGetters } from "vuex";
+import { bookCreateServices } from "../bookServices";
 
 const genresValidator = helpers.regex("alpha", /^[A-Za-z -]+$/);
 
 export default {
   name: "BookCreate",
-  mixins: [validationMixin],
+  mixins: [validationMixin, bookCreateServices],
   validations: {
     book: {
       title: {
@@ -308,37 +316,8 @@ export default {
       }
     };
   },
-  created() {
-    if (this.id !== undefined) {
-      this.isEditingBook = true;
-      let editingBook = this.getBookById(this.id);
-      if (!editingBook) {
-        this.loadAllBooks();
-        editingBook = this.getBookById(this.id);
-      }
-      Object.keys(this.book).map(key => {
-        if (Array.isArray(editingBook[key])) {
-          this.book[key] = editingBook[key].join(" ");
-        } else {
-          this.book[key] = editingBook[key];
-        }
-      });
-    }
-  },
   methods: {
-    ...mapActions(["createBook", "editBook", "loadAllBooks"]),
-    handlerCreateBook(book) {
-      const newBook = Object.assign({ ...book });
-      newBook.genres = newBook.genres.split(" ");
-      newBook.author = this.username;
-      this.createBook(newBook);
-    },
-    handleEditBook() {
-      const editBook = Object.assign({ ...this.book });
-      editBook.genres = editBook.genres.split(" ");
-      editBook.author = this.username;
-      this.editBook([editBook, this.id]);
-    }
+    ...mapActions(["createBook", "editBook", "loadAllBooks"])
   },
   computed: {
     ...mapGetters(["getBookById", "username"])

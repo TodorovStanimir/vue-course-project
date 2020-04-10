@@ -178,16 +178,20 @@
 
 <script>
 import { validationMixin } from "vuelidate";
-import { required, email, alpha, url, sameAs, helpers } from "vuelidate/lib/validators";
+import { required, email, alpha, url, sameAs, helpers} from "vuelidate/lib/validators";
 import { mapActions } from "vuex";
+import { userRegisterServices } from "../userServices";
 
 const usernameValidator = helpers.regex("alpha", /^[A-Z][a-z]+\s[A-Z][a-z]+$/);
 const phoneNumberValidator = helpers.regex("alpha", /^[+]{1}\d{10,}$/);
-const passwordValidator = helpers.regex("alpha", /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{3,16}$/);
+const passwordValidator = helpers.regex(
+  "alpha",
+  /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{3,16}$/
+);
 
 export default {
   name: "UserRegister",
-  mixins: [validationMixin],
+  mixins: [validationMixin, userRegisterServices],
   data: function() {
     return {
       username: "",
@@ -230,17 +234,17 @@ export default {
     }
   },
   methods: {
-    ...mapActions(["registerUser"]),
-    handleRegister() {
-      this.registerUser({
-        username: this.username,
-        email: this.email,
-        phoneNumber: this.phoneNumber,
-        occupation: this.occupation,
-        password: this.password,
-        imageUrl: this.imageUrl
-      });
-    }
+    ...mapActions(["registerUser"])
+    // handleRegister() {
+    //   this.registerUser({
+    //     username: this.username,
+    //     email: this.email,
+    //     phoneNumber: this.phoneNumber,
+    //     occupation: this.occupation,
+    //     password: this.password,
+    //     imageUrl: this.imageUrl
+    //   });
+    // }
   }
 };
 </script>
