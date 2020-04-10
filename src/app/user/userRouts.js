@@ -6,7 +6,8 @@ export default [
         name: "userLogin",
         props: true,
         beforeEnter: requiresNotLogged,
-        component: () => import( /* webpackChunkName: "userLogin" */ "./components/UserLogin.vue"),
+        component: () =>
+            import( /* webpackChunkName: "userLogin" */ "./components/UserLogin.vue"),
     },
     {
         path: "/profile/register",

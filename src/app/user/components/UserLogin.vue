@@ -13,18 +13,23 @@
             <input
               type="text"
               class="form-control"
-              placeholder="Name and Surname"
+              :placeholder="$ml.get('username')"
               v-model="username"
               @blur="$v.username.$touch()"
               :class="{ 'invalid-touched': $v.username.$anyError, valid: !$v.username.invalid && $v.username.$dirty}"
             />
           </div>
           <div v-if="$v.username.$error">
-            <div class="req-field" v-if="!$v.username.required">This field is required</div>
+            <div 
+              class="req-field" 
+              v-if="!$v.username.required"
+              v-text="$ml.get('userRequiredField')"
+            ></div>
             <div
               class="info-field"
               v-else-if="!$v.username.$params.usernameValidator.alpha"
-            >Shoud be in format Xxxxx Xxxxx</div>
+              v-text="$ml.get('userNameField')"
+            ></div>
           </div>
           <div class="form-group input-group">
             <div class="input-group-prepend">
@@ -35,28 +40,34 @@
             <input
               type="password"
               class="form-control"
-              placeholder="Password"
+              :placeholder="$ml.get('userPassword')"
               v-model="password"
               @blur="$v.password.$touch()"
               :class="{ 'invalid-touched': $v.password.$anyError, valid: !$v.password.invalid && $v.password.$dirty}"
             />
           </div>
           <div v-if="$v.password.$error">
-            <div class="req-field" v-if="!$v.password.required">This field is required</div>
+            <div 
+              class="req-field" 
+              v-if="!$v.password.required"
+              v-text="$ml.get('userRequiredField')"
+            ></div>
             <div
               class="info-field"
               v-else-if="!$v.password.passwordValidator"
-            >Password shoud consists between 3 and 16 symbols: letters and digits!</div>
+              v-text="$ml.get('userPasswordField')"
+            ></div>
           </div>
           <div class="form-group">
-            <button class="btn btn-success btn-block" :disabled="$v.$invalid">Login in Your account</button>
+            <button 
+              class="btn btn-success btn-block" 
+              :disabled="$v.$invalid"
+              v-text="$ml.get('userLoginInAccount')"
+            ></button>
           </div>
-          <p class="text-center">
-            Have not an account?
-            <router-link :to="{ name: 'userRegister' }">
-              <b class="register">&nbsp; Register here</b>
-            </router-link>
-          </p>
+          <router-link :to="{ name: 'userRegister' }">
+            <p class="text-center register" v-text="$ml.get('userHaveNotAnAccount')"></p>
+          </router-link>
         </form>
       </div>
       <div class="col-lg-4"></div>
@@ -69,11 +80,8 @@ import { validationMixin } from "vuelidate";
 import { required, helpers } from "vuelidate/lib/validators";
 import { mapActions } from "vuex";
 
-const usernameValidator = helpers.regex("alpha", /^[A-Z][a-z]+\s[A-Z][a-z]+$/);
-const passwordValidator = helpers.regex(
-  "alpha",
-  /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{3,16}$/
-);
+const usernameValidator = helpers.regex("alpha", /(^[А-Я]{1}[а-я]+[ ]{1}[А-Я]{1}[а-я]+$)|(^[A-Z][a-z]+\s[A-Z][a-z]+$)/);
+const passwordValidator = helpers.regex("alpha", /(^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{3,16}$)|(^(?=.*[А-Яа-я])(?=.*\d)[А-Яа-я\d]{3,16}$)/);
 
 export default {
   name: "UserLogin",

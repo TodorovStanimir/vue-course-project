@@ -12,18 +12,23 @@
             <input
               type="email"
               class="form-control"
-              placeholder="Email Address"
+              :placeholder="$ml.get('userEmail')"
               v-model="editedUser.email"
               @blur="$v.editedUser.email.$touch()"
               :class="{ 'invalid-touched': $v.editedUser.email.$anyError, valid: !$v.editedUser.email.invalid && $v.editedUser.email.$dirty || true }"
             />
           </div>
           <div v-if="$v.editedUser.email.$error">
-            <div class="req-field" v-if="!$v.editedUser.email.required">This field is required!</div>
+            <div 
+              class="req-field" 
+              v-if="!$v.editedUser.email.required"
+              v-text="$ml.get('userRequiredField')"
+            ></div>
             <div
               class="info-field"
               v-else-if="!$v.editedUser.email.email"
-            >Email shoud be a valid email address, like example@example.extension!</div>
+              v-text="$ml.get('userEmailField')"
+            ></div>
           </div>
           <div class="user-info-form-group">
             <div class="input-group-prepend">
@@ -34,8 +39,7 @@
             <input
               type="text"
               class="form-control"
-              placeholder="Phone number"
-              name="phoneNumber"
+              :placeholder="$ml.get('userPhone')"
               v-model="editedUser.phoneNumber"
               @blur="$v.editedUser.phoneNumber.$touch()"
               :class="{ 'invalid-touched': $v.editedUser.phoneNumber.$anyError, valid: !$v.editedUser.phoneNumber.invalid && $v.editedUser.phoneNumber.$dirty  || true }"
@@ -44,12 +48,14 @@
           <div
             class="info-field"
             v-if="!$v.editedUser.phoneNumber.phoneNumberValidator"
-          >Phone number should consists country code and at least 7 digits!</div>
+            v-text="$ml.get('userPhoneField')"
+          ></div>
           <div v-else-if="$v.editedUser.phoneNumber.$error">
             <div
               class="req-field"
               v-if="!$v.editedUser.phoneNumber.$required"
-            >This field is required!</div>
+              v-text="$ml.get('userRequiredField')"
+            ></div>
           </div>
           <div class="user-info-form-group">
             <div class="input-group-prepend">
@@ -60,18 +66,23 @@
             <input
               type="text"
               class="form-control"
-              placeholder="Occupation"
+              :placeholder="$ml.get('userOccupation')"
               v-model="editedUser.occupation"
               @blur="$v.editedUser.occupation.$touch()"
               :class="{ 'invalid-touched': $v.editedUser.occupation.$anyError, valid: !$v.editedUser.occupation.invalid && $v.editedUser.occupation.$dirty  || true }"
             />
           </div>
           <div v-if="$v.editedUser.occupation.$error">
-            <div class="req-field" v-if="!$v.editedUser.occupation.required">This field is required!</div>
+            <div 
+              class="req-field" 
+              v-if="!$v.editedUser.occupation.required"
+              v-text="$ml.get('userRequiredField')"  
+            ></div>
             <div
               class="info-field"
               v-else-if="!$v.editedUser.occupation.occupation"
-            >Occupation field should consists only letters!</div>
+              v-text="$ml.get('userOccupationField')"
+            ></div>
           </div>
           <div class="user-info-form-group">
             <div class="input-group-prepend">
@@ -82,20 +93,24 @@
             <input
               type="url"
               class="form-control"
-              placeholder="image url"
+              :placeholder="$ml.get('userImageUrl')"
               v-model="editedUser.imageUrl"
               @blur="$v.editedUser.imageUrl.$touch()"
               :class="{ 'invalid-touched': $v.editedUser.imageUrl.$anyError, valid: !$v.editedUser.imageUrl.invalid && $v.editedUser.imageUrl.$dirty  || true }"
             />
           </div>
           <div v-if="$v.editedUser.imageUrl.$error">
-            <div class="req-field" v-if="!$v.editedUser.imageUrl.required">This field is required!</div>
+            <div 
+              class="req-field" 
+              v-if="!$v.editedUser.imageUrl.required"
+              v-text="$ml.get('userRequiredField')"
+            >This field is required!</div>
             <div
               class="info-field"
               v-else-if="!$v.editedUser.imageUrl.url"
-            >Image URL must start with http or https!</div>
+              v-text="$ml.get('userImageUrlField')"
+            ></div>
           </div>
-
           <div class="form-group">
             <img :src="editedUser.imageUrl" width="120" height="160" />
           </div>
@@ -104,15 +119,16 @@
               type="submit"
               class="btn btn-success text-center"
               :disabled="$v.$invalid"
-            >Change your profile</button>
+              v-text="$ml.get('userChangeProfile')"
+            ></button>
           </div>
         </form>
       </div>
       <div class="book-info">
         <div class="book-summary">
-          <p>
-            <b>You have {{ userBooks.length }} books and {{ countUserComments(editedUser.username) }} comments</b>
-          </p>
+          <p
+            v-text="$ml.with('0', userBooks.length).with('1', countUserComments(editedUser.username)).get('userProfileReport')"
+          ></p>
         </div>
         <div v-for="book in userBooks" :key="book._id" class="book-row">
           <div class="book-title">
@@ -160,11 +176,12 @@
 
 <script>
 import { validationMixin } from "vuelidate";
-import { required, email, alpha, url, helpers } from "vuelidate/lib/validators";
+import { required, email, url, helpers } from "vuelidate/lib/validators";
 import { mapActions, mapGetters } from "vuex";
 import {userProfileServices} from '../userServices'
 
 const phoneNumberValidator = helpers.regex("alpha", /^[+]{1}\d{10,}$/);
+const occupationValidator = helpers.regex("alphа", /(^[A-Za-z ]+$)|(^[А-Яа-я ]+$)/);
 
 export default {
   name: "UserProfile",
@@ -181,7 +198,7 @@ export default {
       },
       occupation: {
         required,
-        alpha
+        occupationValidator
       },
       imageUrl: {
         required,
@@ -194,15 +211,6 @@ export default {
       userBooks: []
     };
   },
-  // created() {
-  //   this.loadAllComments();
-  //   this.loadUserInfo(this.username);
-  //   this.userBooks = this.getBooksByUserName(this.username);
-  //   if (this.userBooks.length === 0) {
-  //     this.loadAllBooks();
-  //     this.userBooks = this.getBooksByUserName(this.username);
-  //   }
-  // },
   methods: {
     ...mapActions([
       "loadUserInfo",
@@ -211,21 +219,6 @@ export default {
       "loadAllBooks",
       "deleteBook"
     ]),
-    // handleEditUser() {
-    //   this.editUser([
-    //     {
-    //       email: this.editedUser.email,
-    //       phoneNumber: this.editedUser.phoneNumber,
-    //       occupation: this.editedUser.occupation,
-    //       imageUrl: this.editedUser.imageUrl
-    //     },
-    //     this.editedUser._id
-    //   ]);
-    // },
-    // handleDeleteBook(id) {
-    //   this.userBooks = this.userBooks.filter(book => book._id !== id);
-    //   this.deleteBook(id);
-    // }
   },
   computed: {
     ...mapGetters([

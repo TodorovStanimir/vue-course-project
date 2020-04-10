@@ -13,18 +13,23 @@
             <input
               type="text"
               class="form-control"
-              placeholder="Name and Surname"
+              :placeholder="$ml.get('username')"
               v-model="username"
               @blur="$v.username.$touch()"
               :class="{ 'invalid-touched': $v.username.$anyError, valid: !$v.username.invalid && $v.username.$dirty}"
             />
           </div>
           <div v-if="$v.username.$error">
-            <div class="req-field" v-if="!$v.username.required">This field is required!</div>
+            <div 
+              class="req-field" 
+              v-if="!$v.username.required"
+              v-text="$ml.get('userRequiredField')"
+            ></div>
             <div
               class="info-field"
               v-else-if="!$v.username.$params.usernameValidator.alpha"
-            >Shoud be in format Xxxxx Xxxxx</div>
+              v-text="$ml.get('userNameField')"
+            ></div>
           </div>
           <div class="form-group input-group">
             <div class="input-group-prepend">
@@ -35,18 +40,15 @@
             <input
               type="email"
               class="form-control"
-              placeholder="Email Address"
+              :placeholder="$ml.get('userEmail')"
               v-model="email"
               @blur="$v.email.$touch()"
               :class="{ 'invalid-touched': $v.email.$anyError, valid: !$v.email.invalid && $v.email.$dirty}"
             />
           </div>
           <div v-if="$v.email.$error">
-            <div class="req-field" v-if="!$v.email.required">This field is required!</div>
-            <div
-              class="info-field"
-              v-else-if="!$v.email.email"
-            >Email shoud be a valid email address, like example@example.extension!</div>
+            <div class="req-field" v-if="!$v.email.required" v-text="$ml.get('userRequiredField')"></div>
+            <div class="info-field" v-else-if="!$v.email.email" v-text="$ml.get('userEmailField')"></div>
           </div>
           <div class="form-group input-group">
             <div class="input-group-prepend">
@@ -57,7 +59,7 @@
             <input
               type="text"
               class="form-control"
-              placeholder="Phone number"
+              :placeholder="$ml.get('userPhone')"
               v-model="phoneNumber"
               @blur="$v.phoneNumber.$touch()"
               :class="{ 'invalid-touched': $v.phoneNumber.$anyError, valid: !$v.phoneNumber.invalid && $v.phoneNumber.$dirty}"
@@ -66,9 +68,14 @@
           <div
             class="info-field"
             v-if="!$v.phoneNumber.phoneNumberValidator"
-          >Phone number should consists country code and at least 7 digits!</div>
+            v-text="$ml.get('userPhoneField')"
+          ></div>
           <div v-else-if="$v.phoneNumber.$error">
-            <div class="req-field" v-if="!$v.phoneNumber.$required">This field is required!</div>
+            <div 
+              class="req-field" 
+              v-if="!$v.phoneNumber.$required"
+              v-text="$ml.get('userRequiredField')"
+            ></div>
           </div>
           <div class="form-group input-group">
             <div class="input-group-prepend">
@@ -79,18 +86,23 @@
             <input
               type="text"
               class="form-control"
-              placeholder="Occupation"
+              :placeholder="$ml.get('userOccupation')"
               v-model="occupation"
               @blur="$v.occupation.$touch()"
               :class="{ 'invalid-touched': $v.occupation.$anyError, valid: !$v.occupation.invalid && $v.occupation.$dirty }"
             />
           </div>
           <div v-if="$v.occupation.$error">
-            <div class="req-field" v-if="!$v.occupation.required">This field is required!</div>
+            <div 
+              class="req-field" 
+              v-if="!$v.occupation.required"
+              v-text="$ml.get('userRequiredField')"
+            ></div>
             <div
               class="info-field"
               v-else-if="!$v.occupation.occupation"
-            >Occupation field should consists only letters!</div>
+              v-text="$ml.get('userOccupationField')"
+            ></div>
           </div>
           <div>
             <div class="form-group input-group">
@@ -102,7 +114,7 @@
               <input
                 type="password"
                 class="form-control"
-                placeholder="Create password"
+                :placeholder="$ml.get('userCreatePassword')"
                 v-model="password"
                 @blur="$v.password.$touch()"
                 :class="{ 'invalid-touched': $v.password.$anyError, valid: !$v.password.invalid && $v.password.$dirty}"
@@ -111,8 +123,13 @@
             <div
               class="info-field"
               v-if="!$v.password.passwordValidator"
-            >Password shoud consists between 3 and 16 symbols: letters and digits!</div>
-            <div class="req-field" v-else-if="$v.password.$error">This field is required!</div>
+              v-text="$ml.get('userPasswordField')"
+            ></div>
+            <div 
+              class="req-field" 
+              v-else-if="$v.password.$error"
+              v-text="$ml.get('userRequiredField')"
+            ></div>
 
             <div class="form-group input-group">
               <div class="input-group-prepend">
@@ -123,15 +140,19 @@
               <input
                 type="password"
                 class="form-control"
-                placeholder="Repeat password"
+                :placeholder="$ml.get('userRepeatPassword')"
                 v-model="repeatPassword"
                 @blur="$v.repeatPassword.$touch()"
                 :class="{ 'invalid-touched': $v.repeatPassword.$anyError, valid: !$v.repeatPassword.invalid && $v.repeatPassword.$dirty}"
               />
             </div>
             <div v-if="$v.repeatPassword.$error">
-              <div class="req-field" v-if="!$v.repeatPassword.required">This field is required!</div>
-              <div class="info-field" v-else>Passwords do not match!</div>
+              <div 
+                class="req-field" 
+                v-if="!$v.repeatPassword.required"
+                v-text="$ml.get('userRequiredField')"
+              ></div>
+              <div class="info-field" v-else v-text="$ml.get('userRepeatPasswordField')"></div>
             </div>
           </div>
           <div class="form-group input-group">
@@ -143,32 +164,36 @@
             <input
               type="url"
               class="form-control"
-              placeholder="image url"
+              :placeholder="$ml.get('userImageUrl')"
               v-model="imageUrl"
               @blur="$v.imageUrl.$touch()"
               :class="{ 'invalid-touched': $v.imageUrl.$anyError, valid: !$v.imageUrl.invalid && $v.imageUrl.$dirty }"
             />
           </div>
           <div v-if="$v.imageUrl.$error">
-            <div class="req-field" v-if="!$v.imageUrl.required">This field is required!</div>
+            <div 
+              class="req-field" 
+              v-if="!$v.imageUrl.required"
+              v-text="$ml.get('userRequiredField')"
+            ></div>
             <div
               class="info-field"
               v-else-if="!$v.imageUrl.url"
-            >Image URL must start with http or https!</div>
+              v-text="$ml.get('userImageUrlField')"
+            ></div>
           </div>
           <div class="form-group">
             <button
               type="submit"
               class="btn btn-success btn-block"
               :disabled="$v.$invalid"
-            >Create Account</button>
+              v-text="$ml.get('userCreateAccount')"
+            ></button>
           </div>
-          <p class="text-center">
-            Have an account?&nbsp;&nbsp;
-            <router-link :to="{ name: 'userLogin' }">
-              <b class="login">Log In</b>
-            </router-link>
-          </p>
+          <router-link :to="{ name: 'userLogin' }">
+            <p class="text-center login" v-text="$ml.get('userHaveAccount')">
+            </p>
+          </router-link>
         </form>
       </div>
       <div class="col-lg-4"></div>
@@ -178,16 +203,14 @@
 
 <script>
 import { validationMixin } from "vuelidate";
-import { required, email, alpha, url, sameAs, helpers} from "vuelidate/lib/validators";
+import { required, email, url, sameAs, helpers} from "vuelidate/lib/validators";
 import { mapActions } from "vuex";
 import { userRegisterServices } from "../userServices";
 
-const usernameValidator = helpers.regex("alpha", /^[A-Z][a-z]+\s[A-Z][a-z]+$/);
+const usernameValidator = helpers.regex("alpha", /(^[А-Я]{1}[а-я]+[ ]{1}[А-Я]{1}[а-я]+$)|(^[A-Z][a-z]+\s[A-Z][a-z]+$)/);
 const phoneNumberValidator = helpers.regex("alpha", /^[+]{1}\d{10,}$/);
-const passwordValidator = helpers.regex(
-  "alpha",
-  /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{3,16}$/
-);
+const occupationValidator = helpers.regex("alphа", /(^[A-Za-z ]+$)|(^[А-Яа-я ]+$)/);
+const passwordValidator = helpers.regex("alpha", /(^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{3,16}$)|(^(?=.*[А-Яа-я])(?=.*\d)[А-Яа-я\d]{3,16}$)/);
 
 export default {
   name: "UserRegister",
@@ -218,7 +241,7 @@ export default {
     },
     occupation: {
       required,
-      alpha
+      occupationValidator
     },
     password: {
       required,
@@ -235,16 +258,6 @@ export default {
   },
   methods: {
     ...mapActions(["registerUser"])
-    // handleRegister() {
-    //   this.registerUser({
-    //     username: this.username,
-    //     email: this.email,
-    //     phoneNumber: this.phoneNumber,
-    //     occupation: this.occupation,
-    //     password: this.password,
-    //     imageUrl: this.imageUrl
-    //   });
-    // }
   }
 };
 </script>
@@ -252,7 +265,7 @@ export default {
 <style scoped>
 .container {
   padding-top: 10px;
-  margin-bottom: -603px;
+  margin-bottom: -611px;
 }
 .form-container {
   background-color: rgb(0, 0, 0, 0.1);
@@ -310,6 +323,7 @@ button {
   background-color: #42a948;
 }
 .login {
+  padding-top: 10px;
   color: #000080;
 }
 @media only screen and (max-width: 768px) {

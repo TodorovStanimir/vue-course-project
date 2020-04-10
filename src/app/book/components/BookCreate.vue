@@ -14,18 +14,23 @@
                 <input
                   type="text"
                   class="form-control"
-                  placeholder="Book title"
+                  :placeholder="$ml.get('bookTitle')"
                   v-model="book.title"
                   @blur="$v.book.title.$touch()"
                   :class="{ 'invalid-touched': $v.book.title.$anyError, valid: !$v.book.title.invalid && $v.book.title.$dirty || isEditingBook }"
                 />
               </div>
               <div v-if="$v.book.title.$error">
-                <div class="req-field" v-if="!$v.book.title.required">This field is required!</div>
+                <div 
+                  class="req-field" 
+                  v-if="!$v.book.title.required"
+                  v-text="$ml.get('bookRequiredField')"
+                ></div>
                 <div
                   class="info-field"
                   v-else-if="!$v.book.title.minLength"
-                >Title shoud contain at least {{$v.book.title.$params.minLength.min}} signs</div>
+                  v-text="$ml.with('0', $v.book.title.$params.minLength.min).get('bookTitleField')"
+                ></div>
               </div>
             </div>
             <div class="firstr-secondc">
@@ -38,18 +43,23 @@
                 <input
                   type="text"
                   class="form-control"
-                  placeholder="Names of book's author"
+                  :placeholder="$ml.get('bookAuthor')"
                   v-model="book.bookAuthor"
                   @blur="$v.book.bookAuthor.$touch()"
                   :class="{ 'invalid-touched': $v.book.bookAuthor.$anyError, valid: !$v.book.bookAuthor.invalid && $v.book.bookAuthor.$dirty || isEditingBook }"
                 />
               </div>
               <div v-if="$v.book.bookAuthor.$error">
-                <div class="req-field" v-if="!$v.book.bookAuthor.required">This field is required!</div>
+                <div 
+                  class="req-field" 
+                  v-if="!$v.book.bookAuthor.required"
+                  v-text="$ml.get('bookRequiredField')"
+                ></div>
                 <div
                   class="info-field"
                   v-if="!$v.book.bookAuthor.minLength"
-                >Name should contain at least {{$v.book.bookAuthor.$params.minLength.min}} signs</div>
+                  v-text="$ml.with('0', $v.book.bookAuthor.$params.minLength.min).get('bookAuthorField')"
+                ></div>
               </div>
             </div>
           </div>
@@ -65,18 +75,23 @@
                   type="text"
                   rows="3"
                   class="form-control"
-                  placeholder="Description"
+                  :placeholder="$ml.get('bookDescription')"
                   v-model="book.description"
                   @blur="$v.book.description.$touch()"
                   :class="{ 'invalid-touched': $v.book.description.$anyError, valid: !$v.book.description.invalid && $v.book.description.$dirty || isEditingBook }"
                 />
               </div>
               <div v-if="$v.book.description.$error">
-                <div class="req-field" v-if="!$v.book.description.required">This field is required!</div>
+                <div 
+                  class="req-field" 
+                  v-if="!$v.book.description.required"
+                  v-text="$ml.get('bookRequiredField')"
+                ></div>
                 <div
                   class="info-field"
                   v-if="!$v.book.description.minLength"
-                >Description should contain at least {{$v.book.description.$params.minLength.min}} signs</div>
+                  v-text="$ml.with('0', $v.book.description.$params.minLength.min).get('bookDescriptionField')"
+                ></div>
               </div>
             </div>
           </div>
@@ -91,18 +106,23 @@
                 <input
                   type="text"
                   class="form-control"
-                  placeholder="Genres"
+                  :placeholder="$ml.get('bookGenres')"
                   v-model="book.genres"
                   @blur="$v.book.genres.$touch()"
                   :class="{ 'invalid-touched': $v.book.genres.$anyError, valid: !$v.book.genres.invalid && $v.book.genres.$dirty || isEditingBook }"
                 />
               </div>
               <div v-if="$v.book.genres.$error">
-                <div class="req-field" v-if="!$v.book.genres.required">This field is required!</div>
+                <div 
+                  class="req-field" 
+                  v-if="!$v.book.genres.required"
+                  v-text="$ml.get('bookRequiredField')"
+                ></div>
                 <div
                   class="info-field"
                   v-else-if="!$v.book.genres.$params.genresValidator.alpha"
-                >Genres should contain genres of book separeted by space!</div>
+                  v-text="$ml.get('bookGenresField')"
+                ></div>
               </div>
             </div>
             <div class="thirdr-secondc">
@@ -115,7 +135,7 @@
                 <input
                   type="number"
                   class="form-control"
-                  placeholder="Year issue"
+                  :placeholder="$ml.get('bookYear')"
                   min="1500"
                   v-model.number="book.year"
                   @blur="$v.book.year.$touch()"
@@ -123,19 +143,26 @@
                 />
               </div>
               <div v-if="$v.book.year.$error">
-                <div class="req-field" v-if="!$v.book.year.required">This field is required!</div>
+                <div 
+                  class="req-field" 
+                  v-if="!$v.book.year.required"
+                  v-text="$ml.get('bookRequiredField')"
+                ></div>
                 <div
                   class="info-field"
                   v-else-if="!$v.book.year.minLength"
-                >Year should contain exactly 4 digits!</div>
+                  v-text="$ml.get('bookYearField')"
+                ></div>
                 <div
                   class="info-field"
                   v-else-if="!$v.book.year.minValue"
-                >Year can not be less then 1500 year!</div>
+                  v-text="$ml.get('bookYearMinAmountField')"
+                ></div>
                 <div
                   class="info-field"
                   v-else-if="!$v.book.year.maxValue"
-                >Year can not be bigger then current year!</div>
+                  v-text="$ml.get('bookYearMaxAmountField')"
+                ></div>
               </div>
             </div>
           </div>
@@ -150,18 +177,23 @@
                 <input
                   type="text"
                   class="form-control"
-                  placeholder="Publisher"
+                  :placeholder="$ml.get('bookPublisher')"
                   v-model="book.publisher"
                   @blur="$v.book.publisher.$touch()"
                   :class="{ 'invalid-touched': $v.book.publisher.$anyError, valid: !$v.book.publisher.invalid && $v.book.publisher.$dirty || isEditingBook }"
                 />
               </div>
               <div v-if="$v.book.publisher.$error">
-                <div class="req-field" v-if="!$v.book.publisher.required">This field is required!</div>
+                <div 
+                  class="req-field" 
+                  v-if="!$v.book.publisher.required"
+                  v-text="$ml.get('bookRequiredField')"
+                ></div>
                 <div
                   class="info-field"
                   v-else-if="!$v.book.publisher.minLength"
-                >Publishers should contain at least {{$v.book.publisher.$params.minLength.min}} signs</div>
+                  v-text="$ml.with('0', $v.book.publisher.$params.minLength.min).get('bookPublisherField')"
+                ></div>
               </div>
             </div>
             <div class="fourthr-secondc">
@@ -175,18 +207,23 @@
                   type="number"
                   step="0.01"
                   class="form-control"
-                  placeholder="Price"
+                  :placeholder="$ml.get('bookPrice')"
                   v-model.number="book.price"
                   @blur="$v.book.price.$touch()"
                   :class="{ 'invalid-touched': $v.book.price.$anyError, valid: !$v.book.price.invalid && $v.book.price.$dirty || isEditingBook }"
                 />
               </div>
               <div v-if="$v.book.price.$error">
-                <div class="req-field" v-if="!$v.book.price.required">This field is required!</div>
+                <div 
+                  class="req-field" 
+                  v-if="!$v.book.price.required"
+                  v-text="$ml.get('bookRequiredField')"
+                ></div>
                 <div
                   class="info-field"
                   v-else-if="!$v.book.price.minValue"
-                >Price should be at least 0.01</div>
+                  v-text="$ml.get('bookPriceField')"
+                ></div>
               </div>
             </div>
           </div>
@@ -201,18 +238,23 @@
                 <input
                   type="text"
                   class="form-control"
-                  placeholder="Image Url"
+                  :placeholder="$ml.get('bookImageUrl')"
                   v-model="book.imageUrl"
                   @blur="$v.book.imageUrl.$touch()"
                   :class="{ 'invalid-touched': $v.book.imageUrl.$anyError, valid: !$v.book.imageUrl.invalid && $v.book.imageUrl.$dirty || isEditingBook }"
                 />
               </div>
               <div v-if="$v.book.imageUrl.$error">
-                <div class="req-field" v-if="!$v.book.imageUrl.required">This field is required!</div>
+                <div 
+                  class="req-field" 
+                  v-if="!$v.book.imageUrl.required"
+                  v-text="$ml.get('bookRequiredField')"
+                ></div>
                 <div
                   class="info-field"
                   v-else-if="!$v.book.imageUrl.url"
-                >Image Url should start wth http:// or https://</div>
+                  v-text="$ml.get('bookImageUrlField')"
+                ></div>
               </div>
             </div>
             <div class="fifthr-secondc">
@@ -223,14 +265,16 @@
                   class="btn btn-success btn-block"
                   :disabled="$v.$invalid"
                   @click.prevent="handlerCreateBook(book)"
-                >Create your book!</button>
+                  v-text="$ml.get('bookCreateButton')"
+                ></button>
                 <button
                   v-else
                   type="submit"
                   class="btn btn-success btn-block"
                   :disabled="$v.$invalid"
                   @click.prevent="handleEditBook()"
-                >Edit your book!</button>
+                  v-text="$ml.get('bookEditButton')"
+                ></button>
               </div>
             </div>
           </div>
@@ -254,7 +298,7 @@ import { helpers } from "vuelidate/lib/validators";
 import { mapActions, mapGetters } from "vuex";
 import { bookCreateServices } from "../bookServices";
 
-const genresValidator = helpers.regex("alpha", /^[A-Za-z -]+$/);
+const genresValidator = helpers.regex("alpha", /(^[A-Za-z -]+$)|(^[А-Яа-я]+$)/);
 
 export default {
   name: "BookCreate",

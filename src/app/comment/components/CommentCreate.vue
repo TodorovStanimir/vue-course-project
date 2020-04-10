@@ -1,13 +1,17 @@
 <template>
   <div>
     <div class="comment-header" v-if="!getCommentsByIdBook(id).length">
-      <p>There is not comments for this book.</p>
-      <p>You can write the first one.</p>
+      <p v-text="$ml.get('commentThereIsNot1')"></p>
+      <p v-text="$ml.get('commentThereIsNot2')"></p>
     </div>
     <div class="add-comment">
       <form @submit.prevent="handleCreateComment()">
         <div class="comment-body-items">
-          <textarea type="text" placeholder="Your comment..." v-model="subjectNewComment"></textarea>
+          <textarea
+            type="text"
+            :placeholder="$ml.get('commentSubject')"
+            v-model="subjectNewComment"
+          ></textarea>
         </div>
         <button class="btn btn-outline-dark" :disabled="$v.$invalid">
           <i class="fa fa-save"></i>
@@ -44,7 +48,7 @@ export default {
     };
   },
   methods: {
-    ...mapActions(["createComment"]),
+    ...mapActions(["createComment"])
   },
   computed: {
     ...mapGetters(["getCommentsByIdBook", "username"])
