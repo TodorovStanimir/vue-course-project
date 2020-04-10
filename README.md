@@ -2,7 +2,7 @@
 
 ## Book store is SPA for advertising the books.
 
-It was generated with Vue CLI version 4.2.3, using a Vuex state management and all input forms are with validation of the entered information, using Vuelidate.
+It was generated with Vue CLI version 4.2.3, using a Vuex state management and all input forms are with validation of the entered information accomplished via Vuelidate. The App using Vue-multilanguage for English and Bulgarian language
 
 ## Application structure.
 
@@ -35,9 +35,9 @@ The rest of the private part consists:
 ![All books listing](/images/allBooks.png)
 
 - page showing all books in application - if You are on the route /books/all or 
-- showing only books listed by the user - if You are on the route /books/user. 
+- page showing only books listed by the user - if You are on the route /books/user. 
 
-In this two pages each user can navigate to edit the book, can navigate to details information for each book or delete the book. 
+In this two pages each user can delete the book or navigate to edit it - if he is its owner; can navigate to details information for each book. 
 
 #### details information for book if user is owner of the book.
 ![book details if user is owner of the book](https://github.com/TodorovStanimir/vue-course-project/blob/master/images/bookDetails%20if%20user%20is%20owner%20book.png)
@@ -62,11 +62,11 @@ Here user can comment books or delete his comments, can navigate to edit the boo
 
 Appication is separated in:
 
-- book module. It consists three components, book routing file, book store file;
-- comment module. It consists two components, comment store;
+- book module. It consists three components, book routing file, book store file, book services file;
+- comment module. It consists two components, comment store, comment services file;
 - core module. It consists for components - Footer, Navigation, Loader, NotFound;
 - shared module. It consists services - filters, guards, httpClient - using axios, interceptors, toaster.
-- user module. It consists three components - login, register and profile, user routing file, user store file;
+- user module. It consists three components - login, register and profile, user routing file, user store file, user services file;
 
 ## Project setup
 ```
