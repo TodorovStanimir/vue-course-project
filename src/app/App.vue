@@ -27,7 +27,7 @@ export default {
   display: block;
   width: auto;
   height: auto;
-  background-image: url("../assets/home.png");
+  background-image: url("../../public/images/home.png");
   background-attachment: fixed;
   background-size: cover;
 }

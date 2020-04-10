@@ -193,12 +193,12 @@ export default {
       userBooks: []
     };
   },
-  async created() {
-    await this.loadAllComments();
-    await this.loadUserInfo(this.username);
+  created() {
+    this.loadAllComments();
+    this.loadUserInfo(this.username);
     this.userBooks = this.getBooksByUserName(this.username);
     if (this.userBooks.length === 0) {
-      await this.loadAllBooks();
+      this.loadAllBooks();
       this.userBooks = this.getBooksByUserName(this.username);
     }
   },
@@ -210,8 +210,8 @@ export default {
       "loadAllBooks",
       "deleteBook"
     ]),
-    async handleEditUser() {
-      await this.editUser([
+    handleEditUser() {
+      this.editUser([
         {
           email: this.editedUser.email,
           phoneNumber: this.editedUser.phoneNumber,

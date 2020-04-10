@@ -114,14 +114,14 @@ export default {
       book: {}
     };
   },
-  async created() {
+  created() {
     this.book = this.getBookById(this.id);
     if (!this.book) {
-      await this.loadAllBooks();
+      this.loadAllBooks();
       this.book = this.getBookById(this.id);
     }
     const author = this.book.author;
-    await this.loadCreatorBook(author);
+    this.loadCreatorBook(author);
   },
   methods: {
     ...mapActions([
@@ -130,12 +130,12 @@ export default {
       "loadCreatorBook",
       "loadAllBooks"
     ]),
-    async handleDeleteBook(id) {
-      await this.deleteBook(id);
+    handleDeleteBook(id) {
+      this.deleteBook(id);
     },
-    async rateBook(id, rate) {
+    rateBook(id, rate) {
       rate === "like" ? (this.book.likes += 1) : (this.book.dislikes += 1);
-      await this.editBook([
+      this.editBook([
         {
           title: this.book.title,
           bookAuthor: this.book.bookAuthor,

@@ -3,7 +3,7 @@
     <nav class="navbar navbar-expand-lg navbar-light bg-light mynav">
       <nav class="navbar navbar-light bg-light">
         <router-link class="navbar-brand" :to="{ path: isLoggedIn ? '/books/all' : '/'  }">
-          <img src="../../../assets/logo.png" width="110" height="45" alt="BookStore" />
+          <img src="../../../../public/images/logo.png" width="110" height="45" alt="BookStore" />
         </router-link>
       </nav>
       <button

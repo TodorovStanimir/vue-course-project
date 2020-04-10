@@ -1,7 +1,7 @@
 <template>
   <div class="container">
     <router-link :to="{ name: 'userLogin' }">
-      <img class="not-found-image" src="../../../assets/notFound.png" alt="404" />
+      <img class="not-found-image" src="../../../../public/images/notFound.png" alt="404" />
     </router-link>
   </div>
 </template>

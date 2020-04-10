@@ -1,6 +1,6 @@
 import axios from 'axios';
 import { toastedError } from './toasted';
-import store from '../../user/user-store'
+import store from '../../user/userStore'
 
 const baseUrl = 'https://baas.kinvey.com';
 const appKey = 'kid_rkkcYykB8';

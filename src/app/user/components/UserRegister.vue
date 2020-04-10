@@ -231,8 +231,8 @@ export default {
   },
   methods: {
     ...mapActions(["registerUser"]),
-    async handleRegister() {
-      await this.registerUser({
+    handleRegister() {
+      this.registerUser({
         username: this.username,
         email: this.email,
         phoneNumber: this.phoneNumber,

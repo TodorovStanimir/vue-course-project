@@ -308,12 +308,12 @@ export default {
       }
     };
   },
-  async created() {
+  created() {
     if (this.id !== undefined) {
       this.isEditingBook = true;
       let editingBook = this.getBookById(this.id);
       if (!editingBook) {
-        await this.loadAllBooks();
+        this.loadAllBooks();
         editingBook = this.getBookById(this.id);
       }
       Object.keys(this.book).map(key => {
@@ -327,17 +327,17 @@ export default {
   },
   methods: {
     ...mapActions(["createBook", "editBook", "loadAllBooks"]),
-    async handlerCreateBook(book) {
+    handlerCreateBook(book) {
       const newBook = Object.assign({ ...book });
       newBook.genres = newBook.genres.split(" ");
       newBook.author = this.username;
-      await this.createBook(newBook);
+      this.createBook(newBook);
     },
-    async handleEditBook() {
+    handleEditBook() {
       const editBook = Object.assign({ ...this.book });
       editBook.genres = editBook.genres.split(" ");
       editBook.author = this.username;
-      await this.editBook([editBook, this.id]);
+      this.editBook([editBook, this.id]);
     }
   },
   computed: {

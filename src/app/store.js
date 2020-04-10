@@ -1,8 +1,8 @@
 import Vue from 'vue';
 import Vuex from 'vuex';
-import userStore from './user/user-store.js';
-import bookStore from './book/book-store.js'
-import commentStore from './comment/comment-store.js'
+import userStore from './user/userStore.js';
+import bookStore from './book/bookStore.js'
+import commentStore from './comment/commentStore.js'
 
 Vue.use(Vuex);
 

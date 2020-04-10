@@ -44,13 +44,13 @@ export default {
   },
   methods: {
     ...mapActions(["createComment"]),
-    async handleCreateComment() {
+    handleCreateComment() {
       const newComment = {
         subject: this.subjectNewComment,
         bookId: this.id,
         author: this.username
       };
-      await this.createComment(newComment);
+      this.createComment(newComment);
       this.subjectNewComment = "";
     }
   },
