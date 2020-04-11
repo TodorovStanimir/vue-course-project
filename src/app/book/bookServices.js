@@ -2,12 +2,12 @@ import { toastedSuccess } from "../shared/services/toasted";
 import router from '../router';
 
 const bookCreateServices = {
-    created() {
+    async created() {
         if (this.id !== undefined) {
             this.isEditingBook = true;
             let editingBook = this.getBookById(this.id);
             if (!editingBook) {
-                this.loadAllBooks();
+                await this.loadAllBooks();
                 editingBook = this.getBookById(this.id);
             }
             Object.keys(this.book).map(key => {
