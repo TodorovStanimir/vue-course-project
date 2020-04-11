@@ -1,6 +1,6 @@
 # Vue course project
 
-## Book store is SPA for advertising the books.
+## Book store is SPA for advertising books.
 
 It was generated with Vue CLI version 4.2.3, using a Vuex state management and all input forms are with validation of the entered information accomplished via Vuelidate. The App using Vue-multilanguage for English and Bulgarian language
 
