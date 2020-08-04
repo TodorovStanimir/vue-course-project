@@ -3,8 +3,8 @@ import { toastedError } from './toasted';
 import store from '../../user/userStore'
 
 const baseUrl = 'https://baas.kinvey.com';
-const appKey = 'kid_Hy_F58h0I';
-const appSecret = '338c03d068aa4234966f97aa3a5f10dd';
+const appKey = 'kid_HJ-OPfPZv';
+const appSecret = '52f41ddac1cc46db8ef372bf46c5d9cd';
 
 const config = {
     baseURL: baseUrl,
